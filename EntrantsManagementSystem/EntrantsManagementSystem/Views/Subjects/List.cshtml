@@ -1,0 +1,40 @@
+﻿@model IEnumerable<EntrantsManagementSystem.Models.Subject>
+@using EntrantsManagementSystem.Models
+@{
+    ViewBag.Title = "List";
+}
+<table class="table">
+    <tr>
+        <th>
+            <h3>Subjects:</h3>
+        </th>
+
+    </tr>
+    @{
+        int i = 1;
+        foreach (var subject in Model)
+        {
+            <tr>
+                <th>
+                    @i.
+                    <span style="display:inline-block; width: 4;"></span>
+                    @Html.ActionLink(subject.Name, "SubjectSettings", new { id = subject.SubjectID })
+                </th>
+            </tr>
+            i++;
+        }
+
+    }
+</table>
+@Html.ActionLink("Add new subject","CreateSubject")
+
+
+
+
+
+
+    
+
+    
+
+

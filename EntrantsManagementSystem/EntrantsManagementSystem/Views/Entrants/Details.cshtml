@@ -1,0 +1,66 @@
+﻿@model EntrantsManagementSystem.Models.Entrant
+@using EntrantsManagementSystem.Models
+@{
+    ViewBag.Title = "Details";
+}
+
+<h3>Details of @Model.Name @Model.Surname </h3>
+
+<div>
+    <h4></h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Name
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+           Surname
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+
+        <dt>
+           Patronumic
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Patronumic)
+        </dd>
+
+        <dt>
+            Email
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            City
+        </dt>
+        <dd>
+            @{ 
+                if (Model.City == null)
+                {
+                    <p>unknown</p>
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.City.Name);
+                }
+
+            }
+        </dd>
+
+    </dl>
+    <br/>
+   
+</div>
+<p>
+    @Html.ActionLink(" Edit ", "Edit", new { id = Model.EntrantID }) |
+    @Html.ActionLink(" Back to List ", "List")|
+    @Html.ActionLink(" Delete ","Delete", new { id = Model.EntrantID })
+</p>

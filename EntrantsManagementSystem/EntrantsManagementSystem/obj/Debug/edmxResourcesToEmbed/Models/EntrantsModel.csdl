@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EntrantsDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="City">
+    <Key>
+      <PropertyRef Name="CityID" />
+    </Key>
+    <Property Name="CityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CountryID" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Country" Relationship="Self.FK_Cities_Countries" FromRole="Cities" ToRole="Countries" />
+    <NavigationProperty Name="Entrants" Relationship="Self.FK_Entrants_Cities" FromRole="Cities" ToRole="Entrants" />
+  </EntityType>
+  <EntityType Name="Country">
+    <Key>
+      <PropertyRef Name="CountryID" />
+    </Key>
+    <Property Name="CountryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Cities" Relationship="Self.FK_Cities_Countries" FromRole="Countries" ToRole="Cities" />
+  </EntityType>
+  <EntityType Name="DeleteLog">
+    <Key>
+      <PropertyRef Name="DeleteLogID" />
+    </Key>
+    <Property Name="LogID" Type="Int32" Nullable="false" />
+    <Property Name="ObjectName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DeleteLogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Log" Relationship="Self.FK_DeleteLogs_Logs" FromRole="DeleteLogs" ToRole="Logs" />
+  </EntityType>
+  <EntityType Name="Entrant">
+    <Key>
+      <PropertyRef Name="EntrantID" />
+    </Key>
+    <Property Name="EntrantID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Surname" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Patronumic" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CityID" Type="Int32" />
+    <NavigationProperty Name="City" Relationship="Self.FK_Entrants_Cities" FromRole="Entrants" ToRole="Cities" />
+    <NavigationProperty Name="Marks" Relationship="Self.FK_Marks_Entrants" FromRole="Entrants" ToRole="Marks" />
+  </EntityType>
+  <EntityType Name="ExceptionLog">
+    <Key>
+      <PropertyRef Name="ExceptionLogID" />
+    </Key>
+    <Property Name="LogID" Type="Int32" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="ExceptionLogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Log" Relationship="Self.FK_Exception_Logs" FromRole="ExceptionLogs" ToRole="Logs" />
+  </EntityType>
+  <EntityType Name="Log">
+    <Key>
+      <PropertyRef Name="LogID" />
+    </Key>
+    <Property Name="LogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Operation" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="DeleteLogs" Relationship="Self.FK_DeleteLogs_Logs" FromRole="Logs" ToRole="DeleteLogs" />
+    <NavigationProperty Name="ExceptionLogs" Relationship="Self.FK_Exception_Logs" FromRole="Logs" ToRole="ExceptionLogs" />
+    <NavigationProperty Name="UpdateLogs" Relationship="Self.FK_UpdateLogs_Logs" FromRole="Logs" ToRole="UpdateLogs" />
+  </EntityType>
+  <EntityType Name="Mark">
+    <Key>
+      <PropertyRef Name="MarkID" />
+    </Key>
+    <Property Name="EntrantID" Type="Int32" Nullable="false" />
+    <Property Name="SubjectID" Type="Int32" Nullable="false" />
+    <Property Name="Score" Type="Byte" Nullable="false" />
+    <Property Name="MarkID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Entrant" Relationship="Self.FK_Marks_Entrants" FromRole="Marks" ToRole="Entrants" />
+    <NavigationProperty Name="Subject" Relationship="Self.FK_Marks_Subjects" FromRole="Marks" ToRole="Subjects" />
+  </EntityType>
+  <EntityType Name="Subject">
+    <Key>
+      <PropertyRef Name="SubjectID" />
+    </Key>
+    <Property Name="SubjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Marks" Relationship="Self.FK_Marks_Subjects" FromRole="Subjects" ToRole="Marks" />
+  </EntityType>
+  <EntityType Name="UpdateLog">
+    <Key>
+      <PropertyRef Name="UpdateLogID" />
+    </Key>
+    <Property Name="LogID" Type="Int32" Nullable="false" />
+    <Property Name="Object" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PropertyName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="UpdateLogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Log" Relationship="Self.FK_UpdateLogs_Logs" FromRole="UpdateLogs" ToRole="Logs" />
+  </EntityType>
+  <Association Name="FK_Cities_Countries">
+    <End Role="Countries" Type="Self.Country" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Cities" Type="Self.City" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Countries">
+        <PropertyRef Name="CountryID" />
+      </Principal>
+      <Dependent Role="Cities">
+        <PropertyRef Name="CountryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Entrants_Cities">
+    <End Role="Cities" Type="Self.City" Multiplicity="0..1" />
+    <End Role="Entrants" Type="Self.Entrant" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cities">
+        <PropertyRef Name="CityID" />
+      </Principal>
+      <Dependent Role="Entrants">
+        <PropertyRef Name="CityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DeleteLogs_Logs">
+    <End Role="Logs" Type="Self.Log" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="DeleteLogs" Type="Self.DeleteLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Logs">
+        <PropertyRef Name="LogID" />
+      </Principal>
+      <Dependent Role="DeleteLogs">
+        <PropertyRef Name="LogID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Marks_Entrants">
+    <End Role="Entrants" Type="Self.Entrant" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Marks" Type="Self.Mark" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Entrants">
+        <PropertyRef Name="EntrantID" />
+      </Principal>
+      <Dependent Role="Marks">
+        <PropertyRef Name="EntrantID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Exception_Logs">
+    <End Role="Logs" Type="Self.Log" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ExceptionLogs" Type="Self.ExceptionLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Logs">
+        <PropertyRef Name="LogID" />
+      </Principal>
+      <Dependent Role="ExceptionLogs">
+        <PropertyRef Name="LogID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UpdateLogs_Logs">
+    <End Role="Logs" Type="Self.Log" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="UpdateLogs" Type="Self.UpdateLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Logs">
+        <PropertyRef Name="LogID" />
+      </Principal>
+      <Dependent Role="UpdateLogs">
+        <PropertyRef Name="LogID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Marks_Subjects">
+    <End Role="Subjects" Type="Self.Subject" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Marks" Type="Self.Mark" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Subjects">
+        <PropertyRef Name="SubjectID" />
+      </Principal>
+      <Dependent Role="Marks">
+        <PropertyRef Name="SubjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EntrantsDatabaseEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Cities" EntityType="Self.City" />
+    <EntitySet Name="Countries" EntityType="Self.Country" />
+    <EntitySet Name="DeleteLogs" EntityType="Self.DeleteLog" />
+    <EntitySet Name="Entrants" EntityType="Self.Entrant" />
+    <EntitySet Name="ExceptionLogs" EntityType="Self.ExceptionLog" />
+    <EntitySet Name="Logs" EntityType="Self.Log" />
+    <EntitySet Name="Marks" EntityType="Self.Mark" />
+    <EntitySet Name="Subjects" EntityType="Self.Subject" />
+    <EntitySet Name="UpdateLogs" EntityType="Self.UpdateLog" />
+    <AssociationSet Name="FK_Cities_Countries" Association="Self.FK_Cities_Countries">
+      <End Role="Countries" EntitySet="Countries" />
+      <End Role="Cities" EntitySet="Cities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Entrants_Cities" Association="Self.FK_Entrants_Cities">
+      <End Role="Cities" EntitySet="Cities" />
+      <End Role="Entrants" EntitySet="Entrants" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DeleteLogs_Logs" Association="Self.FK_DeleteLogs_Logs">
+      <End Role="Logs" EntitySet="Logs" />
+      <End Role="DeleteLogs" EntitySet="DeleteLogs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Marks_Entrants" Association="Self.FK_Marks_Entrants">
+      <End Role="Entrants" EntitySet="Entrants" />
+      <End Role="Marks" EntitySet="Marks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Exception_Logs" Association="Self.FK_Exception_Logs">
+      <End Role="Logs" EntitySet="Logs" />
+      <End Role="ExceptionLogs" EntitySet="ExceptionLogs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UpdateLogs_Logs" Association="Self.FK_UpdateLogs_Logs">
+      <End Role="Logs" EntitySet="Logs" />
+      <End Role="UpdateLogs" EntitySet="UpdateLogs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Marks_Subjects" Association="Self.FK_Marks_Subjects">
+      <End Role="Subjects" EntitySet="Subjects" />
+      <End Role="Marks" EntitySet="Marks" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

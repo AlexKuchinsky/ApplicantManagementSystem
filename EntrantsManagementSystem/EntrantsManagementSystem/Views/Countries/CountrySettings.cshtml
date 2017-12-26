@@ -1,0 +1,33 @@
+﻿@model EntrantsManagementSystem.Models.Country
+@using EntrantsManagementSystem.Models
+@{
+    ViewBag.Title = "Details";
+}
+<div align="center">
+    <h2>@Model.Name</h2>
+</div>
+
+<table class="table">
+    <tr>
+        <td>
+            <b>Cities:</b>
+        </td>
+        <td></td>
+    </tr>
+    @foreach(var city in Model.Cities)
+    {
+        <tr>
+            <td>
+                @city.Name
+            </td>
+            <td>
+                @Html.ActionLink("Settings", "CitySettings",new {id=city.CityID})
+            </td>
+        </tr>
+    }
+</table>
+@Html.ActionLink("Add new city", "CreateCity", new { CountryID = Model.CountryID }) |
+@Html.ActionLink("Return to list", "List")
+
+       
+

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<EntrantsManagementSystem.Models.Entrant>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h3>Entrants</h3>
+
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Surname
+        </th>
+        <th>
+            Patronumic
+        </th>
+        <th>
+            Email
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Surname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Patronumic)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new { id=item.EntrantID }) 
+        </td>
+    </tr>
+}
+
+</table>
+

@@ -1,0 +1,27 @@
+﻿@model IEnumerable<EntrantsManagementSystem.Models.Country>
+@using EntrantsManagementSystem.Models
+@{
+    ViewBag.Title = "Countries";
+}
+<table class="table">
+    <tr>
+        <td>
+            <h3> Country</h3>
+        </td>
+        <td></td>
+    </tr>
+    @{
+        foreach (Country country in Model)
+        {
+            <tr>
+                <td>
+                    @country.Name
+                </td>
+                <td>
+                    @Html.ActionLink("Settings","CountrySettings",new { id = country.CountryID })
+                </td>
+            </tr>
+        }
+    }
+
+</table>
