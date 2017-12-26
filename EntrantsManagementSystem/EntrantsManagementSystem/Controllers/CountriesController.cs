@@ -17,14 +17,11 @@ namespace EntrantsManagementSystem.Controllers
         // GET: Location
         public ActionResult List()
         {
-
-            new DatabaseLogger().Log(LogType.EXCEPTION, DateTime.Now, exceptionType: "Invalid operation exception");
             return View(db.Countries.ToList());
         }
 
         public ActionResult CountrySettings(int? id)
         {
-            new DatabaseLogger().Log(LogType.EXCEPTION, DateTime.Now, exceptionType: "Null reference exception",exceptionDescription:"In CountriesController, CountrySettings action method. User tried to choose city from listbox.");
             if (id == null)
                 throw new ArgumentNullException();
             Country country = db.Countries.Find(id);

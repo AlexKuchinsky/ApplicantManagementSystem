@@ -99,6 +99,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\LayoutStyle.css" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -141,12 +142,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CountriesController.cs" />
     <Compile Include="Controllers\EntrantsController.cs" />
+    <Compile Include="Controllers\LogsController.cs" />
     <Compile Include="Controllers\SubjectsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Logging\DatabaseLogger.cs" />
-    <Compile Include="Logging\LogBase.cs" />
     <Compile Include="Models\City.cs">
       <DependentUpon>EntrantsModel.tt</DependentUpon>
     </Compile>
@@ -207,6 +208,9 @@
     <Content Include="Views\Subjects\SubjectSettings.cshtml" />
     <Content Include="Views\Subjects\CreateSubject.cshtml" />
     <Content Include="Views\Entrants\EditMark.cshtml" />
+    <Content Include="Views\Logs\UpdateLogsList.cshtml" />
+    <Content Include="Views\Logs\DeleteLogsList.cshtml" />
+    <Content Include="Views\Logs\ExceptionLogsList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -43,15 +43,18 @@ namespace EntrantsManagementSystem.Controllers
             return View();
         }
 
-        // POST: Entrants/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+       
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "EntrantID,Name,Surname,Patronumic,Email,CityID")] Entrant entrant)
         {
             if (ModelState.IsValid)
             {
+                if (db.Entrants.Where(e => e.Email == entrant.Email).Count() > 0)
+                {
+                    ModelState.AddModelError("Email", "This Email already exists, choose another one");
+                    ViewBag.CityID = new SelectList(db.Cities, "CityID", "Name", entrant.CityID);
+                    return View(entrant);
+                }
                 db.Entrants.Add(entrant);
                 db.SaveChanges();
                 return RedirectToAction("List");
@@ -61,7 +64,6 @@ namespace EntrantsManagementSystem.Controllers
             return View(entrant);
         }
 
-        // GET: Entrants/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -77,21 +79,32 @@ namespace EntrantsManagementSystem.Controllers
             return View(entrant);
         }
 
-        // POST: Entrants/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "EntrantID,Name,Surname,Patronumic,Email,CityID")] Entrant entrant)
+        public ActionResult Edit(Entrant entrant)
         {
             if (ModelState.IsValid)
             {
 
-                new DatabaseLogger().Log(LogType.UPDATE, DateTime.Now, entrant, db.Entrants.Find(entrant.EntrantID));
-                db.Entry(db.Entrants.Find(entrant.EntrantID)).State = EntityState.Detached;
-                db.Entry(entrant).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("List");
+                if(db.Entrants.Where(e => e.Email == entrant.Email & e.EntrantID != entrant.EntrantID).Count() > 0)
+                {
+                    ModelState.AddModelError("Email", "This Email already exists, choose another one"); 
+                    ViewBag.CityID = new SelectList(db.Cities, "CityID", "Name", entrant.CityID);
+                    return View(entrant);
+                }
+                try
+                {
+                    DatabaseLogger.Log(LogType.UPDATE, DateTime.Now, entrant, db.Entrants.Find(entrant.EntrantID));
+                    db.Entry(db.Entrants.Find(entrant.EntrantID)).State = EntityState.Detached;
+                    db.Entry(entrant).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("List");
+                }
+                catch (Exception e)
+                {
+                    DatabaseLogger.LogException(e, DateTime.Now, "Exception in [httpPost] Edit() action method, during update operation and saving database. ");
+                    return new HttpStatusCodeResult(HttpStatusCode.ExpectationFailed);
+                } 
+                
                
       
             }
@@ -99,30 +112,33 @@ namespace EntrantsManagementSystem.Controllers
             return View(entrant);
         }
 
-        // GET: Entrants/Delete/5
+        [HttpGet]
         public ActionResult Delete(int? id)
         {
-
-            Entrant entrant = db.Entrants.Find(id);
-            new DatabaseLogger().Log(LogType.DELETE, DateTime.Now, deletedObjectType: typeof(Entrant));
-            db.Entrants.Remove(entrant);
-            db.SaveChanges();
-            return RedirectToAction("List");
-        }
-        public ActionResult EditMark(int? id)
-        {
-            return View(db.Marks.Find(id));
-        }
-        [HttpPost]
-        public ActionResult EditMark([Bind(Include ="EntrantID,SubjectID,Score,MarkID")] Mark mark)
-        {
-            if (ModelState.IsValid)
+            if (id == null)
             {
-                db.Entry(mark).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Details",new { id = mark.EntrantID });
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            return View(mark);
+            Entrant entrant = db.Entrants.Find(id);
+            if (entrant == null)
+            {
+                return HttpNotFound();
+            }
+            try
+            {
+                DatabaseLogger.Log(LogType.DELETE, DateTime.Now, deletedObjectType: typeof(Entrant));
+                db.Entrants.Remove(entrant);
+                db.SaveChanges();
+                //throw new InvalidCastException();
+                return RedirectToAction("List");
+            }catch(Exception e)
+            {
+                DatabaseLogger.LogException(e, DateTime.Now, "Exception in [httpGet] Delete() action method, duringr remove operation and saving database.");
+                return new HttpStatusCodeResult(HttpStatusCode.ExpectationFailed);
+            }
+           
         }
+  
+       
     }
 }
