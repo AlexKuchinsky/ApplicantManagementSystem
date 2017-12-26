@@ -4,6 +4,8 @@ bin/
 obj/
 #ignore .vs cache/options file
 .vs/
+#ignore packages folder
+packages/
 # Files built by Visual Studio
 *_i.c
 *_p.c
