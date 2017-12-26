@@ -1,11 +1,14 @@
+#ignore packages folder
+packages/
+# Include dlls if they’re in the NuGet packages directory
+!/packages/*/lib/*.dll
+!/packages/*/lib/*/*.dll
 #ignore bin file
 bin/
 #ignore obj file
 obj/
 #ignore .vs cache/options file
 .vs/
-#ignore packages folder
-packages/
 # Files built by Visual Studio
 *_i.c
 *_p.c
