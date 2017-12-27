@@ -13,7 +13,11 @@ namespace EntrantsManagementSystem.Controllers
     public class EntrantsController : Controller
     {
         private EntrantsDatabaseEntities db = new EntrantsDatabaseEntities();
-
+        private ILogger logger;
+        public EntrantsController(ILogger logger)
+        {
+            this.logger = logger;
+        }
         // GET: Entrants
         public ActionResult List()
         {
@@ -55,9 +59,17 @@ namespace EntrantsManagementSystem.Controllers
                     ViewBag.CityID = new SelectList(db.Cities, "CityID", "Name", entrant.CityID);
                     return View(entrant);
                 }
-                db.Entrants.Add(entrant);
-                db.SaveChanges();
-                return RedirectToAction("List");
+                try
+                {
+                    db.Entrants.Add(entrant);
+                    db.SaveChanges();
+                    return RedirectToAction("List");
+                }catch(Exception e)
+                {
+                    logger.LogException(e, DateTime.Now, "Exception during creation in [HttpPost]Create() action method.");
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                
             }
 
             ViewBag.CityID = new SelectList(db.Cities, "CityID", "Name", entrant.CityID);
@@ -93,7 +105,7 @@ namespace EntrantsManagementSystem.Controllers
                 }
                 try
                 {
-                    DatabaseLogger.Log(LogType.UPDATE, DateTime.Now, entrant, db.Entrants.Find(entrant.EntrantID));
+                    logger.Log(LogType.UPDATE, DateTime.Now, entrant, db.Entrants.Find(entrant.EntrantID));
                     db.Entry(db.Entrants.Find(entrant.EntrantID)).State = EntityState.Detached;
                     db.Entry(entrant).State = EntityState.Modified;
                     db.SaveChanges();
@@ -101,8 +113,8 @@ namespace EntrantsManagementSystem.Controllers
                 }
                 catch (Exception e)
                 {
-                    DatabaseLogger.LogException(e, DateTime.Now, "Exception in [httpPost] Edit() action method, during update operation and saving database. ");
-                    return new HttpStatusCodeResult(HttpStatusCode.ExpectationFailed);
+                    logger.LogException(e, DateTime.Now, "Exception in [httpPost] Edit() action method, during update operation and saving database. ");
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 } 
                 
                
@@ -126,15 +138,15 @@ namespace EntrantsManagementSystem.Controllers
             }
             try
             {
-                DatabaseLogger.Log(LogType.DELETE, DateTime.Now, deletedObjectType: typeof(Entrant));
+                logger.Log(LogType.DELETE, DateTime.Now, deletedObjectType: typeof(Entrant));
                 db.Entrants.Remove(entrant);
                 db.SaveChanges();
                 //throw new InvalidCastException();
                 return RedirectToAction("List");
             }catch(Exception e)
             {
-                DatabaseLogger.LogException(e, DateTime.Now, "Exception in [httpGet] Delete() action method, duringr remove operation and saving database.");
-                return new HttpStatusCodeResult(HttpStatusCode.ExpectationFailed);
+                logger.LogException(e, DateTime.Now, "Exception in [httpGet] Delete() action method, duringr remove operation and saving database.");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
            
         }

@@ -37,7 +37,12 @@
         <dd>
             @Html.DisplayFor(model => model.Email)
         </dd>
-
+        <dt>
+            Country
+        </dt>
+        <dd>
+            @Html.DisplayFor(model=>model.City.Country.Name)
+        </dd>
         <dt>
             City
         </dt>

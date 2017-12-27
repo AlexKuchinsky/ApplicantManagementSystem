@@ -9,11 +9,12 @@ using System.Reflection;
 using System.Data.Entity;
 namespace EntrantsManagementSystem.Logging
 {
-    public enum LogType { UPDATE,DELETE }
-    static public class DatabaseLogger
+   
+    public class DatabaseLogger: ILogger
     {
-        private static EntrantsDatabaseEntities db = new EntrantsDatabaseEntities();
-        public static void LogException(Exception exception, DateTime time, string exceptionDescription)
+        private EntrantsDatabaseEntities db = new EntrantsDatabaseEntities();
+        
+        public void LogException(Exception exception, DateTime time, string exceptionDescription)
         {
 
             if (exception == null)
@@ -33,7 +34,7 @@ namespace EntrantsManagementSystem.Logging
             db.SaveChanges();
 
         }
-        public static void Log(LogType logType, DateTime time, object newObject=null, object oldObject=null, Type deletedObjectType=null) 
+        public void Log(LogType logType, DateTime time, object newObject=null, object oldObject=null, Type deletedObjectType=null) 
         {
             
             
