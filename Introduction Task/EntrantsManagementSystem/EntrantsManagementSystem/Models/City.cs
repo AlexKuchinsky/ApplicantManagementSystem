@@ -11,7 +11,8 @@ namespace EntrantsManagementSystem.Models
 {
     using System;
     using System.Collections.Generic;
-    
+
+    [Serializable]
     public partial class City
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,7 +23,7 @@ namespace EntrantsManagementSystem.Models
     
         public int CityID { get; set; }
         public int CountryID { get; set; }
-        public string Name { get; set; }
+        public string Title { get; set; }
     
         public virtual Country Country { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

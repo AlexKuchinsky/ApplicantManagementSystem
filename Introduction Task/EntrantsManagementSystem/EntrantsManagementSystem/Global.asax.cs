@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-
+using EntrantsManagementSystem.Models;
 namespace EntrantsManagementSystem
 {
     public class MvcApplication : System.Web.HttpApplication
@@ -13,7 +13,9 @@ namespace EntrantsManagementSystem
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            UnityConfig.RegisterComponents();
+            //UnityConfig.RegisterComponents();
+            
+           
         }
     }
 }

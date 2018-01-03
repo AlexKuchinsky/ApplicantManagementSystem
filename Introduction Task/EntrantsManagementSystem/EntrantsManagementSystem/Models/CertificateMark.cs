@@ -11,13 +11,14 @@ namespace EntrantsManagementSystem.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Mark
+
+    [Serializable]
+    public partial class CertificateMark
     {
+        public int CertificateMarkID { get; set; }
         public int EntrantID { get; set; }
         public int SubjectID { get; set; }
-        public byte Score { get; set; }
-        public int MarkID { get; set; }
+        public int Mark { get; set; }
     
         public virtual Entrant Entrant { get; set; }
         public virtual Subject Subject { get; set; }

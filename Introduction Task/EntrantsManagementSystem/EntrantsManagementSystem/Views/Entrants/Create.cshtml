@@ -1,44 +1,116 @@
-﻿@model EntrantsManagementSystem.Models.Entrant
-
+﻿@model EntrantsManagementSystem.Models.CreateEntrantModel
+@using EntrantsManagementSystem.Models
 @{
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>Add new entrant</h2>
 
 @using (Html.BeginForm()) 
 {
-    @Html.AntiForgeryToken()
-    
+  
     <div class="form-horizontal">
-        <h4>New entrant</h4>
-        <hr />
+        <div class="row">
+            <div class="col-sm-6">
+                <h4>General Information</h4>
+                <hr />
 
-        <p>
-            <b>Name:</b>
-            @Html.TextBoxFor(model => model.Name, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-        </p>
-        <p>
-            <b>Surname:</b>   
-            @Html.TextBoxFor(model => model.Surname, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
-        </p>     
-        <p>
-            <b>Patronumic:</b>
-            @Html.TextBoxFor(model => model.Patronumic, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Patronumic, "", new { @class = "text-danger" })
-        </p>
-        <p>
-            <b>Enter e-mail:</b>
-            @Html.TextBoxFor(model => model.Email, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-        </p>
-        <p>
-            <b>Choose city:</b>
-            @Html.DropDownList("CityID", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.CityID, "", new { @class = "text-danger" })
-        </p>
+                <p>
+                    <b>Name:</b>
+                    @Html.TextBoxFor(model => model.Name, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </p>
+                <p>
+                    <b>Surname:</b>
+                    @Html.TextBoxFor(model => model.Surname, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+                </p>
+                <p>
+                    <b>Patronumic:</b>
+                    @Html.TextBoxFor(model => model.Patronumic, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Patronumic, "", new { @class = "text-danger" })
+                </p>
+
+            </div>
+            <div class="col-sm-6">
+                <h4>Address</h4>
+                <hr />
+                <p>
+                    <b>Choose country:</b>
+                    @Html.DropDownList("Countries", null, htmlAttributes: new { @class = "form-control" })
+                </p>
+                <p>
+                    <b>Choose city:</b>
+                    @Html.DropDownList("CityID", null, htmlAttributes: new { @class = "form-control" })
+                </p>
+                <p>
+                    <b>Street:</b>
+                    @Html.TextBoxFor(model => model.Street, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Street, "", new { @class = "text-danger" })
+                </p>
+                <p>
+                    <b>House:</b>
+                    @Html.EditorFor(model => model.House, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.House, "", new { @class = "text-danger" })
+                </p>
+                <p>
+                    <b>Entrance:</b>
+                    @Html.EditorFor(model => model.Entrance, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Entrance, "", new { @class = "text-danger" })
+                </p>
+                <p>
+                    <b>Flat:</b>
+                    @Html.EditorFor(model => model.Flat, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Flat, "", new { @class = "text-danger" })
+                </p>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <h4>Certificate marks</h4>
+                <hr />
+                <table class="table table-bordered">
+                    <tr>
+                        <td>
+                            <b>Object</b>
+                        </td>
+                        <td>
+                            <b>Mark</b>
+                        </td>
+                    </tr>
+                    @for(int i =0; i<Model.CertificateMarks.Count; i++)
+                    {
+                       @Html.HiddenFor(model=>model.CertificateMarks[i].SubjectID)
+                        <tr>
+                            <td>
+                                @Model.CertificateMarks[i].Subject.Title
+                            </td>
+                            <td>
+                                @Html.EditorFor(model=>model.CertificateMarks[i].Mark, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+
+                        </tr>            
+                    }
+                </table>
+            </div>
+            <div class="col-sm-6">
+                <h4>Test marks</h4>
+                <hr />
+                <table class="table table-bordered">
+                    <tr>
+                        <td>
+                            <b>Object</b>
+                        </td>
+                        <td>
+                            <b>Mark</b>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+                
+            
+        </div>
 
        
 

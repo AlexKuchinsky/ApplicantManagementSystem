@@ -11,13 +11,16 @@ namespace EntrantsManagementSystem.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class DeleteLog
+
+    [Serializable]
+    public partial class TestMark
     {
-        public int LogID { get; set; }
-        public string ObjectName { get; set; }
-        public int DeleteLogID { get; set; }
+        public int TestMark1 { get; set; }
+        public int EntrantID { get; set; }
+        public int SubjectID { get; set; }
+        public int Mark { get; set; }
     
-        public virtual Log Log { get; set; }
+        public virtual Entrant Entrant { get; set; }
+        public virtual Subject Subject { get; set; }
     }
 }

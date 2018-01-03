@@ -13,10 +13,10 @@ namespace EntrantsManagementSystem.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class EntrantsDatabaseEntities : DbContext
+    public partial class LogsDatabaseEntities : DbContext
     {
-        public EntrantsDatabaseEntities()
-            : base("name=EntrantsDatabaseEntities")
+        public LogsDatabaseEntities()
+            : base("name=LogsDatabaseEntities")
         {
         }
     
@@ -25,14 +25,8 @@ namespace EntrantsManagementSystem.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<City> Cities { get; set; }
-        public virtual DbSet<Country> Countries { get; set; }
-        public virtual DbSet<DeleteLog> DeleteLogs { get; set; }
-        public virtual DbSet<Entrant> Entrants { get; set; }
+        public virtual DbSet<ChangesLog> ChangesLogs { get; set; }
         public virtual DbSet<ExceptionLog> ExceptionLogs { get; set; }
-        public virtual DbSet<Log> Logs { get; set; }
-        public virtual DbSet<Mark> Marks { get; set; }
-        public virtual DbSet<Subject> Subjects { get; set; }
-        public virtual DbSet<UpdateLog> UpdateLogs { get; set; }
+        public virtual DbSet<LogsBase> LogsBases { get; set; }
     }
 }

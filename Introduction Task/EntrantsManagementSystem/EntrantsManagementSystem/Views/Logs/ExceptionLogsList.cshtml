@@ -18,7 +18,13 @@
             <b>Operation</b>
         </td>
         <td>
+            <b>Level</b>
+        </td>
+        <td>
             <b>Type</b>
+        </td>
+        <td>
+            <b>Message</b>
         </td>
         <td>
             <b>Description</b>
@@ -28,16 +34,22 @@
     {
         <tr>
             <td>
-                @exceptionLog.Log.LogID
+                @exceptionLog.BaseLogID
             </td>
             <td>
-                @exceptionLog.Log.StartTime
+                @exceptionLog.LogsBase.Time
             </td>
             <td>
-                @exceptionLog.Log.Operation
+                @exceptionLog.LogsBase.Operation
             </td>
             <td>
-                @exceptionLog.Type
+                @exceptionLog.LogsBase.LogLevel
+            </td>
+            <td>
+                @exceptionLog.ExceptionType
+            </td>
+            <td>
+                @exceptionLog.Message
             </td>
             <td>
                 @exceptionLog.Description

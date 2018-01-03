@@ -12,13 +12,14 @@ namespace EntrantsManagementSystem.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class UpdateLog
+    public partial class ChangesLog
     {
-        public int LogID { get; set; }
-        public string Object { get; set; }
-        public string PropertyName { get; set; }
         public int UpdateLogID { get; set; }
+        public int BaseLogID { get; set; }
+        public int ObjectID { get; set; }
+        public string ObjectType { get; set; }
+        public string State { get; set; }
     
-        public virtual Log Log { get; set; }
+        public virtual LogsBase LogsBase { get; set; }
     }
 }

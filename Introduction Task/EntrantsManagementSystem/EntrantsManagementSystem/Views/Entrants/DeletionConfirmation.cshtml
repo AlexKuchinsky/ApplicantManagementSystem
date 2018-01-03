@@ -1,0 +1,17 @@
+﻿@model EntrantsManagementSystem.Models.Entrant
+<div style="text-align: center">
+    <h3> Do you want to delete @Model.Name @Model.Surname @Model.Patronumic?</h3>
+    <br />
+    <div class="row" style="align-items:center">
+        <div class="col-sm-6" style="align-items:center">
+            <button class="btn btn-lg btn-danger" style="">
+                @Html.ActionLink("Yes, I want","Delete",new {id = Model.EntrantID},new { @style= "text-decoration: none; color: white;" })
+            </button>
+        </div>
+        <div class="col-sm-6" style="align-items:center">
+            <button class="btn btn-lg">
+                @Html.ActionLink("No, I don't want","Details",new {id = Model.EntrantID},new { @style = "text-decoration: none;" })
+            </button>
+        </div>
+    </div>
+</div>

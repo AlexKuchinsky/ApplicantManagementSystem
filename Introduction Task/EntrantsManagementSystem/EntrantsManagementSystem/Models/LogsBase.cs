@@ -12,25 +12,23 @@ namespace EntrantsManagementSystem.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Log
+    public partial class LogsBase
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Log()
+        public LogsBase()
         {
-            this.DeleteLogs = new HashSet<DeleteLog>();
+            this.ChangesLogs = new HashSet<ChangesLog>();
             this.ExceptionLogs = new HashSet<ExceptionLog>();
-            this.UpdateLogs = new HashSet<UpdateLog>();
         }
     
         public int LogID { get; set; }
-        public System.DateTime StartTime { get; set; }
         public string Operation { get; set; }
+        public string LogLevel { get; set; }
+        public System.DateTime Time { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DeleteLog> DeleteLogs { get; set; }
+        public virtual ICollection<ChangesLog> ChangesLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ExceptionLog> ExceptionLogs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UpdateLog> UpdateLogs { get; set; }
     }
 }

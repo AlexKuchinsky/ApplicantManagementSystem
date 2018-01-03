@@ -1,0 +1,26 @@
+﻿@model System.Exception
+
+<script>
+        var show;
+        function hidetxt(type) {
+            param = document.getElementById(type);
+            if (param.style.display == "none") {
+                if (show) show.style.display = "none";
+                param.style.display = "block";
+                show = param;
+            } else param.style.display = "none"
+        }
+</script>
+<div style="vertical-align:central; text-align:center; align-content:center;">
+    <h2> OOOps, unfortunately something bad happend!</h2>
+    <a onclick="hidetxt('infodiv'); return false;" style="text-decoration: none; align-self:center" href="#" rel="nofollow">More Info</a>
+</div>
+<div>
+    <div id="infodiv" style="display:none">
+        <h4>Exception message</h4>
+        @Model.Message
+        <br />
+        <h4>Stack Trace</h4>
+        @Model.StackTrace
+    </div>        
+</div>

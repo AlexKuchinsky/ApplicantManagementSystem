@@ -1,0 +1,450 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="EntrantsDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CertificateMarks">
+          <Key>
+            <PropertyRef Name="CertificateMarkID" />
+          </Key>
+          <Property Name="CertificateMarkID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EntrantID" Type="int" Nullable="false" />
+          <Property Name="SubjectID" Type="int" Nullable="false" />
+          <Property Name="Mark" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cities">
+          <Key>
+            <PropertyRef Name="CityID" />
+          </Key>
+          <Property Name="CityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CountryID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Countries">
+          <Key>
+            <PropertyRef Name="CountryID" />
+          </Key>
+          <Property Name="CountryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Entrants">
+          <Key>
+            <PropertyRef Name="EntrantID" />
+          </Key>
+          <Property Name="EntrantID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Patronumic" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="CityID" Type="int" Nullable="false" />
+          <Property Name="Street" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="House" Type="int" Nullable="false" />
+          <Property Name="Entrance" Type="int" />
+          <Property Name="Flat" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Subjects">
+          <Key>
+            <PropertyRef Name="SubjectID" />
+          </Key>
+          <Property Name="SubjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TestMarks">
+          <Key>
+            <PropertyRef Name="TestMark" />
+          </Key>
+          <Property Name="TestMark" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EntrantID" Type="int" Nullable="false" />
+          <Property Name="SubjectID" Type="int" Nullable="false" />
+          <Property Name="Mark" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CertificateMarks_Entrants">
+          <End Role="Entrants" Type="Self.Entrants" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CertificateMarks" Type="Self.CertificateMarks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entrants">
+              <PropertyRef Name="EntrantID" />
+            </Principal>
+            <Dependent Role="CertificateMarks">
+              <PropertyRef Name="EntrantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CertificateMarks_Subject">
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CertificateMarks" Type="Self.CertificateMarks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="SubjectID" />
+            </Principal>
+            <Dependent Role="CertificateMarks">
+              <PropertyRef Name="SubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cities_Countries">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Cities" Type="Self.Cities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="Cities">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Entrants_Cities">
+          <End Role="Cities" Type="Self.Cities" Multiplicity="1" />
+          <End Role="Entrants" Type="Self.Entrants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="CityID" />
+            </Principal>
+            <Dependent Role="Entrants">
+              <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestMarks_Entrants">
+          <End Role="Entrants" Type="Self.Entrants" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TestMarks" Type="Self.TestMarks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entrants">
+              <PropertyRef Name="EntrantID" />
+            </Principal>
+            <Dependent Role="TestMarks">
+              <PropertyRef Name="EntrantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestMarks_Subject">
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TestMarks" Type="Self.TestMarks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="SubjectID" />
+            </Principal>
+            <Dependent Role="TestMarks">
+              <PropertyRef Name="SubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EntrantsDatabaseModelStoreContainer">
+          <EntitySet Name="CertificateMarks" EntityType="Self.CertificateMarks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cities" EntityType="Self.Cities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Countries" EntityType="Self.Countries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Entrants" EntityType="Self.Entrants" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subjects" EntityType="Self.Subjects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TestMarks" EntityType="Self.TestMarks" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CertificateMarks_Entrants" Association="Self.FK_CertificateMarks_Entrants">
+            <End Role="Entrants" EntitySet="Entrants" />
+            <End Role="CertificateMarks" EntitySet="CertificateMarks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CertificateMarks_Subject" Association="Self.FK_CertificateMarks_Subject">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="CertificateMarks" EntitySet="CertificateMarks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cities_Countries" Association="Self.FK_Cities_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Cities" EntitySet="Cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Entrants_Cities" Association="Self.FK_Entrants_Cities">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Entrants" EntitySet="Entrants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestMarks_Entrants" Association="Self.FK_TestMarks_Entrants">
+            <End Role="Entrants" EntitySet="Entrants" />
+            <End Role="TestMarks" EntitySet="TestMarks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestMarks_Subject" Association="Self.FK_TestMarks_Subject">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="TestMarks" EntitySet="TestMarks" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EntrantsDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CertificateMark">
+          <Key>
+            <PropertyRef Name="CertificateMarkID" />
+          </Key>
+          <Property Name="CertificateMarkID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EntrantID" Type="Int32" Nullable="false" />
+          <Property Name="SubjectID" Type="Int32" Nullable="false" />
+          <Property Name="Mark" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Entrant" Relationship="Self.FK_CertificateMarks_Entrants" FromRole="CertificateMarks" ToRole="Entrants" />
+          <NavigationProperty Name="Subject" Relationship="Self.FK_CertificateMarks_Subject" FromRole="CertificateMarks" ToRole="Subjects" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="CityID" />
+          </Key>
+          <Property Name="CityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Country" Relationship="Self.FK_Cities_Countries" FromRole="Cities" ToRole="Countries" />
+          <NavigationProperty Name="Entrants" Relationship="Self.FK_Entrants_Cities" FromRole="Cities" ToRole="Entrants" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="CountryID" />
+          </Key>
+          <Property Name="CountryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Cities" Relationship="Self.FK_Cities_Countries" FromRole="Countries" ToRole="Cities" />
+        </EntityType>
+        <EntityType Name="Entrant">
+          <Key>
+            <PropertyRef Name="EntrantID" />
+          </Key>
+          <Property Name="EntrantID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patronumic" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CityID" Type="Int32" Nullable="false" />
+          <Property Name="Street" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="House" Type="Int32" Nullable="false" />
+          <Property Name="Entrance" Type="Int32" />
+          <Property Name="Flat" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CertificateMarks" Relationship="Self.FK_CertificateMarks_Entrants" FromRole="Entrants" ToRole="CertificateMarks" />
+          <NavigationProperty Name="City" Relationship="Self.FK_Entrants_Cities" FromRole="Entrants" ToRole="Cities" />
+          <NavigationProperty Name="TestMarks" Relationship="Self.FK_TestMarks_Entrants" FromRole="Entrants" ToRole="TestMarks" />
+        </EntityType>
+        <EntityType Name="Subject">
+          <Key>
+            <PropertyRef Name="SubjectID" />
+          </Key>
+          <Property Name="SubjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="CertificateMarks" Relationship="Self.FK_CertificateMarks_Subject" FromRole="Subjects" ToRole="CertificateMarks" />
+          <NavigationProperty Name="TestMarks" Relationship="Self.FK_TestMarks_Subject" FromRole="Subjects" ToRole="TestMarks" />
+        </EntityType>
+        <EntityType Name="TestMark">
+          <Key>
+            <PropertyRef Name="TestMark1" />
+          </Key>
+          <Property Name="TestMark1" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EntrantID" Type="Int32" Nullable="false" />
+          <Property Name="SubjectID" Type="Int32" Nullable="false" />
+          <Property Name="Mark" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Entrant" Relationship="Self.FK_TestMarks_Entrants" FromRole="TestMarks" ToRole="Entrants" />
+          <NavigationProperty Name="Subject" Relationship="Self.FK_TestMarks_Subject" FromRole="TestMarks" ToRole="Subjects" />
+        </EntityType>
+        <Association Name="FK_CertificateMarks_Entrants">
+          <End Role="Entrants" Type="Self.Entrant" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CertificateMarks" Type="Self.CertificateMark" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entrants">
+              <PropertyRef Name="EntrantID" />
+            </Principal>
+            <Dependent Role="CertificateMarks">
+              <PropertyRef Name="EntrantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CertificateMarks_Subject">
+          <End Role="Subjects" Type="Self.Subject" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CertificateMarks" Type="Self.CertificateMark" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="SubjectID" />
+            </Principal>
+            <Dependent Role="CertificateMarks">
+              <PropertyRef Name="SubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cities_Countries">
+          <End Role="Countries" Type="Self.Country" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Cities" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="Cities">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Entrants_Cities">
+          <End Role="Cities" Type="Self.City" Multiplicity="1" />
+          <End Role="Entrants" Type="Self.Entrant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="CityID" />
+            </Principal>
+            <Dependent Role="Entrants">
+              <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestMarks_Entrants">
+          <End Role="Entrants" Type="Self.Entrant" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TestMarks" Type="Self.TestMark" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entrants">
+              <PropertyRef Name="EntrantID" />
+            </Principal>
+            <Dependent Role="TestMarks">
+              <PropertyRef Name="EntrantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestMarks_Subject">
+          <End Role="Subjects" Type="Self.Subject" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TestMarks" Type="Self.TestMark" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="SubjectID" />
+            </Principal>
+            <Dependent Role="TestMarks">
+              <PropertyRef Name="SubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EntrantsDatabaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CertificateMarks" EntityType="Self.CertificateMark" />
+          <EntitySet Name="Cities" EntityType="Self.City" />
+          <EntitySet Name="Countries" EntityType="Self.Country" />
+          <EntitySet Name="Entrants" EntityType="Self.Entrant" />
+          <EntitySet Name="Subjects" EntityType="Self.Subject" />
+          <EntitySet Name="TestMarks" EntityType="Self.TestMark" />
+          <AssociationSet Name="FK_CertificateMarks_Entrants" Association="Self.FK_CertificateMarks_Entrants">
+            <End Role="Entrants" EntitySet="Entrants" />
+            <End Role="CertificateMarks" EntitySet="CertificateMarks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CertificateMarks_Subject" Association="Self.FK_CertificateMarks_Subject">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="CertificateMarks" EntitySet="CertificateMarks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cities_Countries" Association="Self.FK_Cities_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Cities" EntitySet="Cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Entrants_Cities" Association="Self.FK_Entrants_Cities">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Entrants" EntitySet="Entrants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestMarks_Entrants" Association="Self.FK_TestMarks_Entrants">
+            <End Role="Entrants" EntitySet="Entrants" />
+            <End Role="TestMarks" EntitySet="TestMarks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestMarks_Subject" Association="Self.FK_TestMarks_Subject">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="TestMarks" EntitySet="TestMarks" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EntrantsDatabaseModelStoreContainer" CdmEntityContainer="EntrantsDatabaseEntities">
+          <EntitySetMapping Name="CertificateMarks">
+            <EntityTypeMapping TypeName="EntrantsDatabaseModel.CertificateMark">
+              <MappingFragment StoreEntitySet="CertificateMarks">
+                <ScalarProperty Name="CertificateMarkID" ColumnName="CertificateMarkID" />
+                <ScalarProperty Name="EntrantID" ColumnName="EntrantID" />
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="Mark" ColumnName="Mark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cities">
+            <EntityTypeMapping TypeName="EntrantsDatabaseModel.City">
+              <MappingFragment StoreEntitySet="Cities">
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="EntrantsDatabaseModel.Country">
+              <MappingFragment StoreEntitySet="Countries">
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Entrants">
+            <EntityTypeMapping TypeName="EntrantsDatabaseModel.Entrant">
+              <MappingFragment StoreEntitySet="Entrants">
+                <ScalarProperty Name="EntrantID" ColumnName="EntrantID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Patronumic" ColumnName="Patronumic" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="House" ColumnName="House" />
+                <ScalarProperty Name="Entrance" ColumnName="Entrance" />
+                <ScalarProperty Name="Flat" ColumnName="Flat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subjects">
+            <EntityTypeMapping TypeName="EntrantsDatabaseModel.Subject">
+              <MappingFragment StoreEntitySet="Subjects">
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TestMarks">
+            <EntityTypeMapping TypeName="EntrantsDatabaseModel.TestMark">
+              <MappingFragment StoreEntitySet="TestMarks">
+                <ScalarProperty Name="TestMark1" ColumnName="TestMark" />
+                <ScalarProperty Name="EntrantID" ColumnName="EntrantID" />
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="Mark" ColumnName="Mark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

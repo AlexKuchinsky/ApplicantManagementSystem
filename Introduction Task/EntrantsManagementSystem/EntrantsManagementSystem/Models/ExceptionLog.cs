@@ -14,11 +14,13 @@ namespace EntrantsManagementSystem.Models
     
     public partial class ExceptionLog
     {
-        public int LogID { get; set; }
-        public string Description { get; set; }
         public int ExceptionLogID { get; set; }
-        public string Type { get; set; }
+        public int BaseLogID { get; set; }
+        public string ExceptionType { get; set; }
+        public string StackTrace { get; set; }
+        public string Message { get; set; }
+        public string Description { get; set; }
     
-        public virtual Log Log { get; set; }
+        public virtual LogsBase LogsBase { get; set; }
     }
 }
