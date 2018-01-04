@@ -123,12 +123,17 @@ namespace EntrantsManagementSystem.Controllers
         [LogException]
         public ActionResult Edit(Entrant entrant)
         {
-            foreach(CertificateMark mark in entrant.CertificateMarks)
+            logger.LogUpdate(DateTime.Now, entrant, db.Entrants.Find(entrant.EntrantID));
+            db.Entry(db.Entrants.Find(entrant.EntrantID)).State = EntityState.Detached;
+            foreach (CertificateMark mark in entrant.CertificateMarks)
+            {
+                db.Entry(db.CertificateMarks.Find(mark.CertificateMarkID)).State = EntityState.Detached;
+            }
+                foreach (CertificateMark mark in entrant.CertificateMarks)
             {
                 db.Entry(mark).State = EntityState.Modified;
             }
-            db.SaveChanges();
-            logger.LogUpdate(DateTime.Now, entrant, db.Entrants.Find(entrant.EntrantID));
+            //db.SaveChanges();
             db.Entry(db.Entrants.Find(entrant.EntrantID)).State = EntityState.Detached;
             db.Entry(entrant).State = EntityState.Modified;
             db.SaveChanges();
