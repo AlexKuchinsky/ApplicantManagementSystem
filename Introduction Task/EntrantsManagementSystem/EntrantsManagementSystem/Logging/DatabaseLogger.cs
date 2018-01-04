@@ -10,15 +10,14 @@ using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Threading;
 using System.IO;
-using System.Runtime.Serialization.Json;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Xml.Serialization; 
+using System.Web.Script.Serialization;
+using System.Data.Entity.Core.Objects; 
 namespace EntrantsManagementSystem.Logging
 {
    
     public class DatabaseLogger: ILogger
     {
-        public LogsDatabaseEntities ldb = new LogsDatabaseEntities();
+        protected LogsDatabaseEntities ldb = new LogsDatabaseEntities();
         public void LogException(Exception exception, DateTime time, string exceptionDescription)
         {
 
@@ -30,6 +29,8 @@ namespace EntrantsManagementSystem.Logging
             baseLog.LogLevel = "Error";
             baseLog.Time = time;
 
+
+
             ldb.LogsBases.Add(baseLog);
             ldb.SaveChanges();
 
@@ -40,12 +41,11 @@ namespace EntrantsManagementSystem.Logging
             exceptionLog.Message = exception.Message;
             exceptionLog.Description = exceptionDescription;
 
+
             ldb.ExceptionLogs.Add(exceptionLog);
             try
             {
-
                 ldb.SaveChanges();
-
             }
             catch (DbEntityValidationException ex)
             {
@@ -53,92 +53,115 @@ namespace EntrantsManagementSystem.Logging
                 {
                     System.Diagnostics.Debug.WriteLine("Object: " + validationError.Entry.Entity.ToString());
                     System.Diagnostics.Debug.WriteLine("");
-                        foreach (DbValidationError err in validationError.ValidationErrors)
-                             {
-                        System.Diagnostics.Debug.WriteLine(err.ErrorMessage + "");
-                        }
-                }
-                               
-            }
-            
-
-            //Log primaryLog = new Log();
-            //primaryLog.Operation = "EXCEPTION";
-            //primaryLog.StartTime = time;
-            //db.Logs.Add(primaryLog);
-            //db.SaveChanges();
-
-            //ExceptionLog exceptionLog = new ExceptionLog();
-            //exceptionLog.LogID = primaryLog.LogID;
-            //exceptionLog.Description = exceptionDescription;
-            //exceptionLog.Type = exception.GetType().Name;
-            //db.ExceptionLogs.Add(exceptionLog);
-            //db.SaveChanges();
-
-        }
-        public void Log(LogType logType, DateTime time, object newObject=null, object oldObject=null, Type deletedObjectType=null) 
-        {
-            
-            
-            if (logType == LogType.UPDATE)
-            {
-                if (newObject == null | oldObject == null)
-                    throw new InvalidOperationException("Can't update null object");
-
-                List<PropertyInfo> properiesInfo = newObject.GetType().GetProperties().Where(p => !p.GetMethod.IsVirtual & !p.SetMethod.IsVirtual).ToList();
-                foreach (PropertyInfo propertyInfo in properiesInfo)
-                {
-                    var newValue = propertyInfo.GetValue(newObject);
-                    var oldValue = propertyInfo.GetValue(oldObject);
-                    string newType = newObject.GetType().Name;
-                    string oldType = oldObject.GetType().Name;
-                    if (!newValue.Equals(oldValue))
+                    foreach (DbValidationError err in validationError.ValidationErrors)
                     {
-                        LogsBase baseLog = new LogsBase();
-                        baseLog.Operation = logType.ToString();
-                        baseLog.LogLevel = "Information";
-                        baseLog.Time = time;
-
-                        ldb.LogsBases.Add(baseLog);
-                        ldb.SaveChanges();
-
-                        ChangesLog changesLog = new ChangesLog();
-                        changesLog.BaseLogID = baseLog.LogID;
-                        changesLog.ObjectID = 0;
-                        changesLog.ObjectType = newObject.GetType().Name;
-
-                        MemoryStream stream1 = new MemoryStream();
-                        BinaryFormatter formatter = new BinaryFormatter();
-                        formatter.Serialize(stream1,newObject);
-                        
-                        return;
-
+                        System.Diagnostics.Debug.WriteLine(err.ErrorMessage + "");
                     }
+                }
+                throw;
+            }
+        }
+        public void LogUpdate(DateTime time, object newObject, object oldObject)
+        {
+            if (newObject == null | oldObject == null)
+                throw new InvalidOperationException("One of the object's state cannot be null for update logging");
 
+            List<PropertyInfo> properiesInfo = newObject.GetType().GetProperties().Where(p => !p.GetMethod.IsVirtual & !p.SetMethod.IsVirtual).ToList();
+            foreach (PropertyInfo propertyInfo in properiesInfo)
+            {
+                var newValue = propertyInfo.GetValue(newObject);
+                var oldValue = propertyInfo.GetValue(oldObject);
+                string newType = newObject.GetType().Name;
+                string oldType = oldObject.GetType().Name;
+                if (!newValue.Equals(oldValue))
+                {
+                    LogsBase baseLog = new LogsBase();
+                    baseLog.Operation = "UPDATE";
+                    baseLog.LogLevel = "Information";
+                    baseLog.Time = time;
+
+                    ldb.LogsBases.Add(baseLog);
+                    ldb.SaveChanges();
+
+                    ChangesLog changesLog = new ChangesLog();
+                    changesLog.BaseLogID = baseLog.LogID;
+                    changesLog.ObjectID = 0;
+                    changesLog.ObjectType = newObject.GetType().Name;
+
+                    var json = new JavaScriptSerializer().Serialize(newObject);
+                    //var deserializedObj = new JavaScriptSerializer().Deserialize(json, typeof(Entrant));
+                    changesLog.State = json;
+                    ldb.ChangesLogs.Add(changesLog);
+                    ldb.SaveChanges();
+                    break;
                 }
             }
-            else if(logType == LogType.DELETE)
-            {
-                //if(deletedObjectType == null)
-                //    throw new InvalidOperationException("Can't delete null object");
-                //Log primaryLog = new Log();
-                //primaryLog.Operation = logType.ToString();
-                //primaryLog.StartTime = time;
-                //db.Logs.Add(primaryLog);
-                //db.SaveChanges();
-
-                //DeleteLog deleteLog = new DeleteLog();
-                //deleteLog.LogID = primaryLog.LogID; 
-                //deleteLog.ObjectName = deletedObjectType.Name;
-                //db.DeleteLogs.Add(deleteLog);
-                //db.SaveChanges();
-            }
-           
 
         }
-        public void LogUpdate()
+        public void LogDelete(DateTime time, object obj)
         {
+            Type initialType = ObjectContext.GetObjectType(obj.GetType());
+            Type secondaryType = obj.GetType();
+            object initialObject = Activator.CreateInstance(initialType);
+            List<FieldInfo> properiesInfo = initialType.GetRuntimeFields().ToList();
+            List<FieldInfo> secPorpertiesInfo = secondaryType.GetRuntimeFields().ToList();
+            int size1 = properiesInfo.Count();
+            int size2 = secPorpertiesInfo.Count();
+            foreach (FieldInfo fieldInfo in properiesInfo)
+            {
+                string name = fieldInfo.Name; 
+                
+                
+                //var newValue = propertyInfo.GetValue(newObject);
+                //var oldValue = propertyInfo.GetValue(oldObject);
+                //string newType = newObject.GetType().Name;
+                //string oldType = oldObject.GetType().Name;
+                //if (!newValue.Equals(oldValue))
+                //{
+                //    LogsBase baseLog = new LogsBase();
+                //    baseLog.Operation = "UPDATE";
+                //    baseLog.LogLevel = "Information";
+                //    baseLog.Time = time;
+
+                //    ldb.LogsBases.Add(baseLog);
+                //    ldb.SaveChanges();
+
+                //    ChangesLog changesLog = new ChangesLog();
+                //    changesLog.BaseLogID = baseLog.LogID;
+                //    changesLog.ObjectID = 0;
+                //    changesLog.ObjectType = newObject.GetType().Name;
+
+                //    var json = new JavaScriptSerializer().Serialize(newObject);
+                //    //var deserializedObj = new JavaScriptSerializer().Deserialize(json, typeof(Entrant));
+                //    changesLog.State = json;
+                //    ldb.ChangesLogs.Add(changesLog);
+                //    ldb.SaveChanges();
+                //    break;
+                //}
+            }
 
         }
+
+        //string objectType = obj.GetType().Name;
+        //LogsBase baseLog = new LogsBase();
+        //    baseLog.Operation = "Delete";
+        //    baseLog.LogLevel = "Information";
+        //    baseLog.Time = time;
+
+        //    ldb.LogsBases.Add(baseLog);
+        //    ldb.SaveChanges();
+
+        //    ChangesLog changesLog = new ChangesLog();
+        //    changesLog.BaseLogID = baseLog.LogID;
+        //    changesLog.ObjectID = 0;
+        //    changesLog.ObjectType = ObjectContext.GetObjectType(obj.GetType()).Name;
+
+        //    var json = new JavaScriptSerializer().Serialize(obj as Entrant);
+        //    //var deserializedObj = new JavaScriptSerializer().Deserialize(json, typeof(Entrant));
+        //    changesLog.State = json;
+        //    ldb.ChangesLogs.Add(changesLog);
+        //    ldb.SaveChanges();
+        
+
     }
 }

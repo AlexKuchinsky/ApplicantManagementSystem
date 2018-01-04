@@ -10,6 +10,7 @@ using EntrantsManagementSystem.Models;
 using EntrantsManagementSystem.Logging;
 using EntrantsManagementSystem.Infrastructure;
 using Ninject;
+using System.Data.Entity.Core.Objects; 
 namespace EntrantsManagementSystem.Controllers
 {
     public class EntrantsController : Controller
@@ -127,17 +128,11 @@ namespace EntrantsManagementSystem.Controllers
                 db.Entry(mark).State = EntityState.Modified;
             }
             db.SaveChanges();
-            logger.Log(LogType.UPDATE, DateTime.Now, entrant, db.Entrants.Find(entrant.EntrantID));
+            logger.LogUpdate(DateTime.Now, entrant, db.Entrants.Find(entrant.EntrantID));
             db.Entry(db.Entrants.Find(entrant.EntrantID)).State = EntityState.Detached;
             db.Entry(entrant).State = EntityState.Modified;
             db.SaveChanges();
-          
-
-  
-        
             return RedirectToAction("Details", new { id = entrant.EntrantID });
-
-            
         }
 
         [HttpGet]
@@ -148,24 +143,20 @@ namespace EntrantsManagementSystem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Entrant entrant = db.Entrants.Find(id);
+            var entrant = db.Entrants.Find(id);
             if (entrant == null)
             {
                 return HttpNotFound();
             }
-            try
-            {
-                logger.Log(LogType.DELETE, DateTime.Now, deletedObjectType: typeof(Entrant));
-                db.Entrants.Remove(entrant);
-                db.SaveChanges();
-                //throw new InvalidCastException();
-                return RedirectToAction("List");
-            }catch(Exception e)
-            {
-                logger.LogException(e, DateTime.Now, "Exception in [httpGet] Delete() action method, duringr remove operation and saving database.");
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-           
+            logger.LogDelete(DateTime.Now,entrant);
+            
+            
+            db.Entrants.Remove(entrant);
+            db.SaveChanges();
+            return RedirectToAction("List");
+
+
+
         }
   
        

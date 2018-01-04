@@ -6,7 +6,7 @@
 //     Manual changes to this file will be overwritten if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-
+using System.ComponentModel.DataAnnotations;
 namespace EntrantsManagementSystem.Models
 {
     using System;
@@ -18,11 +18,12 @@ namespace EntrantsManagementSystem.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Entrant()
         {
+           
             this.CertificateMarks = new List<CertificateMark>();
             this.TestMarks = new List<TestMark>();
         }
-    
-        public int EntrantID { get; set; }
+       
+        public int EntrantID { get; set; }        
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Patronumic { get; set; }

@@ -6,7 +6,7 @@
 //     Manual changes to this file will be overwritten if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-
+using System.Web.Script.Serialization;
 namespace EntrantsManagementSystem.Models
 {
     using System;
@@ -19,7 +19,8 @@ namespace EntrantsManagementSystem.Models
         public int EntrantID { get; set; }
         public int SubjectID { get; set; }
         public int Mark { get; set; }
-    
+
+        [ScriptIgnore]
         public virtual Entrant Entrant { get; set; }
         public virtual Subject Subject { get; set; }
     }
