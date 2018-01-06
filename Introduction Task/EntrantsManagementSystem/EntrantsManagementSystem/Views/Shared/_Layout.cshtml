@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,8 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/LayoutStyle.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
-  
+    <script src="~/Scripts/jquery-3.2.1.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 </head>
 <body>
     <div class="navbar navbar-fixed-top" style="background-color:#4298D7; text-align:center;">
@@ -20,6 +21,7 @@
         @Html.ActionLink("Update logs", "UpdateLogsList","Logs")
         @Html.ActionLink("Dlete logs", "DeleteLogsList", "Logs")
         @Html.ActionLink("Exception logs", "ExceptionLogsList", "Logs")
+        @Html.ActionLink("Universities", "Index", "Universities")
         
     </div>
     <div class="col-sm-8 container body-content">

@@ -159,6 +159,13 @@
     <Content Include="Models\LogsDatabase.edmx.diagram">
       <DependentUpon>LogsDatabase.edmx</DependentUpon>
     </Content>
+    <EntityDeploy Include="Models\UniversitiesDatabase.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>UniversitiesDatabase.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\UniversitiesDatabase.edmx.diagram">
+      <DependentUpon>UniversitiesDatabase.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Models\EntrantsDatabase.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -180,16 +187,34 @@
       <DependentUpon>LogsDatabase.edmx</DependentUpon>
       <LastGenOutput>LogsDatabase.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\UniversitiesDatabase.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>UniversitiesDatabase.edmx</DependentUpon>
+      <LastGenOutput>UniversitiesDatabase.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\UniversitiesDatabase.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>UniversitiesDatabase.edmx</DependentUpon>
+      <LastGenOutput>UniversitiesDatabase.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery-3.2.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.2.1.js" />
+    <Content Include="Scripts\jquery-3.2.1.min.js" />
+    <Content Include="Scripts\jquery-3.2.1.slim.js" />
+    <Content Include="Scripts\jquery-3.2.1.slim.min.js" />
+    <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.2.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="UniversityDetails.asmx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -197,6 +222,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\EntrantsController.cs" />
     <Compile Include="Controllers\LogsController.cs" />
+    <Compile Include="Controllers\UniversitiesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -238,6 +264,9 @@
     <Compile Include="Models\ExceptionLog.cs">
       <DependentUpon>LogsDatabase.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Faculty.cs">
+      <DependentUpon>UniversitiesDatabase.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\LogsBase.cs">
       <DependentUpon>LogsDatabase.tt</DependentUpon>
     </Compile>
@@ -256,20 +285,44 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LogsDatabase.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Speciality.cs">
+      <DependentUpon>UniversitiesDatabase.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Subject.cs">
       <DependentUpon>EntrantsDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TestMark.cs">
       <DependentUpon>EntrantsDatabase.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UniversitiesDatabase.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UniversitiesDatabase.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UniversitiesDatabase.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UniversitiesDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UniversitiesDatabase.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UniversitiesDatabase.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\University.cs">
+      <DependentUpon>UniversitiesDatabase.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UniversityDetails.asmx.cs">
+      <DependentUpon>UniversityDetails.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Entrants\Create.cshtml" />
     <Content Include="Views\Entrants\Details.cshtml" />
     <Content Include="Views\Entrants\Edit.cshtml" />
@@ -280,6 +333,7 @@
     <Content Include="Views\Logs\ExceptionLogsList.cshtml" />
     <Content Include="Views\Entrants\DeletionConfirmation.cshtml" />
     <Content Include="Views\Shared\ErrorPage.cshtml" />
+    <Content Include="Views\Universities\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

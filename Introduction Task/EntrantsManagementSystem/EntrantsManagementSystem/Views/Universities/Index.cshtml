@@ -1,0 +1,71 @@
+﻿<script>
+    $(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Universities/GetUniversities",
+            data: param = "",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $(data).each(function (index, item) {
+                    $("#UniviersitiesDropdown").append("<option>" + item + "</option>");
+                    $("#UniviersitiesDropdown").val("");
+                });
+            },
+            error: errorFunc
+        });
+    });
+    
+    function getFaculties(university) {
+        $('#FacultiesDropdown').find('option').remove();
+        $('#GetSpecialities').find('option').remove();
+        $("#choosenSpeciality").text("");
+        var req = { 'university': university };
+
+        $.ajax({
+            type: "POST",
+            url: "/Universities/GetFaculties",
+            data: JSON.stringify(req),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $(data).each(function (index, item) {
+                    $("#FacultiesDropdown").append("<option>" + item + "</option>");
+                    $("#FacultiesDropdown").val("");
+                });
+            },
+            error: errorFunc
+        });
+    }
+    function getSpecialities(faculty) {
+        var req = { 'faculty': faculty};
+        $('#GetSpecialities').find('option').remove();
+        $("#choosenSpeciality").text("");
+        $.ajax({
+            type: "POST",
+            url: "/Universities/GetSpecialities",
+            data: JSON.stringify(req),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $(data).each(function (index, item) {
+                    $("#GetSpecialities").append("<option>" + item + "</option>");
+                    $("#GetSpecialities").val("");
+                });
+            },
+            error: errorFunc
+        });
+    }
+    function showSpeciality(speciality) {
+        $("#choosenSpeciality").text("You have choosen: " + speciality);
+    }
+    function errorFunc(errorData) {
+        alert('Ошибка' + errorData.responseText);
+
+    }
+</script>
+<select id="UniviersitiesDropdown" onmousedown="this.value='';" onchange="getFaculties(this.value);"></select>
+<select id="FacultiesDropdown" onmousedown="this.value='';" onchange="getSpecialities(this.value);"></select>
+<select id="GetSpecialities" onmousedown="this.value='';" onchange="showSpeciality(this.value);"></select>
+<p id="choosenSpeciality"></p>
+
