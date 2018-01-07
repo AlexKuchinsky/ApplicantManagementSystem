@@ -197,6 +197,21 @@
       <DependentUpon>UniversitiesDatabase.edmx</DependentUpon>
       <LastGenOutput>UniversitiesDatabase.cs</LastGenOutput>
     </Content>
+    <Content Include="Pictures\closed.gif" />
+    <Content Include="Pictures\document.gif" />
+    <Content Include="Pictures\expand_leaf.gif" />
+    <Content Include="Pictures\expand_loading.gif" />
+    <Content Include="Pictures\expand_minus.gif" />
+    <Content Include="Pictures\expand_plus.gif" />
+    <Content Include="Pictures\i.gif" />
+    <Content Include="Pictures\i_bhalf.gif" />
+    <Content Include="Pictures\i_half.gif" />
+    <Content Include="Pictures\l.gif" />
+    <Content Include="Pictures\leaf.gif" />
+    <Content Include="Pictures\minus.gif" />
+    <Content Include="Pictures\open.gif" />
+    <Content Include="Pictures\plus.gif" />
+    <Content Include="Pictures\t.gif" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
@@ -334,6 +349,7 @@
     <Content Include="Views\Entrants\DeletionConfirmation.cshtml" />
     <Content Include="Views\Shared\ErrorPage.cshtml" />
     <Content Include="Views\Universities\Index.cshtml" />
+    <Content Include="Views\Universities\Tree.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

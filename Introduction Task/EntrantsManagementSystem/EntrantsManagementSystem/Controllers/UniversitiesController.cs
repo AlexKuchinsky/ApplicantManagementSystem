@@ -30,7 +30,10 @@ namespace EntrantsManagementSystem.Controllers
             int.TryParse(ID, out int SpecialityID);
             return Json(db.Faculties.Find(SpecialityID).Specialities.Select(s=>new { SpecialityID = s.SpecialityID, Title = s.Title, FacultyTitle = s.Faculty.Title, UniversityTitle = s.Faculty.University.FullName }));
         }
-
+        public ActionResult Tree()
+        {
+            return View(); 
+        }
 
     }
 }
