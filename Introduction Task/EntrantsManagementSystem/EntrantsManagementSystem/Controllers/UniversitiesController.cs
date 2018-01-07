@@ -16,17 +16,19 @@ namespace EntrantsManagementSystem.Controllers
         [HttpPost]
         public JsonResult GetUniversities()
         {
-            return Json(db.Universities.Select(u => u.FullName));
+            return Json(db.Universities.Select(u=>new { UniversityID = u.UniversityID, FullName = u.FullName, Abbreviation  = u.Abbreviation }));
         }
         [HttpPost]
-        public JsonResult GetFaculties(string university)
+        public JsonResult GetFaculties(string ID)
         {
-            return Json(db.Faculties.Where(f => f.University.FullName == university).Select(f => f.Title)); 
+            int.TryParse(ID, out int UniversityID);
+            return Json(db.Universities.Find(UniversityID).Faculties.Select(f =>new { FacultyID = f.FacultyID, Title = f.Title }));
         }
         [HttpPost]
-        public JsonResult GetSpecialities(string faculty)
+        public JsonResult GetSpecialities(string ID)
         {
-            return Json(db.Specialities.Where(s => s.Faculty.Title == faculty).Select(s => s.Title));
+            int.TryParse(ID, out int SpecialityID);
+            return Json(db.Faculties.Find(SpecialityID).Specialities.Select(s=>new { SpecialityID = s.SpecialityID, Title = s.Title, FacultyTitle = s.Faculty.Title, UniversityTitle = s.Faculty.University.FullName }));
         }
 
 

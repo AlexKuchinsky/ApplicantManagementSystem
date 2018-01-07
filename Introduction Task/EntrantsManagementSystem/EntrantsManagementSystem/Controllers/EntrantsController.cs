@@ -114,8 +114,8 @@ namespace EntrantsManagementSystem.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CityID = new SelectList(db.Cities, "CityID", "Title",entrant.CityID);
-            ViewBag.Countries = new SelectList(db.Countries, "CountryID", "Title",entrant.City.CountryID);
+            ViewBag.CurrentCountryTitle = entrant.City.Country.Title;
+            ViewBag.CurrentCityTitle = entrant.City.Title; 
             return View(entrant);
         }
 
@@ -163,7 +163,18 @@ namespace EntrantsManagementSystem.Controllers
 
 
         }
-  
+        [HttpPost]
+        public JsonResult GetCountries()
+        {
+            return Json(db.Countries.Select(c => new { CountryID = c.CountryID, Title = c.Title }));
+        }
+        [HttpPost]
+        public JsonResult GetCities(string ID)
+        {
+            int.TryParse(ID, out int CountryID);
+            return Json(db.Countries.Find(CountryID).Cities.Select(c => new { CityID = c.CityID, Title = c.Title })); 
+        }
+       
        
     }
 }

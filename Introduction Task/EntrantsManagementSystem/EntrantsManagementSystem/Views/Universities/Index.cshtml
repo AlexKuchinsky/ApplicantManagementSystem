@@ -8,64 +8,72 @@
             dataType: "json",
             success: function (data) {
                 $(data).each(function (index, item) {
-                    $("#UniviersitiesDropdown").append("<option>" + item + "</option>");
-                    $("#UniviersitiesDropdown").val("");
+                    $("#UniviersitiesDropdown").append($('<option></option>').attr('value', JSON.stringify(item)).text(item.FullName));
                 });
+                $("#UniviersitiesDropdown").val("");
             },
             error: errorFunc
         });
     });
     
-    function getFaculties(university) {
+    function getFaculties(input) {
         $('#FacultiesDropdown').find('option').remove();
         $('#GetSpecialities').find('option').remove();
         $("#choosenSpeciality").text("");
-        var req = { 'university': university };
-
+        var university = JSON.parse(input); 
+        var request = { 'ID': university.UniversityID };
         $.ajax({
             type: "POST",
             url: "/Universities/GetFaculties",
-            data: JSON.stringify(req),
+            data: JSON.stringify(request),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
                 $(data).each(function (index, item) {
-                    $("#FacultiesDropdown").append("<option>" + item + "</option>");
-                    $("#FacultiesDropdown").val("");
+                    $("#FacultiesDropdown").append($('<option></option>').attr('value', JSON.stringify(item)).text(item.Title));
                 });
+                $("#FacultiesDropdown").val("");
             },
             error: errorFunc
         });
     }
-    function getSpecialities(faculty) {
-        var req = { 'faculty': faculty};
+    function getSpecialities(input) {
         $('#GetSpecialities').find('option').remove();
         $("#choosenSpeciality").text("");
+        var faculty = JSON.parse(input);
+        var request = { 'ID': faculty.FacultyID };
         $.ajax({
             type: "POST",
             url: "/Universities/GetSpecialities",
-            data: JSON.stringify(req),
+            data: JSON.stringify(request),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function (data) {
+            success: function (data) {              
                 $(data).each(function (index, item) {
-                    $("#GetSpecialities").append("<option>" + item + "</option>");
-                    $("#GetSpecialities").val("");
+                    $("#GetSpecialities").append($('<option></option>').attr('value', JSON.stringify(item)).text(item.Title));
                 });
+                $("#GetSpecialities").val("");
             },
             error: errorFunc
         });
     }
     function showSpeciality(speciality) {
-        $("#choosenSpeciality").text("You have choosen: " + speciality);
+        speciality = JSON.parse(speciality);
+        $("#choosenSpeciality").text("You have choosen: " + speciality.Title + ", on " + speciality.FacultyTitle + ", in " + speciality.UniversityTitle);
     }
     function errorFunc(errorData) {
         alert('Ошибка' + errorData.responseText);
 
     }
 </script>
-<select id="UniviersitiesDropdown" onmousedown="this.value='';" onchange="getFaculties(this.value);"></select>
-<select id="FacultiesDropdown" onmousedown="this.value='';" onchange="getSpecialities(this.value);"></select>
-<select id="GetSpecialities" onmousedown="this.value='';" onchange="showSpeciality(this.value);"></select>
-<p id="choosenSpeciality"></p>
+<b>Choose university:</b>
+<select id="UniviersitiesDropdown" onmousedown="this.text = '';" onchange="getFaculties(this.value);" class = "form-control"></select>
+<br />
+<b>Choose faculty:</b>
+<select id="FacultiesDropdown" onmousedown="this.value='';" onchange="getSpecialities(this.value);" class = "form-control"></select>
+<br />
+<b>Choose speciality:</b>
+<select id="GetSpecialities" onmousedown="this.value='';" onchange="showSpeciality(this.value);" class = "form-control"></select>
+<br />
+<p id="choosenSpeciality" style="font-weight:600"></p>
 
