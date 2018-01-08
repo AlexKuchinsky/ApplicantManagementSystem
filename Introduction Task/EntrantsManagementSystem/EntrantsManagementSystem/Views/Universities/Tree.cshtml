@@ -11,9 +11,6 @@
         .Container li {
             list-style-type: none;
         }
-
-
-
     /* indent for all tree children excepts root */
     .Node {
         background-image: url("../../Pictures/i.gif"); 
@@ -93,15 +90,16 @@
 </style>
 <script>
     function tree_toggle(event) {
+      
         event = event || window.event
         var clickedElem = event.target || event.srcElement
-
         if (!hasClass(clickedElem, 'Expand')) {
             return // клик не там
         }
 
         // Node, на который кликнули
         var node = clickedElem.parentNode
+        LoadChildren(node.id); 
         if (hasClass(node, 'ExpandLeaf')) {
             return // клик на листе
         }
@@ -113,14 +111,87 @@
         var re = /(^|\s)(ExpandOpen|ExpandClosed)(\s|$)/
         node.className = node.className.replace(re, '$1' + newClass + '$3')
     }
+    function LoadChildren(containerID) {
+        //alert("Clicked node id: " + containerID);
+        var request = { "route": containerID };
+        var container = document.getElementById(containerID).getElementsByClassName("Container")[0];
+        if (container.children.length == 0) {
+            $.ajax({
+                type: "POST",
+                url: "/Universities/GetChilds",
+                data: JSON.stringify(request),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    //alert("Response: " + JSON.stringify(data));
+                    var li = document.getElementById(containerID);
+                    var arrayLength = 0;
+                    for (var element in data) {
+                        arrayLength += 1;
+                    }
+                    $(data).each(function (index, item) {
+                        var li = document.createElement("li");
+                        li.className += "Node ExpandClosed  "; /*"Node ExpandClosed";*/
+                        if (arrayLength = index) {
+                            li.className += "IsLast ";
+                        }
+                        if (item.NumberOfChildren == 0) {
+                            li.className += "ExpandLeaf";
+                        }
+                        alert("Class: " + li.className);
+                        //alert("Route: " + JSON.stringify(item.Route));
+                        li.setAttribute("id", JSON.stringify(item.Route));
 
+                        var divExpand = document.createElement("div");
+                        divExpand.className += "Expand";
+
+                        var divContent = document.createElement("div");
+                        divContent.className += "Content";
+                        divContent.innerHTML = item.Name + " (" + item.NumberOfChildren + ")";
+
+                        var ul = document.createElement("ul");
+                        ul.className += "Container";
+
+                        li.appendChild(divExpand);
+                        li.appendChild(divContent);
+                        li.appendChild(ul);
+
+                        container.appendChild(li);
+                    });
+                },
+                error: errorFunc
+            });
+        }
+
+        
+
+    }
 
     function hasClass(elem, className) {
         return new RegExp("(^|\\s)" + className + "(\\s|$)").test(elem.className)
     }
+    $(function () {
+        var request = { "route": "[0]" };
+        
+        
+    })
+    function errorFunc(errorData) {
+        alert('Ошибка' + errorData.responseText);
 
+    }
 </script>
-<h2>Tree</h2>
+<div onclick="tree_toggle(arguments[0])">
+    <ul class="Container">
+        <li class="IsRoot ExpandClosed" id="[0]">
+            <div class="Expand"></div>
+            <div class="Content">Root</div>
+            <ul class="Container">
+
+               
+            </ul>
+        </li>
+    </ul>
+</div>
 <div onclick="tree_toggle(arguments[0])">
     <div>Root</div>
     <ul class="Container">
@@ -132,6 +203,16 @@
                     <div class="Expand"></div>
                     <div class="Content">Item 1.1</div>
                     <ul class="Container">
+                        <li class="Node ExpandClosed">
+                            <div class="Expand"></div>
+                            <div class="Content">Item 1.1</div>
+                            <ul class="Container">
+                                <li class="Node ExpandLeaf IsLast">
+                                    <div class="Expand"></div>
+                                    <div class="Content">Item 1.1.2</div>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="Node ExpandLeaf IsLast">
                             <div class="Expand"></div>
                             <div class="Content">Item 1.1.2</div>
@@ -167,4 +248,23 @@
     </ul>
 
 </div>
-
+@*  <li class="Node IsRoot ExpandClosed">
+        <div class="Expand"></div>
+        <div class="Content">Item 2<br />title long yeah</div>
+        <ul class="Container">
+            <li class="Node ExpandLeaf IsLast">
+                <div class="Expand"></div>
+                <div class="Content">Item 2.1</div>
+            </li>
+        </ul>
+    </li>
+    <li class="Node ExpandOpen IsRoot IsLast">
+        <div class="Expand"></div>
+        <div class="Content">Item 3</div>
+        <ul class="Container">
+            <li class="Node ExpandLeaf IsLast">
+                <div class="Expand"></div>
+                <div class="Content">Item 3.1</div>
+            </li>
+        </ul>
+    </li> *@
