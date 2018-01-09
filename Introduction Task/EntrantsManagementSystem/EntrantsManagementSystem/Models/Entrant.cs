@@ -33,6 +33,10 @@ namespace EntrantsManagementSystem.Models
         public Nullable<int> Entrance { get; set; }
         public int Flat { get; set; }
     
+        public HashSet<int> mySet { get; set; }
+        public ICollection<int> ls => new List<int>(new int[] { 1, 2, 3 }); 
+        public IEnumerable<int> sldjf { get; set; }
+        public List<int> l { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual IList<CertificateMark> CertificateMarks { get; set; }
         public virtual City City { get; set; }

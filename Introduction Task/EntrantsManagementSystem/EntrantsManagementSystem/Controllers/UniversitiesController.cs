@@ -12,18 +12,22 @@ namespace EntrantsManagementSystem.Controllers
 {
     public class UniversitiesController : Controller
     {
-        class Root
+        public class Root
         {
-            public UniversitiesDatabaseEntities db = new UniversitiesDatabaseEntities();
-            public IList Universities => db.Universities.ToList();
-            public IList Entrants { get; set; }
+            public UniversitiesDatabaseEntities udb = new UniversitiesDatabaseEntities();
+            public EntrantsDatabaseEntities edb = new EntrantsDatabaseEntities();
+
+            public ICollection Universities => udb.Universities.ToList();
+            public ICollection Entrants => edb.Entrants.ToList();
+            public ICollection Countries => edb.Countries.ToList();
         }
         public UniversitiesDatabaseEntities db { get; set; } = new UniversitiesDatabaseEntities();
 
-        public object root = new Root();
+        public Root root = new Root();
 
         public ActionResult Index()
         {
+           
             return View();
         }
         [HttpPost]
@@ -55,16 +59,102 @@ namespace EntrantsManagementSystem.Controllers
         }
         public JsonResult GetChildsRecursion(object obj, List<int> route,List<int> initialRoute)
         {
-            List<PropertyInfo> CollectionProps = obj.GetType().GetProperties().Where(p => p.PropertyType.GetInterface("ICollection") != null).ToList();
-            if (CollectionProps.Count == 0)
-                throw new NotImplementedException();
-            IEnumerable resultList = CollectionProps.Select((p, i) =>
+            if (route.Count == 0)
+                return GetArrayedChildren(obj, initialRoute);
+            else
             {
-                List<int> resultRoute = route.ToList();
-                resultRoute.Add(i);
-                return new { Name = p.Name, NumberOfChildren = (p.GetValue(obj) as ICollection)?.Count ?? 0, Route = resultRoute };
-            }).ToList();
-            return Json(resultList);
+                int index = route[0];
+                object newObj = GetOnPosition(obj, index);
+                return GetChildsRecursion(newObj, route.Skip(1).ToList(), initialRoute);
+            }
+        }
+        public int GetNumberOfChildren(object obj)
+        {
+            if (obj == null)
+                return 0;
+            if(!IsIEnumerable(obj.GetType()))
+            {
+                // Count IEnumerable props in class
+                List<PropertyInfo> CollectionProps = obj.GetType().GetRuntimeProperties().Where(p => IsIEnumerable(p.PropertyType)).ToList();
+                return CollectionProps.Count;
+            }
+            else
+            {
+                IEnumerator enumerator = (obj as IEnumerable).GetEnumerator();
+                int size = 0;
+                while (enumerator.MoveNext())
+                   size++;
+                return size;
+            }
+            
+        }
+        public JsonResult GetArrayedChildren(object obj, IList<int> path)
+        {
+            if (!IsIEnumerable(obj.GetType()))
+            {
+                // Work with class
+                List<PropertyInfo> CollectionProps = obj.GetType().GetRuntimeProperties().Where(p => IsIEnumerable(p.PropertyType)).ToList();
+                IEnumerable resultList = CollectionProps.Select((p, i) =>
+                {
+                    List<int> route = path.ToList();
+                    route.Add(i);
+                    return new { Name = p.Name, NumberOfChildren = GetNumberOfChildren(p.GetValue(obj)), Route = route };
+                }).ToList();
+                return Json(resultList);
+            }
+            else
+            {
+                List<object> resultList = new List<object>();
+                IEnumerator enumerator = (obj as IEnumerable).GetEnumerator();
+                int i = 0; 
+                while (enumerator.MoveNext())
+                {
+                    List<int> route = path.ToList();
+                    route.Add(i);
+                    object currentObject = enumerator.Current;
+                    string elementName = "Element "; 
+                    List<PropertyInfo> properties = currentObject.GetType().GetRuntimeProperties().ToList();
+                    foreach(PropertyInfo p in properties)
+                    {
+                        if(p.Name.ToLower().Contains("name") || p.Name.ToLower().Contains("title"))
+                        {
+                            elementName = (string)p.GetValue(currentObject) ?? "Element ";
+                            break; 
+                        }
+                    }
+                    currentObject.GetType();
+                    resultList.Add(new { Name = elementName + ((elementName=="Element ")? (i+1).ToString():""), NumberOfChildren = GetNumberOfChildren(enumerator.Current), Route = route });
+                    i++;
+                }
+                return Json(resultList); 
+            }
+        }
+        public bool IsIEnumerable(Type type)
+        {
+            string name = type.Name;
+            bool result = type.GetInterface(nameof(IEnumerable)) != null && type.Name != nameof(String);
+            return result; 
+        }
+        public object GetOnPosition(object obj, int index)
+        {
+            if (IsIEnumerable(obj.GetType()))
+            {
+                IEnumerator enumerator = (obj as IEnumerable).GetEnumerator();
+                int i = 0;
+                while (enumerator.MoveNext())
+                {
+                    if (i == index)
+                        return enumerator.Current;
+                    i++; 
+                }
+                throw new ArgumentException("index wasn't found");
+                    
+            }
+            else
+            {
+                List<PropertyInfo> CollectionProps = obj.GetType().GetRuntimeProperties().Where(p => IsIEnumerable(p.PropertyType)).ToList();
+                return CollectionProps[index].GetValue(obj); 
+            }
         }
     }
 }

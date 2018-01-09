@@ -131,14 +131,16 @@
                     }
                     $(data).each(function (index, item) {
                         var li = document.createElement("li");
-                        li.className += "Node ExpandClosed  "; /*"Node ExpandClosed";*/
-                        if (arrayLength = index) {
+                        li.className += "Node ExpandClosed  "; 
+                        //alert("Index and arrayLength:" + index + ", " + arrayLength); 
+                        if (arrayLength == index+1) {
+
                             li.className += "IsLast ";
                         }
                         if (item.NumberOfChildren == 0) {
-                            li.className += "ExpandLeaf";
+                            li.className += "ExpandLeaf ";
                         }
-                        alert("Class: " + li.className);
+                        //alert("Class: " + li.className);
                         //alert("Route: " + JSON.stringify(item.Route));
                         li.setAttribute("id", JSON.stringify(item.Route));
 
@@ -182,7 +184,7 @@
 </script>
 <div onclick="tree_toggle(arguments[0])">
     <ul class="Container">
-        <li class="IsRoot ExpandClosed" id="[0]">
+        <li class="IsRoot ExpandClosed" id="[]">
             <div class="Expand"></div>
             <div class="Content">Root</div>
             <ul class="Container">
@@ -192,79 +194,3 @@
         </li>
     </ul>
 </div>
-<div onclick="tree_toggle(arguments[0])">
-    <div>Root</div>
-    <ul class="Container">
-        <li class="Node IsRoot ExpandClosed">
-            <div class="Expand"></div>
-            <div class="Content">Item 1</div>
-            <ul class="Container">
-                <li class="Node ExpandClosed">
-                    <div class="Expand"></div>
-                    <div class="Content">Item 1.1</div>
-                    <ul class="Container">
-                        <li class="Node ExpandClosed">
-                            <div class="Expand"></div>
-                            <div class="Content">Item 1.1</div>
-                            <ul class="Container">
-                                <li class="Node ExpandLeaf IsLast">
-                                    <div class="Expand"></div>
-                                    <div class="Content">Item 1.1.2</div>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="Node ExpandLeaf IsLast">
-                            <div class="Expand"></div>
-                            <div class="Content">Item 1.1.2</div>
-                        </li>
-                    </ul>
-                </li>
-                <li class="Node ExpandLeaf IsLast">
-                    <div class="Expand"></div>
-                    <div class="Content">Item 1.2</div>
-                </li>
-            </ul>
-        </li>
-        <li class="Node IsRoot ExpandClosed">
-            <div class="Expand"></div>
-            <div class="Content">Item 2<br />title long yeah</div>
-            <ul class="Container">
-                <li class="Node ExpandLeaf IsLast">
-                    <div class="Expand"></div>
-                    <div class="Content">Item 2.1</div>
-                </li>
-            </ul>
-        </li>
-        <li class="Node ExpandOpen IsRoot IsLast">
-            <div class="Expand"></div>
-            <div class="Content">Item 3</div>
-            <ul class="Container">
-                <li class="Node ExpandLeaf IsLast">
-                    <div class="Expand"></div>
-                    <div class="Content">Item 3.1</div>
-                </li>
-            </ul>
-        </li>
-    </ul>
-
-</div>
-@*  <li class="Node IsRoot ExpandClosed">
-        <div class="Expand"></div>
-        <div class="Content">Item 2<br />title long yeah</div>
-        <ul class="Container">
-            <li class="Node ExpandLeaf IsLast">
-                <div class="Expand"></div>
-                <div class="Content">Item 2.1</div>
-            </li>
-        </ul>
-    </li>
-    <li class="Node ExpandOpen IsRoot IsLast">
-        <div class="Expand"></div>
-        <div class="Content">Item 3</div>
-        <ul class="Container">
-            <li class="Node ExpandLeaf IsLast">
-                <div class="Expand"></div>
-                <div class="Content">Item 3.1</div>
-            </li>
-        </ul>
-    </li> *@
