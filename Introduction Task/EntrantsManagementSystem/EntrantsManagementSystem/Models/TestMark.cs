@@ -7,21 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.Web.Script.Serialization;
 namespace EntrantsManagementSystem.Models
 {
     using System;
     using System.Collections.Generic;
-
-    [Serializable]
+    
     public partial class TestMark
     {
-        public int TestMark1 { get; set; }
+        public int TestMarkID { get; set; }
         public int EntrantID { get; set; }
         public int SubjectID { get; set; }
         public int Mark { get; set; }
-
-        [ScriptIgnore]
+    
         public virtual Entrant Entrant { get; set; }
         public virtual Subject Subject { get; set; }
     }

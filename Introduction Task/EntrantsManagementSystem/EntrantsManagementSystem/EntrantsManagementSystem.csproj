@@ -230,14 +230,15 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="UniversityDetails.asmx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\EntrantsController.cs" />
-    <Compile Include="Controllers\LogsController.cs" />
-    <Compile Include="Controllers\UniversitiesController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -327,6 +328,7 @@
     <Compile Include="Models\University.cs">
       <DependentUpon>UniversitiesDatabase.tt</DependentUpon>
     </Compile>
+    <Compile Include="ObjectParser\ObjectWalker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UniversityDetails.asmx.cs">
       <DependentUpon>UniversityDetails.asmx</DependentUpon>
@@ -342,14 +344,10 @@
     <Content Include="Views\Entrants\Details.cshtml" />
     <Content Include="Views\Entrants\Edit.cshtml" />
     <Content Include="Views\Entrants\List.cshtml" />
-    <Content Include="Views\Entrants\EditMark.cshtml" />
-    <Content Include="Views\Logs\UpdateLogsList.cshtml" />
-    <Content Include="Views\Logs\DeleteLogsList.cshtml" />
-    <Content Include="Views\Logs\ExceptionLogsList.cshtml" />
     <Content Include="Views\Entrants\DeletionConfirmation.cshtml" />
     <Content Include="Views\Shared\ErrorPage.cshtml" />
-    <Content Include="Views\Universities\Index.cshtml" />
-    <Content Include="Views\Universities\Tree.cshtml" />
+    <Content Include="Views\Test\Dropdowns.cshtml" />
+    <Content Include="Views\Test\Tree.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

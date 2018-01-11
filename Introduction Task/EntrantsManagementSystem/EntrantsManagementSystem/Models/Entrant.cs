@@ -6,37 +6,45 @@
 //     Manual changes to this file will be overwritten if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations; 
 namespace EntrantsManagementSystem.Models
 {
     using System;
     using System.Collections.Generic;
     
-    [Serializable]
     public partial class Entrant
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Entrant()
         {
-           
             this.CertificateMarks = new List<CertificateMark>();
             this.TestMarks = new List<TestMark>();
         }
-       
-        public int EntrantID { get; set; }        
+    
+        public int EntrantID { get; set; }
+        [Required(ErrorMessage ="You have to enter name")]
+        [MaxLength(30,ErrorMessage ="Max length of the name is 30 characters")]
         public string Name { get; set; }
+        [Required(ErrorMessage = "You have to enter surname")]
+        [MaxLength(30, ErrorMessage = "Max length of the surname is 30 characters")]
         public string Surname { get; set; }
+        [Required(ErrorMessage = "You have to enter patronumic")]
+        [MaxLength(30, ErrorMessage = "Max length of the patronumic is 30 characters")]
         public string Patronumic { get; set; }
+        [Range(1, int.MaxValue,ErrorMessage ="You have to coose country and city")]
         public int CityID { get; set; }
+        [Required(ErrorMessage = "You have to enter street")]
+        [MaxLength(30, ErrorMessage = "Max length of the street is 30 characters")]
         public string Street { get; set; }
+        [Required(ErrorMessage = "You have to enter house number")]
+        [Range(1,int.MaxValue,ErrorMessage ="House number have to be not less than 1")]
         public int House { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "Flat number have to be not less than 1")]
         public Nullable<int> Entrance { get; set; }
+        [Required(ErrorMessage = "You have to enter flat number")]
+        [Range(1, int.MaxValue, ErrorMessage = "Flat number have to be not less than 1")]
         public int Flat { get; set; }
     
-        public HashSet<int> mySet { get; set; }
-        public ICollection<int> ls => new List<int>(new int[] { 1, 2, 3 }); 
-        public IEnumerable<int> sldjf { get; set; }
-        public List<int> l { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual IList<CertificateMark> CertificateMarks { get; set; }
         public virtual City City { get; set; }

@@ -52,9 +52,9 @@
         </EntityType>
         <EntityType Name="TestMarks">
           <Key>
-            <PropertyRef Name="TestMark" />
+            <PropertyRef Name="TestMarkID" />
           </Key>
-          <Property Name="TestMark" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TestMarkID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EntrantID" Type="int" Nullable="false" />
           <Property Name="SubjectID" Type="int" Nullable="false" />
           <Property Name="Mark" Type="int" Nullable="false" />
@@ -235,9 +235,9 @@
         </EntityType>
         <EntityType Name="TestMark">
           <Key>
-            <PropertyRef Name="TestMark1" />
+            <PropertyRef Name="TestMarkID" />
           </Key>
-          <Property Name="TestMark1" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TestMarkID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EntrantID" Type="Int32" Nullable="false" />
           <Property Name="SubjectID" Type="Int32" Nullable="false" />
           <Property Name="Mark" Type="Int32" Nullable="false" />
@@ -417,7 +417,7 @@
           <EntitySetMapping Name="TestMarks">
             <EntityTypeMapping TypeName="EntrantsDatabaseModel.TestMark">
               <MappingFragment StoreEntitySet="TestMarks">
-                <ScalarProperty Name="TestMark1" ColumnName="TestMark" />
+                <ScalarProperty Name="TestMarkID" ColumnName="TestMarkID" />
                 <ScalarProperty Name="EntrantID" ColumnName="EntrantID" />
                 <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
                 <ScalarProperty Name="Mark" ColumnName="Mark" />

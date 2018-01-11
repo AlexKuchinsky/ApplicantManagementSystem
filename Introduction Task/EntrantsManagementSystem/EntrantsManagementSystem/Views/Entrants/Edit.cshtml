@@ -163,6 +163,7 @@
                             </td>
                             <td>
                                 @Html.EditorFor(model=> model.CertificateMarks[i].Mark, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.CertificateMarks[i].Mark, "", new { @class = "text-danger" })
                             </td>
 
                         </tr>

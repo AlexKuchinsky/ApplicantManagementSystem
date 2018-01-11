@@ -6,15 +6,13 @@
 <script>
     $(function () {
         $.ajax({
-            type: "POST",
             url: "/Entrants/GetCountries",
-            data: param = "",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
+            data: param="",
             success: function (data) {
                 $(data).each(function (index, item) {
                     $("#Countries").append($('<option></option>').attr('value', JSON.stringify(item)).text(item.Title));
                 });
+                
                 $("#Countries").val("");
             },
             error: errorFunc
@@ -23,18 +21,11 @@
 
     function getCities(input) {
         $('#CityID').find('option').remove();
-
         var country = JSON.parse(input);
-        var request = { 'ID': country.CountryID };
-        alert("before ajax");
         $.ajax({
-            type: "POST",
             url: "/Entrants/GetCities",
-            data: JSON.stringify(request),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
+            data: { 'ID': country.CountryID },
             success: function (data) {
-                alert("in ajax"); 
                 $(data).each(function (index, item) {
                     $("#CityID").append($('<option></option>').attr('value', item.CityID).text(item.Title));
                 });
@@ -42,7 +33,6 @@
             },
             error: errorFunc
         });
-        alert("after ajax"); 
     }
     function errorFunc(errorData) {
         alert('Ошибка' + errorData.responseText);
@@ -87,6 +77,7 @@
                 <p>
                     <b>Choose city:</b>
                     <select class="form-control" id="CityID" name="CityID"></select>
+                    @Html.ValidationMessageFor(model=>model.CityID, "", new { @class = "text-danger" })
                 </p>
                 <p>
                     <b>Street:</b>
@@ -133,13 +124,14 @@
                             </td>
                             <td>
                                 @Html.EditorFor(model=>model.CertificateMarks[i].Mark, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model=> model.CertificateMarks[i].Mark, "", new { @class = "text-danger" })
                             </td>
 
                         </tr>            
                     }
                 </table>
             </div>
-            <div class="col-sm-6">
+            @*<div class="col-sm-6">
                 <h4>Test marks</h4>
                 <hr />
                 <table class="table table-bordered">
@@ -152,7 +144,7 @@
                         </td>
                     </tr>
                 </table>
-            </div>
+            </div>*@
                 
             
         </div>

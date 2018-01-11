@@ -11,8 +11,7 @@ namespace EntrantsManagementSystem.Models
 {
     using System;
     using System.Collections.Generic;
-
-    [Serializable]
+    
     public partial class City
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]

@@ -11,7 +11,8 @@ using System.Data.Entity.Validation;
 using System.Threading;
 using System.IO;
 using System.Web.Script.Serialization;
-using System.Data.Entity.Core.Objects; 
+using System.Data.Entity.Core.Objects;
+using System.Collections; 
 namespace EntrantsManagementSystem.Logging
 {
    
@@ -137,13 +138,13 @@ namespace EntrantsManagementSystem.Logging
 
         public void IsObjectWasChanged(object newObject, object oldObject,ref int? ObjectID,ref bool LogChangedState)
         {
-            List<PropertyInfo> properiesInfo = newObject.GetType().GetProperties().Where(p => !p.GetMethod.IsVirtual & !p.SetMethod.IsVirtual).ToList();
+            List<PropertyInfo> properiesInfo = newObject.GetType().GetRuntimeProperties().Where(p => {  return !p.GetMethod.IsVirtual & !p.SetMethod.IsVirtual; }).ToList();
             foreach (PropertyInfo propertyInfo in properiesInfo)
             {
                 var newValue = propertyInfo.GetValue(newObject);
                 var oldValue = propertyInfo.GetValue(oldObject);
                 // If property value was changed during editing, we should log this object
-                if (!newValue.Equals(oldValue))
+                if (!newValue?.Equals(oldValue) ?? true)
                 {
                     LogChangedState = true;
                 }
@@ -158,7 +159,7 @@ namespace EntrantsManagementSystem.Logging
         public void IsCollectionWasChanged(object newObject, object oldObject, ref bool LogChangedState)
         {
             int? plug = 0; 
-            List<PropertyInfo> IEnumerableProps = newObject.GetType().GetProperties().Where(p => p.PropertyType.GetInterface("IEnumerable") != null && (p.PropertyType.Name != nameof(String))).ToList();
+            List<PropertyInfo> IEnumerableProps = newObject.GetType().GetProperties().Where(p => IsIEnumerable(p.GetValue(newObject))).ToList();
             foreach (PropertyInfo propInfo in IEnumerableProps)
             {
                 System.Collections.IEnumerator enumeratorOfNewCollection = (propInfo.GetValue(newObject) as System.Collections.IEnumerable)?.GetEnumerator();
@@ -178,6 +179,11 @@ namespace EntrantsManagementSystem.Logging
                 }
             }
 
+        }
+        public bool IsIEnumerable(object obj)
+        {
+            bool result = (obj is IEnumerable) && obj.GetType().Name != nameof(String);
+            return result;
         }
 
 

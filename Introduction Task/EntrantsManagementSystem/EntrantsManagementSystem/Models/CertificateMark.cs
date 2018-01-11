@@ -6,21 +6,21 @@
 //     Manual changes to this file will be overwritten if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-using System.Web.Script.Serialization;
+using System.ComponentModel.DataAnnotations; 
 namespace EntrantsManagementSystem.Models
 {
     using System;
     using System.Collections.Generic;
-
-    [Serializable]
+    
     public partial class CertificateMark
     {
         public int CertificateMarkID { get; set; }
         public int EntrantID { get; set; }
         public int SubjectID { get; set; }
-        public int Mark { get; set; }
 
-        [ScriptIgnore]
+        [Range(0,100,ErrorMessage = "Mark should be not less than 0 and not more than 100")]
+        public int Mark { get; set; }
+    
         public virtual Entrant Entrant { get; set; }
         public virtual Subject Subject { get; set; }
     }
