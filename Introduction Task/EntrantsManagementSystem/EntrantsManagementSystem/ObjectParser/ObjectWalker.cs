@@ -7,20 +7,20 @@ using EntrantsManagementSystem.Models;
 using System.Web.Script.Serialization;
 using System.Reflection;
 using System.Collections;
-
+using System.Data.Entity.Core.Objects;
 namespace EntrantsManagementSystem.ObjectParser
 {
     public class ObjectWalker
     {
-        public static List<object> GetChildrenRecursion(object obj, List<int> route, List<int> initialRoute)
+        public static List<object> GetChildrenRecursion(object obj, List<int> route, List<int> initialRoute,Type bottomType)
         {
             if (route.Count == 0)
-                return GetArrayedChildren(obj, initialRoute);
+                return GetArrayedChildren(obj, initialRoute,bottomType);
             else
             {
                 int index = route[0];
                 object newObj = GetOnPosition(obj, index);
-                return GetChildrenRecursion(newObj, route.Skip(1).ToList(), initialRoute);
+                return GetChildrenRecursion(newObj, route.Skip(1).ToList(), initialRoute,bottomType);
             }
         }
 
@@ -44,7 +44,7 @@ namespace EntrantsManagementSystem.ObjectParser
             }
 
         }
-        protected static List<object> GetArrayedChildren(object obj, IList<int> path)
+        protected static List<object> GetArrayedChildren(object obj, IList<int> path,Type bottomType)
         {
             if (!IsIEnumerable(obj))
             {
@@ -68,18 +68,10 @@ namespace EntrantsManagementSystem.ObjectParser
                     List<int> route = path.ToList();
                     route.Add(i);
                     object currentObject = enumerator.Current;
-                    string elementName = "Element ";
-                    List<PropertyInfo> properties = currentObject.GetType().GetRuntimeProperties().ToList();
-                    foreach (PropertyInfo p in properties)
-                    {
-                        if (p.Name.ToLower().Contains("name") || p.Name.ToLower().Contains("title"))
-                        {
-                            elementName = (string)p.GetValue(currentObject) ?? "Element ";
-                            break;
-                        }
-                    }
-                    currentObject.GetType();
-                    resultList.Add(new { Name = elementName + ((elementName == "Element ") ? (i + 1).ToString() : ""), NumberOfChildren = GetNumberOfChildren(enumerator.Current), Route = route });
+                    Type initialType = ObjectContext.GetObjectType(currentObject.GetType());
+                    bool isAssignable = bottomType.IsAssignableFrom(enumerator.Current.GetType()); 
+                    int NumberOfChildren = (isAssignable ? 0 : GetNumberOfChildren(enumerator.Current));
+                    resultList.Add(new { Name = initialType.GetMethod("ToString").Invoke(currentObject,new object[] { }),NumberOfChildren, Route = route });
                     i++;
                 }
                 return resultList;

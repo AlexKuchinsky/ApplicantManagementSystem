@@ -19,5 +19,9 @@ namespace EntrantsManagementSystem.Models
         public string Title { get; set; }
     
         public virtual Faculty Faculty { get; set; }
+        public override string ToString()
+        {
+            return Title;
+        }
     }
 }

@@ -50,5 +50,9 @@ namespace EntrantsManagementSystem.Models
         public virtual City City { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual IList<TestMark> TestMarks { get; set; }
+        public override string ToString()
+        {
+            return Surname+" "+Name + " " + Patronumic;
+        }
     }
 }
