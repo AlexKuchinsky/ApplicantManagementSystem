@@ -140,6 +140,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\LayoutStyle.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\TreeStyle.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -229,6 +230,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\TreeLogic.js" />
     <Content Include="UniversityDetails.asmx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

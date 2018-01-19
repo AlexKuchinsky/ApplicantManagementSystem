@@ -2,217 +2,28 @@
 @{
     ViewBag.Title = "Tree";
 }
-<style>
-    .Container {
-        padding: 0;
-        margin: 0;
-    }
-
-        .Container li {
-            list-style-type: none;
-        }
-    /* indent for all tree children excepts root */
-    .Node {
-        background-image: url("../../Pictures/i.gif"); 
-        background-position: top left;
-        background-repeat: repeat-y;
-        margin-left: 18px;
-        zoom: 1;
-    }
-
-    .IsRoot {
-        margin-left: 0;
-    }
-
-
-    /* left vertical line (grid) for all nodes */
-    .IsLast {
-        background-image: url("../../Pictures/i_half.gif");
-        background-repeat: no-repeat;
-    }
-
-    .ExpandOpen .Expand {
-        background-image: url("../../Pictures/expand_minus.gif"); 
-    }
-
-    /* closed is higher priority than open */
-    .ExpandClosed .Expand {
-        background-image: url("../../Pictures/expand_plus.gif");
-    }
-
-    /* highest priority */
-    .ExpandLeaf .Expand {
-        background-image: url("../../Pictures/expand_leaf.gif");
-    }
-
-    .Content {
-        min-height: 18px;
-        margin-left: 18px;
-    }
-
-    * html .Content {
-        height: 18px;
-    }
-
-    .Expand {
-        width: 18px;
-        height: 18px;
-        float: left;
-    }
-
-
-    .ExpandLoading {
-        width: 18px;
-        height: 18px;
-        float: left;
-        background-image: url("../../Pictures/expand_loading.gif");
-    }
-
-
-
-    .ExpandOpen .Container {
-        display: block;
-    }
-
-    .ExpandClosed .Container {
-        display: none;
-    }
-
-    .ExpandOpen .Expand, .ExpandClosed .Expand {
-        cursor: pointer;
-    }
-
-    .ExpandLeaf .Expand {
-        cursor: auto;
-    }
-    .NodeCheckBoxOpened {
-        background-image: url("../../Pictures/i_ckbox.gif");
-        background-position: left;
-        background-position-y: bottom;
-        background-position-x: left;
-        background-repeat: no-repeat;
-        margin: 0px 0px 0px 0px; 
-        padding: 0px 0px 0px 0px;
-        
-    }
-    .NodeCheckBoxClosed {
-        background-image: none;
-        margin: 0px 0px 0px 0px;
-        padding: 0px 0px 0px 0px;
-    }
-
-</style>
-<script>
-    function tree_toggle(event) {
-        event = event || window.event
-        var clickedElem = event.target || event.srcElement
-        if (!hasClass(clickedElem, 'Expand')) {
-            return // клик не там
-        }
-
-        // Node, на который кликнули
-        var node = clickedElem.parentNode
-        if (hasClass(node, 'ExpandLeaf')) {
-            return // клик на листе
-        }
-
-        // Загружаем детей
-        LoadChildren(node.id);
-        var cb = document.getElementById(node.id).getElementsByClassName("NodeCheckBox")[0];
-
-        // определить новый класс для узла
-        var newClass = hasClass(node, 'ExpandOpen') ? 'ExpandClosed' : 'ExpandOpen'
-        var newClassCB = (newClass!='ExpandOpen') ? 'NodeCheckboxClosed' : 'NodeCheckBoxOpened'
-        // заменить текущий класс на newClass
-        // регексп находит отдельно стоящий open|close и меняет на newClass
-        var re = /(^|\s)(ExpandOpen|ExpandClosed)(\s|$)/
-        node.className = node.className.replace(re, '$1' + newClass + '$3');
-        cb.className = "NodeCheckBox " + newClassCB;
-    }
-
-    function LoadChildren(ListItemID) {
-        var container = document.getElementById(ListItemID).getElementsByClassName("Container")[0];
-        if (container.children.length == 0) {
-            $.ajax("/Test/GetChildren", {
-                data: { "route": ListItemID},
-                success: function (data) {
-                    var arrayLength = data.length;
-                    $(data).each(function (index, item) {
-                        var li = document.createElement("li");
-                        li.className += "Node ExpandClosed  ";
-                        if (arrayLength == index + 1) {
-
-                            li.className += "IsLast ";
-                        }
-                        if (item.NumberOfChildren == 0) {
-                            li.className += "ExpandLeaf ";
-                        }
-                        li.setAttribute("id", JSON.stringify(item.Route));
-
-                        var divExpand = document.createElement("div");
-                        divExpand.className += "Expand";
-                //        <label class="NodeCheckBoxClosed NodeCheckBox">
-                //            <input type="checkbox">
-                //                Root
-                //</label>
-                        var divContent = document.createElement("div");
-                        divContent.className += "Content";
-
-                        divContent.innerHTML = "<label class=\"NodeCheckBoxClosed NodeCheckBox\"><input type=\"checkbox\"> </label>" + item.Name + ((item.NumberOfChildren != 0) ? " (" + item.NumberOfChildren + ")" : "")+"</div>";
-                        //var cbLabel = document.createElement("label");
-                        //cbLabel.className += "NodeCheckBoxClosed NodeCheckBox";
-
-                        //var checkbox = document.createElement("input");
-                        //checkbox.type = "checkbox";
-
-
-                        //var NodeName = document.createElement('p');
-                        //NodeName.innerHTML = ;
-
-                        //cbLabel.appendChild(checkbox);
-                        //cbLabel.appendChild(NodeName); 
-
-                        //divContent.appendChild(cbLabel); 
-
-                        var ul = document.createElement("ul");
-                        ul.className += "Container";
-
-                        li.appendChild(divExpand);
-                        li.appendChild(divContent);
-                        li.appendChild(ul);
-
-                        container.appendChild(li);
-                    });
-                },
-                error: errorFunc
-            });
-        }
-
-        
-
-    }
-
-    function hasClass(elem, className) {
-        return new RegExp("(^|\\s)" + className + "(\\s|$)").test(elem.className)
-    }
-    function errorFunc(errorData) {
-        alert('Ошибка' + errorData.responseText);
-    }
-</script>
-<div onclick="tree_toggle(arguments[0])">
-    <ul class="Container">
-        <li class="IsRoot ExpandClosed" id="[]">
-            <div class="Expand"></div>
-            <div class="Content">
-                <label class="NodeCheckBoxClosed NodeCheckBox">
-                    <input type="checkbox">
-                    Root
-                </label>
-            </div>
-            <ul class="Container">
-
-               
-            </ul>
-        </li>
-    </ul>
+<div class="col-sm-6">
+    <button class="btn btn-success" onclick="GetSelectedItems()">Show seletcted items</button>
+    <table class="table table-striped">
+       
+    </table>
 </div>
+<div class="col-sm-6">
+    <div onclick="tree_toggle(arguments[0])">
+        <ul class="Container">
+            <li class="IsRoot ExpandClosed" id="[]">
+                <input type="hidden" class="NumberOfChildrenValue" value="0" />
+                <div class="Expand"></div>
+                <div class="Content">
+                    <label class="NodeCheckBoxClosed NodeCheckBoxLabel">
+                        <input type="checkbox" class="NodeCheckBox" onclick="CheckBoxClicked(this)" />
+                        Root
+                    </label>
+                </div>
+                <ul class="Container"></ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+

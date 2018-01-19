@@ -20,7 +20,6 @@ namespace EntrantsManagementSystem.Controllers
             public EntrantsDatabaseEntities edb = new EntrantsDatabaseEntities();
 
             public IEnumerable Universities => udb.Universities.ToList();
-            public IEnumerable Entrants => edb.Entrants.ToList();
         }
         public Root root = new Root();
 
@@ -57,6 +56,11 @@ namespace EntrantsManagementSystem.Controllers
             List<int> r = (List<int>)new JavaScriptSerializer().Deserialize(route, typeof(List<int>));
             JsonResult result = Json(ObjectWalker.GetChildrenRecursion(root, r, r.ToList(),typeof(Entrant)), JsonRequestBehavior.AllowGet);
             return result; 
+        }
+        public JsonResult GetSelectedItems(string data)
+        {
+            var routes = new JavaScriptSerializer().Deserialize(data, typeof(List<string>));
+            return Json(new { data = "hello word!" },JsonRequestBehavior.AllowGet);
         }
         #endregion
 
