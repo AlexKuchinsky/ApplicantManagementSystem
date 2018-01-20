@@ -30,6 +30,16 @@ namespace EntrantsManagementSystem.Controllers
         }
         public ActionResult Tree()
         {
+            //List<List<int>> routes = new List<List<int>>();
+            //routes.Add(new List<int>(new int[] {0,0,0,0 }));
+            //routes.Add(new List<int>(new int[] {0,0,0,1 }));
+            //routes.Add(new List<int>(new int[] {0,0,1,0 }));
+            //routes.Add(new List<int>(new int[] {0,0,1,1 }));
+            //routes.Add(new List<int>(new int[] {0,1,0,0 }));
+            //routes.Add(new List<int>(new int[] {0,1,0,1 }));
+            //routes.Add(new List<int>(new int[] {0,1,0,2 }));
+
+            //ObjectWalker.GetSelectedItems<Speciality, object>((s) => { return null; }, routes);
             return View();
         }
 
@@ -59,8 +69,13 @@ namespace EntrantsManagementSystem.Controllers
         }
         public JsonResult GetSelectedItems(string data)
         {
-            var routes = new JavaScriptSerializer().Deserialize(data, typeof(List<string>));
-            return Json(new { data = "hello word!" },JsonRequestBehavior.AllowGet);
+            List<string> string_routes = (List<string>)new JavaScriptSerializer().Deserialize(data, typeof(List<string>));
+            List<List<int>> routes = new List<List<int>>();
+            for (int i = 0; i < string_routes.Count; i++)
+                routes.Add((List<int>)new JavaScriptSerializer().Deserialize(string_routes[i], typeof(List<int>)));
+
+            List<object> result = ObjectWalker.GetSelectedItems<Speciality,object>(root, routes, typeof(Speciality),(o)=> new { data = o.Title + " (id "+o.SpecialityID+")" });
+            return Json(result,JsonRequestBehavior.AllowGet);
         }
         #endregion
 

@@ -37,14 +37,16 @@ function LoadChildren(ListItemID) {
                 var arrayLength = data.length;
                 $(data).each(function (index, item) {
                     var li = document.createElement("li");
+                    var numberOfChildren = ""; 
                     li.className += "Node ExpandClosed  ";
-                    if (arrayLength == index + 1) {
 
+                    if (arrayLength == index + 1) 
                         li.className += "IsLast ";
-                    }
-                    if (item.NumberOfChildren == 0) {
+                    if (item.NumberOfChildren == 0) 
                         li.className += "ExpandLeaf ";
-                    }
+                    else
+                        numberOfChildren = " (" + item.NumberOfChildren + ")"; 
+
                     li.setAttribute("id", JSON.stringify(item.Route));
 
                     var hInput = document.createElement("input");
@@ -70,7 +72,9 @@ function LoadChildren(ListItemID) {
 
                     Label.appendChild(input);
                     divContent.appendChild(Label);
-                    divContent.innerHTML += item.Name;
+                    divContent.innerHTML += item.Name + numberOfChildren;
+                    
+                    
 
                     var ul = document.createElement("ul");
                     ul.className += "Container";
@@ -215,19 +219,7 @@ function ShowNumberOfCheckedChildren(node) {
 }
 
 
-function GetSelectedItems() {
-    var Root = document.getElementById("[]");
-    var Routes = [];
-    GetSelectedItemsRec(Root, Routes);
-    $.ajax("/Test/GetSelectedItems", {
-        data: { "data": JSON.stringify(Routes) },
-        success: function (data) {
-            alert("success");
-        },
-        error: errorFunc
-    });
-    alert(JSON.stringify(Routes));
-}
+
 function GetSelectedItemsRec(Node, SelectedItemsList) {
     if (!isNodeChecked(Node))
         return;
@@ -244,7 +236,27 @@ function GetSelectedItemsRec(Node, SelectedItemsList) {
     }
 }
 
-
+function GetSelectedItems() {
+    var Root = document.getElementById("[]");
+    var Routes = [];
+    GetSelectedItemsRec(Root, Routes);
+    $.ajax("/Test/GetSelectedItems", {
+        data: { "data": JSON.stringify(Routes) },
+        success: function (data) {
+            var table = document.getElementById("dataTable");
+            table.innerHTML = "";
+            var arrayLength = data.length;
+            $(data).each(function (index, element) {
+                var row = table.insertRow(index);
+                var indexSell = row.insertCell(0);
+                var dataSell = row.insertCell(1);
+                indexSell.innerHTML = index+1;
+                dataSell.innerHTML = element.data;
+            });
+        },
+        error: errorFunc
+    });
+}
 
 function hasClass(elem, className) {
     return new RegExp("(^|\\s)" + className + "(\\s|$)").test(elem.className)
