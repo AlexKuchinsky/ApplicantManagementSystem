@@ -160,13 +160,6 @@
     <Content Include="Models\LogsDatabase.edmx.diagram">
       <DependentUpon>LogsDatabase.edmx</DependentUpon>
     </Content>
-    <EntityDeploy Include="Models\UniversitiesDatabase.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>UniversitiesDatabase.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\UniversitiesDatabase.edmx.diagram">
-      <DependentUpon>UniversitiesDatabase.edmx</DependentUpon>
-    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Models\EntrantsDatabase.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -187,16 +180,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>LogsDatabase.edmx</DependentUpon>
       <LastGenOutput>LogsDatabase.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\UniversitiesDatabase.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>UniversitiesDatabase.edmx</DependentUpon>
-      <LastGenOutput>UniversitiesDatabase.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\UniversitiesDatabase.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>UniversitiesDatabase.edmx</DependentUpon>
-      <LastGenOutput>UniversitiesDatabase.cs</LastGenOutput>
     </Content>
     <Content Include="Pictures\closed.gif" />
     <Content Include="Pictures\document.gif" />
@@ -283,7 +266,7 @@
       <DependentUpon>LogsDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Faculty.cs">
-      <DependentUpon>UniversitiesDatabase.tt</DependentUpon>
+      <DependentUpon>EntrantsDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LogsBase.cs">
       <DependentUpon>LogsDatabase.tt</DependentUpon>
@@ -304,31 +287,13 @@
       <DependentUpon>LogsDatabase.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Speciality.cs">
-      <DependentUpon>UniversitiesDatabase.tt</DependentUpon>
+      <DependentUpon>EntrantsDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Subject.cs">
       <DependentUpon>EntrantsDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TestMark.cs">
-      <DependentUpon>EntrantsDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\UniversitiesDatabase.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UniversitiesDatabase.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\UniversitiesDatabase.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UniversitiesDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\UniversitiesDatabase.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UniversitiesDatabase.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Models\University.cs">
-      <DependentUpon>UniversitiesDatabase.tt</DependentUpon>
+      <DependentUpon>EntrantsDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="ObjectParser\ObjectWalker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

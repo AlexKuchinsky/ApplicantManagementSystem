@@ -239,23 +239,33 @@ function GetSelectedItemsRec(Node, SelectedItemsList) {
 function GetSelectedItems() {
     var Root = document.getElementById("[]");
     var Routes = [];
-    GetSelectedItemsRec(Root, Routes);
-    $.ajax("/Test/GetSelectedItems", {
-        data: { "data": JSON.stringify(Routes) },
-        success: function (data) {
-            var table = document.getElementById("dataTable");
-            table.innerHTML = "";
-            var arrayLength = data.length;
-            $(data).each(function (index, element) {
-                var row = table.insertRow(index);
-                var indexSell = row.insertCell(0);
-                var dataSell = row.insertCell(1);
-                indexSell.innerHTML = index+1;
-                dataSell.innerHTML = element.data;
-            });
-        },
-        error: errorFunc
-    });
+    if (!isNodeChecked(Root)) {
+        var table = document.getElementById("dataTable");
+        table.innerHTML = "";
+    }
+    else {
+        GetSelectedItemsRec(Root, Routes);
+        $.ajax("/Test/GetSelectedItems", {
+            data: { "data": JSON.stringify(Routes) },
+            success: function (data) {
+                var table = document.getElementById("dataTable");
+                table.innerHTML = "";
+                var arrayLength = data.length;
+                $(data).each(function (index, element) {
+                    var row = table.insertRow(index);
+                    var indexSell = row.insertCell(0);
+                    var dataSell = row.insertCell(1);
+                    indexSell.innerHTML = index + 1;
+                    dataSell.innerHTML = element.data;
+                });
+            },
+            error: errorFunc
+        });
+    }
+
+
+
+
 }
 
 function hasClass(elem, className) {

@@ -107,26 +107,57 @@ namespace EntrantsManagementSystem.ObjectParser
 
         // Get leafs' elements
     
-        public static List<object> GetSelectedItems<BottomType, OutputType>(object obj,List<List<int>> routes,Type bottomType, Func<BottomType, OutputType> miningFunction)
+        public static List<object> GetSelectedItems<BottomType, OutputType>(object obj,string data,Type bottomType, Func<BottomType, OutputType> miningFunction)
         {
+            List<string> string_routes = (List<string>)new JavaScriptSerializer().Deserialize(data, typeof(List<string>));
+            List<List<int>> routes = new List<List<int>>();
+            for (int i = 0; i < string_routes.Count; i++)
+                routes.Add((List<int>)new JavaScriptSerializer().Deserialize(string_routes[i], typeof(List<int>)));
+            if (routes.Count == 0)
+            {
+                return new List<object>();
+            }
+
             List<object> result = new List<object>();
-            foreach (List<int> route in routes)
-                GetSelectedItemsRecursion(obj, route, bottomType, result,miningFunction);
+            if (routes.Count!=0 & routes[0].Count != 0)
+            {
+                foreach (IGrouping<int, List<int>> rs in routes.GroupBy(r => r[0]))
+                {
+                    int first_element = rs.Key;
+                    RouteNode node = new RouteNode();
+                    node.Value = first_element;
+                    foreach (List<int> r in rs.Select(r => r.Skip(1).ToList()))
+                        ConstructRoute(r, node);
+                    GetSelectedItemsRecursion(obj, node, bottomType, result, miningFunction); 
+                }
+            }
+            else 
+                GetAllChidren(obj, bottomType, result, miningFunction);
+
             return result;               
         }
-        protected static void GetSelectedItemsRecursion<BottomType, OutputType>(object obj,List<int> route,Type bottomType,List<object> result, Func<BottomType, OutputType> miningFunction)
+        protected static void GetSelectedItemsRecursion<BottomType, OutputType>(object obj,RouteNode node, Type bottomType, List<object> result, Func<BottomType, OutputType> miningFunction)
         {
-            if (route.Count == 0)
-            {
-                GetAllChidren(obj, bottomType, result,miningFunction); 
-            }
-            else
-            {
-                int index = route[0];
+                int index = node.Value;
                 object newObj = GetOnPosition(obj, index);
-                GetSelectedItemsRecursion(newObj, route.Skip(1).ToList(), bottomType, result,miningFunction); 
-            }
+                if (node.Children.Count == 0)
+                    GetAllChidren(newObj, bottomType, result, miningFunction);
+                foreach (RouteNode child in node.Children)
+                GetSelectedItemsRecursion(newObj, child, bottomType, result, miningFunction);
         }
+        //protected static void GetSelectedItemsRecursion<BottomType, OutputType>(object obj,List<int> route,Type bottomType,List<object> result, Func<BottomType, OutputType> miningFunction)
+        //{
+        //    if (route.Count == 0)
+        //    {
+        //        GetAllChidren(obj, bottomType, result,miningFunction); 
+        //    }
+        //    else
+        //    {
+        //        int index = route[0];
+        //        object newObj = GetOnPosition(obj, index);
+        //        GetSelectedItemsRecursion(newObj, route.Skip(1).ToList(), bottomType, result,miningFunction); 
+        //    }
+        //}
         protected static void GetAllChidren<BottomType, OutputType>(object obj,Type bottomType,List<object> result, Func<BottomType, OutputType> miningFunction)
         {
             
@@ -154,5 +185,49 @@ namespace EntrantsManagementSystem.ObjectParser
                 }
             }
         }
+
+        // Constructing wise route
+        public class RouteNode
+        {
+            public int Value=-1;
+            public List<RouteNode> Children = new List<RouteNode>();
+        }
+        public static void ConstructRoute(List<int> route, RouteNode node)
+        {
+            if (route.Count == 0)
+            {
+                return; 
+            }
+            else
+            {
+                int FirstValue = route[0]; 
+                bool Found = false;
+                int i = 0; 
+                for(; i<node.Children.Count; i++)
+                {
+                    if (node.Children[i].Value == FirstValue)
+                    {
+                        Found = true;
+                        break;
+                    }
+                        
+                }
+                if (Found)
+                {
+                    ConstructRoute(route.Skip(1).ToList(), node.Children[i]);
+                }
+                else
+                {
+                    RouteNode newNode = new RouteNode();
+                    newNode.Value = FirstValue;
+                    node.Children.Add(newNode);
+                    ConstructRoute(route.Skip(1).ToList(), newNode); 
+                }
+            }
+
+        }
+
+        
     }
 }
+

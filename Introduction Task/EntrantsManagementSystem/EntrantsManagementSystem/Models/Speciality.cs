@@ -14,14 +14,22 @@ namespace EntrantsManagementSystem.Models
     
     public partial class Speciality
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Speciality()
+        {
+            this.Entrants = new HashSet<Entrant>();
+        }
+    
         public int SpecialityID { get; set; }
         public int FacultyID { get; set; }
         public string Title { get; set; }
-    
-        public virtual Faculty Faculty { get; set; }
+
         public override string ToString()
         {
-            return Title;
+            return Title; 
         }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Entrant> Entrants { get; set; }
+        public virtual Faculty Faculty { get; set; }
     }
 }

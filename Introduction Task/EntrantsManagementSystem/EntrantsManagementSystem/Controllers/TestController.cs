@@ -12,14 +12,14 @@ namespace EntrantsManagementSystem.Controllers
 {
     public class TestController : Controller
     {
-        public UniversitiesDatabaseEntities db { get; set; } = new UniversitiesDatabaseEntities();
 
+        static EntrantsDatabaseEntities db = new EntrantsDatabaseEntities();
         public class Root
         {
-            public UniversitiesDatabaseEntities udb = new UniversitiesDatabaseEntities();
+
             public EntrantsDatabaseEntities edb = new EntrantsDatabaseEntities();
 
-            public IEnumerable Universities => udb.Universities.ToList();
+            public IEnumerable Universities => db.Universities.ToList();
         }
         public Root root = new Root();
 
@@ -30,16 +30,6 @@ namespace EntrantsManagementSystem.Controllers
         }
         public ActionResult Tree()
         {
-            //List<List<int>> routes = new List<List<int>>();
-            //routes.Add(new List<int>(new int[] {0,0,0,0 }));
-            //routes.Add(new List<int>(new int[] {0,0,0,1 }));
-            //routes.Add(new List<int>(new int[] {0,0,1,0 }));
-            //routes.Add(new List<int>(new int[] {0,0,1,1 }));
-            //routes.Add(new List<int>(new int[] {0,1,0,0 }));
-            //routes.Add(new List<int>(new int[] {0,1,0,1 }));
-            //routes.Add(new List<int>(new int[] {0,1,0,2 }));
-
-            //ObjectWalker.GetSelectedItems<Speciality, object>((s) => { return null; }, routes);
             return View();
         }
 
@@ -64,17 +54,16 @@ namespace EntrantsManagementSystem.Controllers
         public JsonResult GetChildren(string route)
         {
             List<int> r = (List<int>)new JavaScriptSerializer().Deserialize(route, typeof(List<int>));
+            // Get children
             JsonResult result = Json(ObjectWalker.GetChildrenRecursion(root, r, r.ToList(),typeof(Entrant)), JsonRequestBehavior.AllowGet);
             return result; 
         }
         public JsonResult GetSelectedItems(string data)
         {
-            List<string> string_routes = (List<string>)new JavaScriptSerializer().Deserialize(data, typeof(List<string>));
-            List<List<int>> routes = new List<List<int>>();
-            for (int i = 0; i < string_routes.Count; i++)
-                routes.Add((List<int>)new JavaScriptSerializer().Deserialize(string_routes[i], typeof(List<int>)));
+            
+            // Get result
+            List<object> result = ObjectWalker.GetSelectedItems<Entrant,object>(root, data, typeof(Entrant),(e)=> new { data = e.Name+" "+e.Surname + " (id "+e.EntrantID+")" });
 
-            List<object> result = ObjectWalker.GetSelectedItems<Speciality,object>(root, routes, typeof(Speciality),(o)=> new { data = o.Title + " (id "+o.SpecialityID+")" });
             return Json(result,JsonRequestBehavior.AllowGet);
         }
         #endregion

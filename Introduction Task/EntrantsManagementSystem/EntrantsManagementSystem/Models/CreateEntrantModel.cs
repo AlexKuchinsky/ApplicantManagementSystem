@@ -9,12 +9,12 @@ namespace EntrantsManagementSystem.Models
     {
         public EntrantsDatabaseEntities db = new EntrantsDatabaseEntities();
         public override IList<CertificateMark> CertificateMarks { get; set; }
-        public override IList<TestMark> TestMarks { get; set; }
+        
 
         public CreateEntrantModel()
         {
             CertificateMarks = new List<CertificateMark>();
-            TestMarks = new List<TestMark>();
+
             List<Subject> Subjects = db.Subjects.ToList();
             foreach (Subject subject in Subjects)
             {
@@ -23,13 +23,10 @@ namespace EntrantsManagementSystem.Models
                     Subject = subject,
                     SubjectID = subject.SubjectID,
                 };
-                TestMark testMark = new TestMark()
-                {
-                    Subject = subject,
-                    SubjectID = subject.SubjectID,                    
-                };
+ 
+                
                 CertificateMarks.Add(certificateMark);
-                TestMarks.Add(testMark);
+   
             }
         }
     }

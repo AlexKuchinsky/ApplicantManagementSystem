@@ -23,12 +23,12 @@ namespace EntrantsManagementSystem.Models
         public int UniversityID { get; set; }
         public string Abbreviation { get; set; }
         public string FullName { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Faculty> Faculties { get; set; }
+
         public override string ToString()
         {
             return FullName;
         }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Faculty> Faculties { get; set; }
     }
 }

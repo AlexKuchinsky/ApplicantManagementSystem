@@ -4,19 +4,22 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3a6fa3827aba4008bacebd7b84edef66" Name="Diagram1">
-        <EntityTypeShape EntityType="EntrantsDatabaseModel.CertificateMark" Width="1.5" PointX="7.5" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EntrantsDatabaseModel.City" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="EntrantsDatabaseModel.Country" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="EntrantsDatabaseModel.Entrant" Width="1.5" PointX="5.25" PointY="3.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="EntrantsDatabaseModel.Subject" Width="1.5" PointX="5.25" PointY="7.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="EntrantsDatabaseModel.TestMark" Width="1.5" PointX="7.5" PointY="0.75" IsExpanded="true" />
+      <Diagram DiagramId="e073357c0bed41da8cefe70305335afb" Name="Diagram1">
+        <EntityTypeShape EntityType="EntrantsDatabaseModel.CertificateMark" Width="1.5" PointX="9.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EntrantsDatabaseModel.City" Width="1.5" PointX="5.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EntrantsDatabaseModel.Country" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="EntrantsDatabaseModel.Entrant" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="EntrantsDatabaseModel.Faculty" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EntrantsDatabaseModel.Speciality" Width="1.5" PointX="5.25" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EntrantsDatabaseModel.Subject" Width="1.5" PointX="7.5" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="EntrantsDatabaseModel.University" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
         <AssociationConnector Association="EntrantsDatabaseModel.FK_CertificateMarks_Entrants" ManuallyRouted="false" />
         <AssociationConnector Association="EntrantsDatabaseModel.FK_CertificateMarks_Subject" ManuallyRouted="false" />
         <AssociationConnector Association="EntrantsDatabaseModel.FK_Cities_Countries" ManuallyRouted="false" />
         <AssociationConnector Association="EntrantsDatabaseModel.FK_Entrants_Cities" ManuallyRouted="false" />
-        <AssociationConnector Association="EntrantsDatabaseModel.FK_TestMarks_Entrants" ManuallyRouted="false" />
-        <AssociationConnector Association="EntrantsDatabaseModel.FK_TestMarks_Subject" ManuallyRouted="false" />
+        <AssociationConnector Association="EntrantsDatabaseModel.FK_Entrants_Spcialities" ManuallyRouted="false" />
+        <AssociationConnector Association="EntrantsDatabaseModel.FK_Faculties_Universities" ManuallyRouted="false" />
+        <AssociationConnector Association="EntrantsDatabaseModel.FK_Specialities_Faculties" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

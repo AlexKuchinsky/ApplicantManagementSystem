@@ -27,9 +27,10 @@ namespace EntrantsManagementSystem.Models
         public virtual University University { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Speciality> Specialities { get; set; }
+
         public override string ToString()
         {
-            return Title;
+            return Title; 
         }
     }
 }

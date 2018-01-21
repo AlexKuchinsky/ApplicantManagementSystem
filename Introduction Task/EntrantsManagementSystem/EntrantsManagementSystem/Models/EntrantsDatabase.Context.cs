@@ -29,7 +29,9 @@ namespace EntrantsManagementSystem.Models
         public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Entrant> Entrants { get; set; }
+        public virtual DbSet<Faculty> Faculties { get; set; }
+        public virtual DbSet<Speciality> Specialities { get; set; }
         public virtual DbSet<Subject> Subjects { get; set; }
-        public virtual DbSet<TestMark> TestMarks { get; set; }
+        public virtual DbSet<University> Universities { get; set; }
     }
 }

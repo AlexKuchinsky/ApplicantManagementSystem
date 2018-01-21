@@ -18,7 +18,6 @@ namespace EntrantsManagementSystem.Models
         public Subject()
         {
             this.CertificateMarks = new HashSet<CertificateMark>();
-            this.TestMarks = new HashSet<TestMark>();
         }
     
         public int SubjectID { get; set; }
@@ -26,7 +25,5 @@ namespace EntrantsManagementSystem.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CertificateMark> CertificateMarks { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TestMark> TestMarks { get; set; }
     }
 }

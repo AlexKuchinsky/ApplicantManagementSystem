@@ -42,6 +42,23 @@
           <Property Name="House" Type="int" Nullable="false" />
           <Property Name="Entrance" Type="int" />
           <Property Name="Flat" Type="int" Nullable="false" />
+          <Property Name="SpecialityID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Faculties">
+          <Key>
+            <PropertyRef Name="FacultyID" />
+          </Key>
+          <Property Name="FacultyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UniversityID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Specialities">
+          <Key>
+            <PropertyRef Name="SpecialityID" />
+          </Key>
+          <Property Name="SpecialityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FacultyID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Subjects">
           <Key>
@@ -50,14 +67,13 @@
           <Property Name="SubjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="30" Nullable="false" />
         </EntityType>
-        <EntityType Name="TestMarks">
+        <EntityType Name="Universities">
           <Key>
-            <PropertyRef Name="TestMarkID" />
+            <PropertyRef Name="UniversityID" />
           </Key>
-          <Property Name="TestMarkID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="EntrantID" Type="int" Nullable="false" />
-          <Property Name="SubjectID" Type="int" Nullable="false" />
-          <Property Name="Mark" Type="int" Nullable="false" />
+          <Property Name="UniversityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Abbreviation" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <Association Name="FK_CertificateMarks_Entrants">
           <End Role="Entrants" Type="Self.Entrants" Multiplicity="1">
@@ -113,31 +129,43 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TestMarks_Entrants">
-          <End Role="Entrants" Type="Self.Entrants" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="TestMarks" Type="Self.TestMarks" Multiplicity="*" />
+        <Association Name="FK_Entrants_Spcialities">
+          <End Role="Specialities" Type="Self.Specialities" Multiplicity="1" />
+          <End Role="Entrants" Type="Self.Entrants" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Entrants">
-              <PropertyRef Name="EntrantID" />
+            <Principal Role="Specialities">
+              <PropertyRef Name="SpecialityID" />
             </Principal>
-            <Dependent Role="TestMarks">
-              <PropertyRef Name="EntrantID" />
+            <Dependent Role="Entrants">
+              <PropertyRef Name="SpecialityID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TestMarks_Subject">
-          <End Role="Subjects" Type="Self.Subjects" Multiplicity="1">
+        <Association Name="FK_Faculties_Universities">
+          <End Role="Universities" Type="Self.Universities" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="TestMarks" Type="Self.TestMarks" Multiplicity="*" />
+          <End Role="Faculties" Type="Self.Faculties" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Subjects">
-              <PropertyRef Name="SubjectID" />
+            <Principal Role="Universities">
+              <PropertyRef Name="UniversityID" />
             </Principal>
-            <Dependent Role="TestMarks">
-              <PropertyRef Name="SubjectID" />
+            <Dependent Role="Faculties">
+              <PropertyRef Name="UniversityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Specialities_Faculties">
+          <End Role="Faculties" Type="Self.Faculties" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Specialities" Type="Self.Specialities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Faculties">
+              <PropertyRef Name="FacultyID" />
+            </Principal>
+            <Dependent Role="Specialities">
+              <PropertyRef Name="FacultyID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -146,8 +174,10 @@
           <EntitySet Name="Cities" EntityType="Self.Cities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Countries" EntityType="Self.Countries" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Entrants" EntityType="Self.Entrants" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Faculties" EntityType="Self.Faculties" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Specialities" EntityType="Self.Specialities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subjects" EntityType="Self.Subjects" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TestMarks" EntityType="Self.TestMarks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Universities" EntityType="Self.Universities" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CertificateMarks_Entrants" Association="Self.FK_CertificateMarks_Entrants">
             <End Role="Entrants" EntitySet="Entrants" />
             <End Role="CertificateMarks" EntitySet="CertificateMarks" />
@@ -164,13 +194,17 @@
             <End Role="Cities" EntitySet="Cities" />
             <End Role="Entrants" EntitySet="Entrants" />
           </AssociationSet>
-          <AssociationSet Name="FK_TestMarks_Entrants" Association="Self.FK_TestMarks_Entrants">
+          <AssociationSet Name="FK_Entrants_Spcialities" Association="Self.FK_Entrants_Spcialities">
+            <End Role="Specialities" EntitySet="Specialities" />
             <End Role="Entrants" EntitySet="Entrants" />
-            <End Role="TestMarks" EntitySet="TestMarks" />
           </AssociationSet>
-          <AssociationSet Name="FK_TestMarks_Subject" Association="Self.FK_TestMarks_Subject">
-            <End Role="Subjects" EntitySet="Subjects" />
-            <End Role="TestMarks" EntitySet="TestMarks" />
+          <AssociationSet Name="FK_Faculties_Universities" Association="Self.FK_Faculties_Universities">
+            <End Role="Universities" EntitySet="Universities" />
+            <End Role="Faculties" EntitySet="Faculties" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Specialities_Faculties" Association="Self.FK_Specialities_Faculties">
+            <End Role="Faculties" EntitySet="Faculties" />
+            <End Role="Specialities" EntitySet="Specialities" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -220,9 +254,30 @@
           <Property Name="House" Type="Int32" Nullable="false" />
           <Property Name="Entrance" Type="Int32" />
           <Property Name="Flat" Type="Int32" Nullable="false" />
+          <Property Name="SpecialityID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="CertificateMarks" Relationship="Self.FK_CertificateMarks_Entrants" FromRole="Entrants" ToRole="CertificateMarks" />
           <NavigationProperty Name="City" Relationship="Self.FK_Entrants_Cities" FromRole="Entrants" ToRole="Cities" />
-          <NavigationProperty Name="TestMarks" Relationship="Self.FK_TestMarks_Entrants" FromRole="Entrants" ToRole="TestMarks" />
+          <NavigationProperty Name="Speciality" Relationship="Self.FK_Entrants_Spcialities" FromRole="Entrants" ToRole="Specialities" />
+        </EntityType>
+        <EntityType Name="Faculty">
+          <Key>
+            <PropertyRef Name="FacultyID" />
+          </Key>
+          <Property Name="FacultyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UniversityID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="University" Relationship="Self.FK_Faculties_Universities" FromRole="Faculties" ToRole="Universities" />
+          <NavigationProperty Name="Specialities" Relationship="Self.FK_Specialities_Faculties" FromRole="Faculties" ToRole="Specialities" />
+        </EntityType>
+        <EntityType Name="Speciality">
+          <Key>
+            <PropertyRef Name="SpecialityID" />
+          </Key>
+          <Property Name="SpecialityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FacultyID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Entrants" Relationship="Self.FK_Entrants_Spcialities" FromRole="Specialities" ToRole="Entrants" />
+          <NavigationProperty Name="Faculty" Relationship="Self.FK_Specialities_Faculties" FromRole="Specialities" ToRole="Faculties" />
         </EntityType>
         <EntityType Name="Subject">
           <Key>
@@ -231,18 +286,15 @@
           <Property Name="SubjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="CertificateMarks" Relationship="Self.FK_CertificateMarks_Subject" FromRole="Subjects" ToRole="CertificateMarks" />
-          <NavigationProperty Name="TestMarks" Relationship="Self.FK_TestMarks_Subject" FromRole="Subjects" ToRole="TestMarks" />
         </EntityType>
-        <EntityType Name="TestMark">
+        <EntityType Name="University">
           <Key>
-            <PropertyRef Name="TestMarkID" />
+            <PropertyRef Name="UniversityID" />
           </Key>
-          <Property Name="TestMarkID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EntrantID" Type="Int32" Nullable="false" />
-          <Property Name="SubjectID" Type="Int32" Nullable="false" />
-          <Property Name="Mark" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Entrant" Relationship="Self.FK_TestMarks_Entrants" FromRole="TestMarks" ToRole="Entrants" />
-          <NavigationProperty Name="Subject" Relationship="Self.FK_TestMarks_Subject" FromRole="TestMarks" ToRole="Subjects" />
+          <Property Name="UniversityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Abbreviation" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Faculties" Relationship="Self.FK_Faculties_Universities" FromRole="Universities" ToRole="Faculties" />
         </EntityType>
         <Association Name="FK_CertificateMarks_Entrants">
           <End Role="Entrants" Type="Self.Entrant" Multiplicity="1">
@@ -298,31 +350,43 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TestMarks_Entrants">
-          <End Role="Entrants" Type="Self.Entrant" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="TestMarks" Type="Self.TestMark" Multiplicity="*" />
+        <Association Name="FK_Entrants_Spcialities">
+          <End Role="Specialities" Type="Self.Speciality" Multiplicity="1" />
+          <End Role="Entrants" Type="Self.Entrant" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Entrants">
-              <PropertyRef Name="EntrantID" />
+            <Principal Role="Specialities">
+              <PropertyRef Name="SpecialityID" />
             </Principal>
-            <Dependent Role="TestMarks">
-              <PropertyRef Name="EntrantID" />
+            <Dependent Role="Entrants">
+              <PropertyRef Name="SpecialityID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TestMarks_Subject">
-          <End Role="Subjects" Type="Self.Subject" Multiplicity="1">
+        <Association Name="FK_Faculties_Universities">
+          <End Role="Universities" Type="Self.University" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="TestMarks" Type="Self.TestMark" Multiplicity="*" />
+          <End Role="Faculties" Type="Self.Faculty" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Subjects">
-              <PropertyRef Name="SubjectID" />
+            <Principal Role="Universities">
+              <PropertyRef Name="UniversityID" />
             </Principal>
-            <Dependent Role="TestMarks">
-              <PropertyRef Name="SubjectID" />
+            <Dependent Role="Faculties">
+              <PropertyRef Name="UniversityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Specialities_Faculties">
+          <End Role="Faculties" Type="Self.Faculty" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Specialities" Type="Self.Speciality" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Faculties">
+              <PropertyRef Name="FacultyID" />
+            </Principal>
+            <Dependent Role="Specialities">
+              <PropertyRef Name="FacultyID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -331,8 +395,10 @@
           <EntitySet Name="Cities" EntityType="Self.City" />
           <EntitySet Name="Countries" EntityType="Self.Country" />
           <EntitySet Name="Entrants" EntityType="Self.Entrant" />
+          <EntitySet Name="Faculties" EntityType="Self.Faculty" />
+          <EntitySet Name="Specialities" EntityType="Self.Speciality" />
           <EntitySet Name="Subjects" EntityType="Self.Subject" />
-          <EntitySet Name="TestMarks" EntityType="Self.TestMark" />
+          <EntitySet Name="Universities" EntityType="Self.University" />
           <AssociationSet Name="FK_CertificateMarks_Entrants" Association="Self.FK_CertificateMarks_Entrants">
             <End Role="Entrants" EntitySet="Entrants" />
             <End Role="CertificateMarks" EntitySet="CertificateMarks" />
@@ -349,13 +415,17 @@
             <End Role="Cities" EntitySet="Cities" />
             <End Role="Entrants" EntitySet="Entrants" />
           </AssociationSet>
-          <AssociationSet Name="FK_TestMarks_Entrants" Association="Self.FK_TestMarks_Entrants">
+          <AssociationSet Name="FK_Entrants_Spcialities" Association="Self.FK_Entrants_Spcialities">
+            <End Role="Specialities" EntitySet="Specialities" />
             <End Role="Entrants" EntitySet="Entrants" />
-            <End Role="TestMarks" EntitySet="TestMarks" />
           </AssociationSet>
-          <AssociationSet Name="FK_TestMarks_Subject" Association="Self.FK_TestMarks_Subject">
-            <End Role="Subjects" EntitySet="Subjects" />
-            <End Role="TestMarks" EntitySet="TestMarks" />
+          <AssociationSet Name="FK_Faculties_Universities" Association="Self.FK_Faculties_Universities">
+            <End Role="Universities" EntitySet="Universities" />
+            <End Role="Faculties" EntitySet="Faculties" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Specialities_Faculties" Association="Self.FK_Specialities_Faculties">
+            <End Role="Faculties" EntitySet="Faculties" />
+            <End Role="Specialities" EntitySet="Specialities" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -403,6 +473,25 @@
                 <ScalarProperty Name="House" ColumnName="House" />
                 <ScalarProperty Name="Entrance" ColumnName="Entrance" />
                 <ScalarProperty Name="Flat" ColumnName="Flat" />
+                <ScalarProperty Name="SpecialityID" ColumnName="SpecialityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Faculties">
+            <EntityTypeMapping TypeName="EntrantsDatabaseModel.Faculty">
+              <MappingFragment StoreEntitySet="Faculties">
+                <ScalarProperty Name="FacultyID" ColumnName="FacultyID" />
+                <ScalarProperty Name="UniversityID" ColumnName="UniversityID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Specialities">
+            <EntityTypeMapping TypeName="EntrantsDatabaseModel.Speciality">
+              <MappingFragment StoreEntitySet="Specialities">
+                <ScalarProperty Name="SpecialityID" ColumnName="SpecialityID" />
+                <ScalarProperty Name="FacultyID" ColumnName="FacultyID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -414,13 +503,12 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TestMarks">
-            <EntityTypeMapping TypeName="EntrantsDatabaseModel.TestMark">
-              <MappingFragment StoreEntitySet="TestMarks">
-                <ScalarProperty Name="TestMarkID" ColumnName="TestMarkID" />
-                <ScalarProperty Name="EntrantID" ColumnName="EntrantID" />
-                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
-                <ScalarProperty Name="Mark" ColumnName="Mark" />
+          <EntitySetMapping Name="Universities">
+            <EntityTypeMapping TypeName="EntrantsDatabaseModel.University">
+              <MappingFragment StoreEntitySet="Universities">
+                <ScalarProperty Name="UniversityID" ColumnName="UniversityID" />
+                <ScalarProperty Name="Abbreviation" ColumnName="Abbreviation" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
