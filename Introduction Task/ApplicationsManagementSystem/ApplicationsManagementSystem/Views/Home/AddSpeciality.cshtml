@@ -1,0 +1,20 @@
+﻿@model ApplicationsManagementSystem.Models.UniversitySpeciality
+@{
+    ViewBag.Title = "AddSpeciality";
+}
+
+<p>
+    <br/>
+    <b>
+        @Model.Speciality.Title
+    </b>
+</p>
+@Html.DropDownList("Available exams",new SelectList(Model.SpecialityTestOption.ProfileSubjectsGroups.Select(s=>s.SpecialitySubject.Subject.Title+"("+s.SpecialitySubject.MinScore.Score+")")))
+@Html.DropDownList("Available exams", new SelectList(Model.SpecialityTestOption.OptionalSubjectsGroups.Select(g=> g.SpecialitySubject.Subject.Title + "(" + g.SpecialitySubject.MinScore.Score + ")")))
+@Html.DropDownList("FormOfStudy",new SelectList(Model.StudyFormOption.IntermediateStudyFormOptions.Select(isfo=>isfo.StudyFormType.Description)))
+@Html.DropDownList("FormOfPayment",new SelectList(Model.PaymentOption.IntermediatePaymentOptions.Select(ipo=>ipo.PaymentType.Description)))
+
+
+
+
+

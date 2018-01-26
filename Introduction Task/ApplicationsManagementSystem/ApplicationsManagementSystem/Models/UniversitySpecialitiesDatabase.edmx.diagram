@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="51159655fd9c470f948173746d34b90b" Name="Diagram1">
+        <EntityTypeShape EntityType="UniversitySpecialtiesDatabaseModel.Application" Width="1.5" PointX="10.25" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversitySpecialtiesDatabaseModel.Color" Width="1.5" PointX="3.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversitySpecialtiesDatabaseModel.GroupFriendship" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversitySpecialtiesDatabaseModel.Group" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversitySpecialtiesDatabaseModel.IntermediatePaymentOption" Width="1.5" PointX="9" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversitySpecialtiesDatabaseModel.IntermediateStudyFormOption" Width="1.5" PointX="12.5" PointY="22.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversitySpecialtiesDatabaseModel.MinScore" Width="1.5" PointX="5.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversitySpecialtiesDatabaseModel.OptionalSubjectsGroup" Width="1.5" PointX="10.25" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversitySpecialtiesDatabaseModel.PaymentOption" Width="1.5" PointX="3.75" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversitySpecialtiesDatabaseModel.PaymentType" Width="1.5" PointX="6.75" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversitySpecialtiesDatabaseModel.ProfileSubjectsGroup" Width="1.5" PointX="10.25" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversitySpecialtiesDatabaseModel.Speciality" Width="1.5" PointX="3.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversitySpecialtiesDatabaseModel.SpecialityApplication" Width="1.5" PointX="12.5" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversitySpecialtiesDatabaseModel.SpecialityCapacityTable" Width="1.5" PointX="3.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversitySpecialtiesDatabaseModel.SpecialitySubject" Width="1.5" PointX="8" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversitySpecialtiesDatabaseModel.SpecialityTestOption" Width="1.5" PointX="3.75" PointY="20" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversitySpecialtiesDatabaseModel.StudyFormOption" Width="1.5" PointX="3.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversitySpecialtiesDatabaseModel.StudyFormType" Width="1.5" PointX="10.25" PointY="22.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversitySpecialtiesDatabaseModel.Subject" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversitySpecialtiesDatabaseModel.UniversitySpeciality" Width="1.5" PointX="6" PointY="4" IsExpanded="true" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_SpecialityApplications_Applications" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_UniversitySpecialities_Colors" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_GroupFriednships_Groups" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_GroupFriednships_Groups_accesible_group" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_UniversitySpecialities_Groups" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_IntermediatePaymentOptions_PaymentOptions" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_IntermediatePaymentOptions_PaymentTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_IntermediateStudyFormOptions_StudyFormOptions" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_IntermediateStudyFormOptions_StudyFormTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_SpecialitySubjects_MinScores" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_OptionalSubjectsGroups_SpecialitySubjects" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_OptionalSubjectsGroups_SpecialityTestOptions" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_UniversitySpecialities_PaymentOptions" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_ProfileSubjectsGroups_SpecialitySubjects" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_ProfileSubjectsGroups_SpecialityTestOptions" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_SpecialityApplications_ProfileSubjectsGroups" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_SpecialityApplications_Specialities" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_UniversitySpecialities_Specialities" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_SpecialityApplications_SpecialitySubjects" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_SpecialityApplications_StudyFormTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_UniversitySpecialities_SpecialityCapacityTable" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_SpecialitySubjects_Subjects" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_UniversitySpecialities_SpecialityTestOptions" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversitySpecialtiesDatabaseModel.FK_UniversitySpecialities_StudyFormOptions" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
