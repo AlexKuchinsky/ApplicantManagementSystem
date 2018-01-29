@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="975ac88d0ca44871a5c100efa20efb06" Name="Diagram1">
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.Application" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.Color" Width="1.5" PointX="0.75" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.DurationType" Width="1.5" PointX="0.75" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.GroupedSpeciality" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.GroupFriendship" Width="1.5" PointX="3" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.Group" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.MinScore" Width="1.5" PointX="7.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.OptionalSubjectsGroup" Width="1.5" PointX="12.25" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.PaymentType" Width="1.5" PointX="0.75" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.ProfileSubjectsGroup" Width="1.5" PointX="12.25" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.Speciality" Width="1.5" PointX="0.75" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.SpecialityApplication" Width="1.5" PointX="5.25" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.SpecialityCapacity" Width="1.5" PointX="0.75" PointY="19.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.SpecialitySubject" Width="1.5" PointX="10" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.SpecialityTestOption" Width="1.5" PointX="0.75" PointY="22.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.StudyFormType" Width="1.5" PointX="0.75" PointY="25.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.Subject" Width="1.5" PointX="7.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.User" Width="1.5" PointX="0.75" PointY="2.625" IsExpanded="true" />
+        <AssociationConnector Association="SpecialitiesDatabaseModel.FK_applications_users" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecialitiesDatabaseModel.FK_Appls_paytypes" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecialitiesDatabaseModel.FK_SpecApps_Apps" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecialitiesDatabaseModel.FK_grSpe_colors" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecialitiesDatabaseModel.FK_grSpe_durationTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecialitiesDatabaseModel.FK_grSpe_capacity" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecialitiesDatabaseModel.FK_grSpe_Gruops" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecialitiesDatabaseModel.FK_grSpe_Payments" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecialitiesDatabaseModel.FK_grSpe_specialities" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecialitiesDatabaseModel.FK_grSpe_specTestopt" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecialitiesDatabaseModel.FK_grSpe_studyfors" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecialitiesDatabaseModel.FK_SpecApp_GroupSpec" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecialitiesDatabaseModel.FK_GropFr_Group" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecialitiesDatabaseModel.FK_GropFr_Group2" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecialitiesDatabaseModel.FK_SpSub_MinScore" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecialitiesDatabaseModel.FK_OptSubG_specTestOpt" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecialitiesDatabaseModel.oprt_sub_gr" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecialitiesDatabaseModel.FK_ProfSubG_specTestOpt" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecialitiesDatabaseModel.FK_ProfSubG_SpeSub" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecialitiesDatabaseModel.FK_SpSub_Sub" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -15,16 +15,11 @@ namespace ApplicationsManagementSystem.Models
     public partial class SpecialityApplication
     {
         public int SpecialityApplicationID { get; set; }
-        public int SpecialityID { get; set; }
         public int ApplicationID { get; set; }
-        public int StudyFormTypeID { get; set; }
-        public int ProfileSubjectsGroupID { get; set; }
-        public Nullable<int> OptionalSubjectID { get; set; }
+        public int GroupedSpecialityID { get; set; }
+        public int Priority { get; set; }
     
         public virtual Application Application { get; set; }
-        public virtual ProfileSubjectsGroup ProfileSubjectsGroup { get; set; }
-        public virtual Speciality Speciality { get; set; }
-        public virtual SpecialitySubject SpecialitySubject { get; set; }
-        public virtual StudyFormType StudyFormType { get; set; }
+        public virtual GroupedSpeciality GroupedSpeciality { get; set; }
     }
 }

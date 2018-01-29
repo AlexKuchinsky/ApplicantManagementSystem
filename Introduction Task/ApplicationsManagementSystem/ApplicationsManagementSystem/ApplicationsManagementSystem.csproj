@@ -102,21 +102,30 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Models\UniversitySpecialitiesDatabase.Context.tt">
+    <Content Include="Models\SpecialitiesDatabase.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>UniversitySpecialitiesDatabase.Context.cs</LastGenOutput>
-      <DependentUpon>UniversitySpecialitiesDatabase.edmx</DependentUpon>
+      <DependentUpon>SpecialitiesDatabase.edmx</DependentUpon>
+      <LastGenOutput>SpecialitiesDatabase.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\UniversitySpecialitiesDatabase.tt">
+    <Content Include="Models\SpecialitiesDatabase.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>UniversitySpecialitiesDatabase.edmx</DependentUpon>
-      <LastGenOutput>UniversitySpecialitiesDatabase.cs</LastGenOutput>
+      <DependentUpon>SpecialitiesDatabase.edmx</DependentUpon>
+      <LastGenOutput>SpecialitiesDatabase.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <EntityDeploy Include="Models\SpecialitiesDatabase.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SpecialitiesDatabase.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\SpecialitiesDatabase.edmx.diagram">
+      <DependentUpon>SpecialitiesDatabase.edmx</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Web.config" />
     <Content Include="Views\Home\AddSpeciality.cshtml" />
@@ -127,92 +136,83 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AddSpecialityModel.cs" />
+    <Compile Include="Models\AddedGruopedSpecilityID.cs" />
     <Compile Include="Models\Application.cs">
-      <DependentUpon>UniversitySpecialitiesDatabase.tt</DependentUpon>
+      <DependentUpon>SpecialitiesDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Color.cs">
-      <DependentUpon>UniversitySpecialitiesDatabase.tt</DependentUpon>
+      <DependentUpon>SpecialitiesDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DurationType.cs">
+      <DependentUpon>SpecialitiesDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Group.cs">
-      <DependentUpon>UniversitySpecialitiesDatabase.tt</DependentUpon>
+      <DependentUpon>SpecialitiesDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GroupedSpeciality.cs">
+      <DependentUpon>SpecialitiesDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GroupFriendship.cs">
-      <DependentUpon>UniversitySpecialitiesDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\IntermediatePaymentOption.cs">
-      <DependentUpon>UniversitySpecialitiesDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\IntermediateStudyFormOption.cs">
-      <DependentUpon>UniversitySpecialitiesDatabase.tt</DependentUpon>
+      <DependentUpon>SpecialitiesDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MinScore.cs">
-      <DependentUpon>UniversitySpecialitiesDatabase.tt</DependentUpon>
+      <DependentUpon>SpecialitiesDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OptionalSubjectsGroup.cs">
-      <DependentUpon>UniversitySpecialitiesDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\PaymentOption.cs">
-      <DependentUpon>UniversitySpecialitiesDatabase.tt</DependentUpon>
+      <DependentUpon>SpecialitiesDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PaymentType.cs">
-      <DependentUpon>UniversitySpecialitiesDatabase.tt</DependentUpon>
+      <DependentUpon>SpecialitiesDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProfileSubjectsGroup.cs">
-      <DependentUpon>UniversitySpecialitiesDatabase.tt</DependentUpon>
+      <DependentUpon>SpecialitiesDatabase.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SpecialitiesDatabase.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SpecialitiesDatabase.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SpecialitiesDatabase.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SpecialitiesDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SpecialitiesDatabase.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SpecialitiesDatabase.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SpecialitiesListModel.cs" />
     <Compile Include="Models\Speciality.cs">
-      <DependentUpon>UniversitySpecialitiesDatabase.tt</DependentUpon>
+      <DependentUpon>SpecialitiesDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SpecialityApplication.cs">
-      <DependentUpon>UniversitySpecialitiesDatabase.tt</DependentUpon>
+      <DependentUpon>SpecialitiesDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SpecialityCapacityTable.cs">
-      <DependentUpon>UniversitySpecialitiesDatabase.tt</DependentUpon>
+    <Compile Include="Models\SpecialityCapacity.cs">
+      <DependentUpon>SpecialitiesDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SpecialitySubject.cs">
-      <DependentUpon>UniversitySpecialitiesDatabase.tt</DependentUpon>
+      <DependentUpon>SpecialitiesDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SpecialityTestOption.cs">
-      <DependentUpon>UniversitySpecialitiesDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\StudyFormOption.cs">
-      <DependentUpon>UniversitySpecialitiesDatabase.tt</DependentUpon>
+      <DependentUpon>SpecialitiesDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\StudyFormType.cs">
-      <DependentUpon>UniversitySpecialitiesDatabase.tt</DependentUpon>
+      <DependentUpon>SpecialitiesDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Subject.cs">
-      <DependentUpon>UniversitySpecialitiesDatabase.tt</DependentUpon>
+      <DependentUpon>SpecialitiesDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\UniversitySpecialitiesDatabase.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UniversitySpecialitiesDatabase.Context.tt</DependentUpon>
+    <Compile Include="Models\User.cs">
+      <DependentUpon>SpecialitiesDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\UniversitySpecialitiesDatabase.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UniversitySpecialitiesDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\UniversitySpecialitiesDatabase.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UniversitySpecialitiesDatabase.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\UniversitySpeciality.cs">
-      <DependentUpon>UniversitySpecialitiesDatabase.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\UserPageModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
-    <EntityDeploy Include="Models\UniversitySpecialitiesDatabase.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>UniversitySpecialitiesDatabase.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\UniversitySpecialitiesDatabase.edmx.diagram">
-      <DependentUpon>UniversitySpecialitiesDatabase.edmx</DependentUpon>
-    </Content>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
@@ -220,7 +220,10 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Home\SpecialitiesList.cshtml" />
+    <Content Include="Views\Home\UserMenu.cshtml" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

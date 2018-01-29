@@ -12,23 +12,18 @@ namespace ApplicationsManagementSystem.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SpecialityCapacityTable
+    public partial class DurationType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public SpecialityCapacityTable()
+        public DurationType()
         {
-            this.UniversitySpecialities = new HashSet<UniversitySpeciality>();
+            this.GroupedSpecialities = new HashSet<GroupedSpeciality>();
         }
     
-        public int SpecialityCapacityID { get; set; }
-        public int TotalNumberOfPlaces { get; set; }
-        public int TotalNumberOfPaidPlaces { get; set; }
-        public int TotalNumberOfFreePayingPlaces { get; set; }
-        public int CurrnetNumberOfPlaces { get; set; }
-        public int CurrentNumberOfPaidPlaces { get; set; }
-        public int CureentNumberOfFreePayingPlaces { get; set; }
+        public int DurationTypeID { get; set; }
+        public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UniversitySpeciality> UniversitySpecialities { get; set; }
+        public virtual ICollection<GroupedSpeciality> GroupedSpecialities { get; set; }
     }
 }

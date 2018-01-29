@@ -12,21 +12,20 @@ namespace ApplicationsManagementSystem.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PaymentOption
+    public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PaymentOption()
+        public User()
         {
-            this.IntermediatePaymentOptions = new HashSet<IntermediatePaymentOption>();
-            this.UniversitySpecialities = new HashSet<UniversitySpeciality>();
+            this.Applications = new HashSet<Application>();
         }
     
-        public int PaymentOptionID { get; set; }
-        public string Description { get; set; }
+        public int UserID { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Patronumic { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<IntermediatePaymentOption> IntermediatePaymentOptions { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UniversitySpeciality> UniversitySpecialities { get; set; }
+        public virtual ICollection<Application> Applications { get; set; }
     }
 }

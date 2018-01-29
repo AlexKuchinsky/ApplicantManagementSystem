@@ -19,20 +19,17 @@ namespace ApplicationsManagementSystem.Models
         {
             this.OptionalSubjectsGroups = new HashSet<OptionalSubjectsGroup>();
             this.ProfileSubjectsGroups = new HashSet<ProfileSubjectsGroup>();
-            this.SpecialityApplications = new HashSet<SpecialityApplication>();
         }
     
         public int SpecialitySubjectID { get; set; }
         public int SubjectID { get; set; }
-        public int MinScoreID { get; set; }
+        public Nullable<int> MinScoreID { get; set; }
     
         public virtual MinScore MinScore { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OptionalSubjectsGroup> OptionalSubjectsGroups { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProfileSubjectsGroup> ProfileSubjectsGroups { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SpecialityApplication> SpecialityApplications { get; set; }
         public virtual Subject Subject { get; set; }
     }
 }

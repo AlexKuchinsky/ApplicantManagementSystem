@@ -17,8 +17,7 @@ namespace ApplicationsManagementSystem.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Speciality()
         {
-            this.SpecialityApplications = new HashSet<SpecialityApplication>();
-            this.UniversitySpecialities = new HashSet<UniversitySpeciality>();
+            this.GroupedSpecialities = new HashSet<GroupedSpeciality>();
         }
     
         public int SpecialityID { get; set; }
@@ -27,8 +26,6 @@ namespace ApplicationsManagementSystem.Models
         public string Qualification { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SpecialityApplication> SpecialityApplications { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UniversitySpeciality> UniversitySpecialities { get; set; }
+        public virtual ICollection<GroupedSpeciality> GroupedSpecialities { get; set; }
     }
 }

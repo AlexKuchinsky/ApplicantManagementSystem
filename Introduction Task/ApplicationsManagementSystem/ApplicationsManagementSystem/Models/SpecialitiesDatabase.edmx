@@ -1,0 +1,1233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SpecialitiesDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Applications">
+          <Key>
+            <PropertyRef Name="ApplicationID" />
+          </Key>
+          <Property Name="ApplicationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaymentTypeID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="Submitted" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Colors">
+          <Key>
+            <PropertyRef Name="ColorID" />
+          </Key>
+          <Property Name="ColorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RGB" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DurationTypes">
+          <Key>
+            <PropertyRef Name="DurationTypeID" />
+          </Key>
+          <Property Name="DurationTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GroupedSpecialities">
+          <Key>
+            <PropertyRef Name="GroupedSpecialityID" />
+          </Key>
+          <Property Name="GroupedSpecialityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupID" Type="int" Nullable="false" />
+          <Property Name="SpecialityID" Type="int" Nullable="false" />
+          <Property Name="StartDate" Type="date" Nullable="false" />
+          <Property Name="ExpiringDate" Type="date" Nullable="false" />
+          <Property Name="PaymentTypeID" Type="int" Nullable="false" />
+          <Property Name="DurationTypeID" Type="int" Nullable="false" />
+          <Property Name="StudyFormTypeID" Type="int" Nullable="false" />
+          <Property Name="SpecialityTestOptionID" Type="int" Nullable="false" />
+          <Property Name="SpecialityCapacityID" Type="int" Nullable="false" />
+          <Property Name="ColorID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GroupFriendships">
+          <Key>
+            <PropertyRef Name="GroupFriendshipID" />
+          </Key>
+          <Property Name="GroupFriendshipID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RequestingGroupID" Type="int" Nullable="false" />
+          <Property Name="AccessibleGroupID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Groups">
+          <Key>
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Name="GroupID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MinScores">
+          <Key>
+            <PropertyRef Name="MinScoreID" />
+          </Key>
+          <Property Name="MinScoreID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Score" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OptionalSubjectsGroups">
+          <Key>
+            <PropertyRef Name="OptionalSubjectsGroupID" />
+          </Key>
+          <Property Name="OptionalSubjectsGroupID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SpecialitySubjectID" Type="int" Nullable="false" />
+          <Property Name="SpecialityTestOptionID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentTypes">
+          <Key>
+            <PropertyRef Name="PaymentTypeID" />
+          </Key>
+          <Property Name="PaymentTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaymentGroup" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProfileSubjectsGroups">
+          <Key>
+            <PropertyRef Name="ProfileSubjectGroupID" />
+          </Key>
+          <Property Name="ProfileSubjectGroupID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SpecialitySubjectID" Type="int" Nullable="false" />
+          <Property Name="SpecialityTestOptionID" Type="int" Nullable="false" />
+          <Property Name="Rang" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Specialities">
+          <Key>
+            <PropertyRef Name="SpecialityID" />
+          </Key>
+          <Property Name="SpecialityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Qualification" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SpecialityApplications">
+          <Key>
+            <PropertyRef Name="SpecialityApplicationID" />
+          </Key>
+          <Property Name="SpecialityApplicationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ApplicationID" Type="int" Nullable="false" />
+          <Property Name="GroupedSpecialityID" Type="int" Nullable="false" />
+          <Property Name="Priority" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SpecialityCapacities">
+          <Key>
+            <PropertyRef Name="SpecialityCapacityID" />
+          </Key>
+          <Property Name="SpecialityCapacityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TotalNumber" Type="int" Nullable="false" />
+          <Property Name="CurrentNumber" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SpecialitySubjects">
+          <Key>
+            <PropertyRef Name="SpecialitySubjectID" />
+          </Key>
+          <Property Name="SpecialitySubjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubjectID" Type="int" Nullable="false" />
+          <Property Name="MinScoreID" Type="int" />
+        </EntityType>
+        <EntityType Name="SpecialityTestOptions">
+          <Key>
+            <PropertyRef Name="SpecialityTestOptionID" />
+          </Key>
+          <Property Name="SpecialityTestOptionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StudyFormTypes">
+          <Key>
+            <PropertyRef Name="StudyFormTypeID" />
+          </Key>
+          <Property Name="StudyFormTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Subjects">
+          <Key>
+            <PropertyRef Name="SubjectID" />
+          </Key>
+          <Property Name="SubjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Patronumic" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_applications_users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Applications" Type="Self.Applications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Applications">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appls_paytypes">
+          <End Role="PaymentTypes" Type="Self.PaymentTypes" Multiplicity="1" />
+          <End Role="Applications" Type="Self.Applications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentTypes">
+              <PropertyRef Name="PaymentTypeID" />
+            </Principal>
+            <Dependent Role="Applications">
+              <PropertyRef Name="PaymentTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GropFr_Group">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="1" />
+          <End Role="GroupFriendships" Type="Self.GroupFriendships" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="GroupFriendships">
+              <PropertyRef Name="RequestingGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GropFr_Group2">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="1" />
+          <End Role="GroupFriendships" Type="Self.GroupFriendships" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="GroupFriendships">
+              <PropertyRef Name="AccessibleGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_grSpe_capacity">
+          <End Role="SpecialityCapacities" Type="Self.SpecialityCapacities" Multiplicity="1" />
+          <End Role="GroupedSpecialities" Type="Self.GroupedSpecialities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpecialityCapacities">
+              <PropertyRef Name="SpecialityCapacityID" />
+            </Principal>
+            <Dependent Role="GroupedSpecialities">
+              <PropertyRef Name="SpecialityCapacityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_grSpe_colors">
+          <End Role="Colors" Type="Self.Colors" Multiplicity="1" />
+          <End Role="GroupedSpecialities" Type="Self.GroupedSpecialities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Colors">
+              <PropertyRef Name="ColorID" />
+            </Principal>
+            <Dependent Role="GroupedSpecialities">
+              <PropertyRef Name="ColorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_grSpe_durationTypes">
+          <End Role="DurationTypes" Type="Self.DurationTypes" Multiplicity="1" />
+          <End Role="GroupedSpecialities" Type="Self.GroupedSpecialities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DurationTypes">
+              <PropertyRef Name="DurationTypeID" />
+            </Principal>
+            <Dependent Role="GroupedSpecialities">
+              <PropertyRef Name="DurationTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_grSpe_Gruops">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="1" />
+          <End Role="GroupedSpecialities" Type="Self.GroupedSpecialities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="GroupedSpecialities">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_grSpe_Payments">
+          <End Role="PaymentTypes" Type="Self.PaymentTypes" Multiplicity="1" />
+          <End Role="GroupedSpecialities" Type="Self.GroupedSpecialities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentTypes">
+              <PropertyRef Name="PaymentTypeID" />
+            </Principal>
+            <Dependent Role="GroupedSpecialities">
+              <PropertyRef Name="PaymentTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_grSpe_specialities">
+          <End Role="Specialities" Type="Self.Specialities" Multiplicity="1" />
+          <End Role="GroupedSpecialities" Type="Self.GroupedSpecialities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialities">
+              <PropertyRef Name="SpecialityID" />
+            </Principal>
+            <Dependent Role="GroupedSpecialities">
+              <PropertyRef Name="SpecialityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_grSpe_specTestopt">
+          <End Role="SpecialityTestOptions" Type="Self.SpecialityTestOptions" Multiplicity="1" />
+          <End Role="GroupedSpecialities" Type="Self.GroupedSpecialities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpecialityTestOptions">
+              <PropertyRef Name="SpecialityTestOptionID" />
+            </Principal>
+            <Dependent Role="GroupedSpecialities">
+              <PropertyRef Name="SpecialityTestOptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_grSpe_studyfors">
+          <End Role="StudyFormTypes" Type="Self.StudyFormTypes" Multiplicity="1" />
+          <End Role="GroupedSpecialities" Type="Self.GroupedSpecialities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StudyFormTypes">
+              <PropertyRef Name="StudyFormTypeID" />
+            </Principal>
+            <Dependent Role="GroupedSpecialities">
+              <PropertyRef Name="StudyFormTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OptSubG_specTestOpt">
+          <End Role="SpecialityTestOptions" Type="Self.SpecialityTestOptions" Multiplicity="1" />
+          <End Role="OptionalSubjectsGroups" Type="Self.OptionalSubjectsGroups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpecialityTestOptions">
+              <PropertyRef Name="SpecialityTestOptionID" />
+            </Principal>
+            <Dependent Role="OptionalSubjectsGroups">
+              <PropertyRef Name="SpecialityTestOptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProfSubG_specTestOpt">
+          <End Role="SpecialityTestOptions" Type="Self.SpecialityTestOptions" Multiplicity="1" />
+          <End Role="ProfileSubjectsGroups" Type="Self.ProfileSubjectsGroups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpecialityTestOptions">
+              <PropertyRef Name="SpecialityTestOptionID" />
+            </Principal>
+            <Dependent Role="ProfileSubjectsGroups">
+              <PropertyRef Name="SpecialityTestOptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProfSubG_SpeSub">
+          <End Role="SpecialitySubjects" Type="Self.SpecialitySubjects" Multiplicity="1" />
+          <End Role="ProfileSubjectsGroups" Type="Self.ProfileSubjectsGroups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpecialitySubjects">
+              <PropertyRef Name="SpecialitySubjectID" />
+            </Principal>
+            <Dependent Role="ProfileSubjectsGroups">
+              <PropertyRef Name="SpecialitySubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SpecApp_GroupSpec">
+          <End Role="GroupedSpecialities" Type="Self.GroupedSpecialities" Multiplicity="1" />
+          <End Role="SpecialityApplications" Type="Self.SpecialityApplications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupedSpecialities">
+              <PropertyRef Name="GroupedSpecialityID" />
+            </Principal>
+            <Dependent Role="SpecialityApplications">
+              <PropertyRef Name="GroupedSpecialityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SpecApps_Apps">
+          <End Role="Applications" Type="Self.Applications" Multiplicity="1" />
+          <End Role="SpecialityApplications" Type="Self.SpecialityApplications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applications">
+              <PropertyRef Name="ApplicationID" />
+            </Principal>
+            <Dependent Role="SpecialityApplications">
+              <PropertyRef Name="ApplicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SpSub_MinScore">
+          <End Role="MinScores" Type="Self.MinScores" Multiplicity="0..1" />
+          <End Role="SpecialitySubjects" Type="Self.SpecialitySubjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MinScores">
+              <PropertyRef Name="MinScoreID" />
+            </Principal>
+            <Dependent Role="SpecialitySubjects">
+              <PropertyRef Name="MinScoreID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SpSub_Sub">
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
+          <End Role="SpecialitySubjects" Type="Self.SpecialitySubjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="SubjectID" />
+            </Principal>
+            <Dependent Role="SpecialitySubjects">
+              <PropertyRef Name="SubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="oprt_sub_gr">
+          <End Role="SpecialitySubjects" Type="Self.SpecialitySubjects" Multiplicity="1" />
+          <End Role="OptionalSubjectsGroups" Type="Self.OptionalSubjectsGroups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpecialitySubjects">
+              <PropertyRef Name="SpecialitySubjectID" />
+            </Principal>
+            <Dependent Role="OptionalSubjectsGroups">
+              <PropertyRef Name="SpecialitySubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SpecialitiesDatabaseModelStoreContainer">
+          <EntitySet Name="Applications" EntityType="Self.Applications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Colors" EntityType="Self.Colors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DurationTypes" EntityType="Self.DurationTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GroupedSpecialities" EntityType="Self.GroupedSpecialities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GroupFriendships" EntityType="Self.GroupFriendships" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Groups" EntityType="Self.Groups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MinScores" EntityType="Self.MinScores" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OptionalSubjectsGroups" EntityType="Self.OptionalSubjectsGroups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentTypes" EntityType="Self.PaymentTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProfileSubjectsGroups" EntityType="Self.ProfileSubjectsGroups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Specialities" EntityType="Self.Specialities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SpecialityApplications" EntityType="Self.SpecialityApplications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SpecialityCapacities" EntityType="Self.SpecialityCapacities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SpecialitySubjects" EntityType="Self.SpecialitySubjects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SpecialityTestOptions" EntityType="Self.SpecialityTestOptions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StudyFormTypes" EntityType="Self.StudyFormTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subjects" EntityType="Self.Subjects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_applications_users" Association="Self.FK_applications_users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Applications" EntitySet="Applications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appls_paytypes" Association="Self.FK_Appls_paytypes">
+            <End Role="PaymentTypes" EntitySet="PaymentTypes" />
+            <End Role="Applications" EntitySet="Applications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GropFr_Group" Association="Self.FK_GropFr_Group">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="GroupFriendships" EntitySet="GroupFriendships" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GropFr_Group2" Association="Self.FK_GropFr_Group2">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="GroupFriendships" EntitySet="GroupFriendships" />
+          </AssociationSet>
+          <AssociationSet Name="FK_grSpe_capacity" Association="Self.FK_grSpe_capacity">
+            <End Role="SpecialityCapacities" EntitySet="SpecialityCapacities" />
+            <End Role="GroupedSpecialities" EntitySet="GroupedSpecialities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_grSpe_colors" Association="Self.FK_grSpe_colors">
+            <End Role="Colors" EntitySet="Colors" />
+            <End Role="GroupedSpecialities" EntitySet="GroupedSpecialities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_grSpe_durationTypes" Association="Self.FK_grSpe_durationTypes">
+            <End Role="DurationTypes" EntitySet="DurationTypes" />
+            <End Role="GroupedSpecialities" EntitySet="GroupedSpecialities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_grSpe_Gruops" Association="Self.FK_grSpe_Gruops">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="GroupedSpecialities" EntitySet="GroupedSpecialities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_grSpe_Payments" Association="Self.FK_grSpe_Payments">
+            <End Role="PaymentTypes" EntitySet="PaymentTypes" />
+            <End Role="GroupedSpecialities" EntitySet="GroupedSpecialities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_grSpe_specialities" Association="Self.FK_grSpe_specialities">
+            <End Role="Specialities" EntitySet="Specialities" />
+            <End Role="GroupedSpecialities" EntitySet="GroupedSpecialities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_grSpe_specTestopt" Association="Self.FK_grSpe_specTestopt">
+            <End Role="SpecialityTestOptions" EntitySet="SpecialityTestOptions" />
+            <End Role="GroupedSpecialities" EntitySet="GroupedSpecialities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_grSpe_studyfors" Association="Self.FK_grSpe_studyfors">
+            <End Role="StudyFormTypes" EntitySet="StudyFormTypes" />
+            <End Role="GroupedSpecialities" EntitySet="GroupedSpecialities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OptSubG_specTestOpt" Association="Self.FK_OptSubG_specTestOpt">
+            <End Role="SpecialityTestOptions" EntitySet="SpecialityTestOptions" />
+            <End Role="OptionalSubjectsGroups" EntitySet="OptionalSubjectsGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProfSubG_specTestOpt" Association="Self.FK_ProfSubG_specTestOpt">
+            <End Role="SpecialityTestOptions" EntitySet="SpecialityTestOptions" />
+            <End Role="ProfileSubjectsGroups" EntitySet="ProfileSubjectsGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProfSubG_SpeSub" Association="Self.FK_ProfSubG_SpeSub">
+            <End Role="SpecialitySubjects" EntitySet="SpecialitySubjects" />
+            <End Role="ProfileSubjectsGroups" EntitySet="ProfileSubjectsGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SpecApp_GroupSpec" Association="Self.FK_SpecApp_GroupSpec">
+            <End Role="GroupedSpecialities" EntitySet="GroupedSpecialities" />
+            <End Role="SpecialityApplications" EntitySet="SpecialityApplications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SpecApps_Apps" Association="Self.FK_SpecApps_Apps">
+            <End Role="Applications" EntitySet="Applications" />
+            <End Role="SpecialityApplications" EntitySet="SpecialityApplications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SpSub_MinScore" Association="Self.FK_SpSub_MinScore">
+            <End Role="MinScores" EntitySet="MinScores" />
+            <End Role="SpecialitySubjects" EntitySet="SpecialitySubjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SpSub_Sub" Association="Self.FK_SpSub_Sub">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="SpecialitySubjects" EntitySet="SpecialitySubjects" />
+          </AssociationSet>
+          <AssociationSet Name="oprt_sub_gr" Association="Self.oprt_sub_gr">
+            <End Role="SpecialitySubjects" EntitySet="SpecialitySubjects" />
+            <End Role="OptionalSubjectsGroups" EntitySet="OptionalSubjectsGroups" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SpecialitiesDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Application">
+          <Key>
+            <PropertyRef Name="ApplicationID" />
+          </Key>
+          <Property Name="ApplicationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentTypeID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Submitted" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_applications_users" FromRole="Applications" ToRole="Users" />
+          <NavigationProperty Name="PaymentType" Relationship="Self.FK_Appls_paytypes" FromRole="Applications" ToRole="PaymentTypes" />
+          <NavigationProperty Name="SpecialityApplications" Relationship="Self.FK_SpecApps_Apps" FromRole="Applications" ToRole="SpecialityApplications" />
+        </EntityType>
+        <EntityType Name="Color">
+          <Key>
+            <PropertyRef Name="ColorID" />
+          </Key>
+          <Property Name="ColorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RGB" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="GroupedSpecialities" Relationship="Self.FK_grSpe_colors" FromRole="Colors" ToRole="GroupedSpecialities" />
+        </EntityType>
+        <EntityType Name="DurationType">
+          <Key>
+            <PropertyRef Name="DurationTypeID" />
+          </Key>
+          <Property Name="DurationTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="GroupedSpecialities" Relationship="Self.FK_grSpe_durationTypes" FromRole="DurationTypes" ToRole="GroupedSpecialities" />
+        </EntityType>
+        <EntityType Name="GroupedSpeciality">
+          <Key>
+            <PropertyRef Name="GroupedSpecialityID" />
+          </Key>
+          <Property Name="GroupedSpecialityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupID" Type="Int32" Nullable="false" />
+          <Property Name="SpecialityID" Type="Int32" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ExpiringDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PaymentTypeID" Type="Int32" Nullable="false" />
+          <Property Name="DurationTypeID" Type="Int32" Nullable="false" />
+          <Property Name="StudyFormTypeID" Type="Int32" Nullable="false" />
+          <Property Name="SpecialityTestOptionID" Type="Int32" Nullable="false" />
+          <Property Name="SpecialityCapacityID" Type="Int32" Nullable="false" />
+          <Property Name="ColorID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Color" Relationship="Self.FK_grSpe_colors" FromRole="GroupedSpecialities" ToRole="Colors" />
+          <NavigationProperty Name="DurationType" Relationship="Self.FK_grSpe_durationTypes" FromRole="GroupedSpecialities" ToRole="DurationTypes" />
+          <NavigationProperty Name="SpecialityCapacity" Relationship="Self.FK_grSpe_capacity" FromRole="GroupedSpecialities" ToRole="SpecialityCapacities" />
+          <NavigationProperty Name="Group" Relationship="Self.FK_grSpe_Gruops" FromRole="GroupedSpecialities" ToRole="Groups" />
+          <NavigationProperty Name="PaymentType" Relationship="Self.FK_grSpe_Payments" FromRole="GroupedSpecialities" ToRole="PaymentTypes" />
+          <NavigationProperty Name="Speciality" Relationship="Self.FK_grSpe_specialities" FromRole="GroupedSpecialities" ToRole="Specialities" />
+          <NavigationProperty Name="SpecialityTestOption" Relationship="Self.FK_grSpe_specTestopt" FromRole="GroupedSpecialities" ToRole="SpecialityTestOptions" />
+          <NavigationProperty Name="StudyFormType" Relationship="Self.FK_grSpe_studyfors" FromRole="GroupedSpecialities" ToRole="StudyFormTypes" />
+          <NavigationProperty Name="SpecialityApplications" Relationship="Self.FK_SpecApp_GroupSpec" FromRole="GroupedSpecialities" ToRole="SpecialityApplications" />
+        </EntityType>
+        <EntityType Name="GroupFriendship">
+          <Key>
+            <PropertyRef Name="GroupFriendshipID" />
+          </Key>
+          <Property Name="GroupFriendshipID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RequestingGroupID" Type="Int32" Nullable="false" />
+          <Property Name="AccessibleGroupID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Group" Relationship="Self.FK_GropFr_Group" FromRole="GroupFriendships" ToRole="Groups" />
+          <NavigationProperty Name="Group1" Relationship="Self.FK_GropFr_Group2" FromRole="GroupFriendships" ToRole="Groups" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Name="GroupID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="GroupedSpecialities" Relationship="Self.FK_grSpe_Gruops" FromRole="Groups" ToRole="GroupedSpecialities" />
+          <NavigationProperty Name="GroupFriendships" Relationship="Self.FK_GropFr_Group" FromRole="Groups" ToRole="GroupFriendships" />
+          <NavigationProperty Name="GroupFriendships1" Relationship="Self.FK_GropFr_Group2" FromRole="Groups" ToRole="GroupFriendships" />
+        </EntityType>
+        <EntityType Name="MinScore">
+          <Key>
+            <PropertyRef Name="MinScoreID" />
+          </Key>
+          <Property Name="MinScoreID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Score" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SpecialitySubjects" Relationship="Self.FK_SpSub_MinScore" FromRole="MinScores" ToRole="SpecialitySubjects" />
+        </EntityType>
+        <EntityType Name="OptionalSubjectsGroup">
+          <Key>
+            <PropertyRef Name="OptionalSubjectsGroupID" />
+          </Key>
+          <Property Name="OptionalSubjectsGroupID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SpecialitySubjectID" Type="Int32" Nullable="false" />
+          <Property Name="SpecialityTestOptionID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SpecialityTestOption" Relationship="Self.FK_OptSubG_specTestOpt" FromRole="OptionalSubjectsGroups" ToRole="SpecialityTestOptions" />
+          <NavigationProperty Name="SpecialitySubject" Relationship="Self.oprt_sub_gr" FromRole="OptionalSubjectsGroups" ToRole="SpecialitySubjects" />
+        </EntityType>
+        <EntityType Name="PaymentType">
+          <Key>
+            <PropertyRef Name="PaymentTypeID" />
+          </Key>
+          <Property Name="PaymentTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentGroup" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Applications" Relationship="Self.FK_Appls_paytypes" FromRole="PaymentTypes" ToRole="Applications" />
+          <NavigationProperty Name="GroupedSpecialities" Relationship="Self.FK_grSpe_Payments" FromRole="PaymentTypes" ToRole="GroupedSpecialities" />
+        </EntityType>
+        <EntityType Name="ProfileSubjectsGroup">
+          <Key>
+            <PropertyRef Name="ProfileSubjectGroupID" />
+          </Key>
+          <Property Name="ProfileSubjectGroupID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SpecialitySubjectID" Type="Int32" Nullable="false" />
+          <Property Name="SpecialityTestOptionID" Type="Int32" Nullable="false" />
+          <Property Name="Rang" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SpecialityTestOption" Relationship="Self.FK_ProfSubG_specTestOpt" FromRole="ProfileSubjectsGroups" ToRole="SpecialityTestOptions" />
+          <NavigationProperty Name="SpecialitySubject" Relationship="Self.FK_ProfSubG_SpeSub" FromRole="ProfileSubjectsGroups" ToRole="SpecialitySubjects" />
+        </EntityType>
+        <EntityType Name="Speciality">
+          <Key>
+            <PropertyRef Name="SpecialityID" />
+          </Key>
+          <Property Name="SpecialityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Qualification" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="GroupedSpecialities" Relationship="Self.FK_grSpe_specialities" FromRole="Specialities" ToRole="GroupedSpecialities" />
+        </EntityType>
+        <EntityType Name="SpecialityApplication">
+          <Key>
+            <PropertyRef Name="SpecialityApplicationID" />
+          </Key>
+          <Property Name="SpecialityApplicationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApplicationID" Type="Int32" Nullable="false" />
+          <Property Name="GroupedSpecialityID" Type="Int32" Nullable="false" />
+          <Property Name="Priority" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Application" Relationship="Self.FK_SpecApps_Apps" FromRole="SpecialityApplications" ToRole="Applications" />
+          <NavigationProperty Name="GroupedSpeciality" Relationship="Self.FK_SpecApp_GroupSpec" FromRole="SpecialityApplications" ToRole="GroupedSpecialities" />
+        </EntityType>
+        <EntityType Name="SpecialityCapacity">
+          <Key>
+            <PropertyRef Name="SpecialityCapacityID" />
+          </Key>
+          <Property Name="SpecialityCapacityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TotalNumber" Type="Int32" Nullable="false" />
+          <Property Name="CurrentNumber" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="GroupedSpecialities" Relationship="Self.FK_grSpe_capacity" FromRole="SpecialityCapacities" ToRole="GroupedSpecialities" />
+        </EntityType>
+        <EntityType Name="SpecialitySubject">
+          <Key>
+            <PropertyRef Name="SpecialitySubjectID" />
+          </Key>
+          <Property Name="SpecialitySubjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubjectID" Type="Int32" Nullable="false" />
+          <Property Name="MinScoreID" Type="Int32" />
+          <NavigationProperty Name="MinScore" Relationship="Self.FK_SpSub_MinScore" FromRole="SpecialitySubjects" ToRole="MinScores" />
+          <NavigationProperty Name="OptionalSubjectsGroups" Relationship="Self.oprt_sub_gr" FromRole="SpecialitySubjects" ToRole="OptionalSubjectsGroups" />
+          <NavigationProperty Name="ProfileSubjectsGroups" Relationship="Self.FK_ProfSubG_SpeSub" FromRole="SpecialitySubjects" ToRole="ProfileSubjectsGroups" />
+          <NavigationProperty Name="Subject" Relationship="Self.FK_SpSub_Sub" FromRole="SpecialitySubjects" ToRole="Subjects" />
+        </EntityType>
+        <EntityType Name="SpecialityTestOption">
+          <Key>
+            <PropertyRef Name="SpecialityTestOptionID" />
+          </Key>
+          <Property Name="SpecialityTestOptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="GroupedSpecialities" Relationship="Self.FK_grSpe_specTestopt" FromRole="SpecialityTestOptions" ToRole="GroupedSpecialities" />
+          <NavigationProperty Name="OptionalSubjectsGroups" Relationship="Self.FK_OptSubG_specTestOpt" FromRole="SpecialityTestOptions" ToRole="OptionalSubjectsGroups" />
+          <NavigationProperty Name="ProfileSubjectsGroups" Relationship="Self.FK_ProfSubG_specTestOpt" FromRole="SpecialityTestOptions" ToRole="ProfileSubjectsGroups" />
+        </EntityType>
+        <EntityType Name="StudyFormType">
+          <Key>
+            <PropertyRef Name="StudyFormTypeID" />
+          </Key>
+          <Property Name="StudyFormTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="GroupedSpecialities" Relationship="Self.FK_grSpe_studyfors" FromRole="StudyFormTypes" ToRole="GroupedSpecialities" />
+        </EntityType>
+        <EntityType Name="Subject">
+          <Key>
+            <PropertyRef Name="SubjectID" />
+          </Key>
+          <Property Name="SubjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="SpecialitySubjects" Relationship="Self.FK_SpSub_Sub" FromRole="Subjects" ToRole="SpecialitySubjects" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patronumic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Applications" Relationship="Self.FK_applications_users" FromRole="Users" ToRole="Applications" />
+        </EntityType>
+        <Association Name="FK_applications_users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Applications" Type="Self.Application" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Applications">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appls_paytypes">
+          <End Role="PaymentTypes" Type="Self.PaymentType" Multiplicity="1" />
+          <End Role="Applications" Type="Self.Application" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentTypes">
+              <PropertyRef Name="PaymentTypeID" />
+            </Principal>
+            <Dependent Role="Applications">
+              <PropertyRef Name="PaymentTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SpecApps_Apps">
+          <End Role="Applications" Type="Self.Application" Multiplicity="1" />
+          <End Role="SpecialityApplications" Type="Self.SpecialityApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applications">
+              <PropertyRef Name="ApplicationID" />
+            </Principal>
+            <Dependent Role="SpecialityApplications">
+              <PropertyRef Name="ApplicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_grSpe_colors">
+          <End Role="Colors" Type="Self.Color" Multiplicity="1" />
+          <End Role="GroupedSpecialities" Type="Self.GroupedSpeciality" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Colors">
+              <PropertyRef Name="ColorID" />
+            </Principal>
+            <Dependent Role="GroupedSpecialities">
+              <PropertyRef Name="ColorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_grSpe_durationTypes">
+          <End Role="DurationTypes" Type="Self.DurationType" Multiplicity="1" />
+          <End Role="GroupedSpecialities" Type="Self.GroupedSpeciality" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DurationTypes">
+              <PropertyRef Name="DurationTypeID" />
+            </Principal>
+            <Dependent Role="GroupedSpecialities">
+              <PropertyRef Name="DurationTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_grSpe_capacity">
+          <End Role="SpecialityCapacities" Type="Self.SpecialityCapacity" Multiplicity="1" />
+          <End Role="GroupedSpecialities" Type="Self.GroupedSpeciality" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpecialityCapacities">
+              <PropertyRef Name="SpecialityCapacityID" />
+            </Principal>
+            <Dependent Role="GroupedSpecialities">
+              <PropertyRef Name="SpecialityCapacityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_grSpe_Gruops">
+          <End Role="Groups" Type="Self.Group" Multiplicity="1" />
+          <End Role="GroupedSpecialities" Type="Self.GroupedSpeciality" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="GroupedSpecialities">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_grSpe_Payments">
+          <End Role="PaymentTypes" Type="Self.PaymentType" Multiplicity="1" />
+          <End Role="GroupedSpecialities" Type="Self.GroupedSpeciality" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentTypes">
+              <PropertyRef Name="PaymentTypeID" />
+            </Principal>
+            <Dependent Role="GroupedSpecialities">
+              <PropertyRef Name="PaymentTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_grSpe_specialities">
+          <End Role="Specialities" Type="Self.Speciality" Multiplicity="1" />
+          <End Role="GroupedSpecialities" Type="Self.GroupedSpeciality" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialities">
+              <PropertyRef Name="SpecialityID" />
+            </Principal>
+            <Dependent Role="GroupedSpecialities">
+              <PropertyRef Name="SpecialityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_grSpe_specTestopt">
+          <End Role="SpecialityTestOptions" Type="Self.SpecialityTestOption" Multiplicity="1" />
+          <End Role="GroupedSpecialities" Type="Self.GroupedSpeciality" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpecialityTestOptions">
+              <PropertyRef Name="SpecialityTestOptionID" />
+            </Principal>
+            <Dependent Role="GroupedSpecialities">
+              <PropertyRef Name="SpecialityTestOptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_grSpe_studyfors">
+          <End Role="StudyFormTypes" Type="Self.StudyFormType" Multiplicity="1" />
+          <End Role="GroupedSpecialities" Type="Self.GroupedSpeciality" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StudyFormTypes">
+              <PropertyRef Name="StudyFormTypeID" />
+            </Principal>
+            <Dependent Role="GroupedSpecialities">
+              <PropertyRef Name="StudyFormTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SpecApp_GroupSpec">
+          <End Role="GroupedSpecialities" Type="Self.GroupedSpeciality" Multiplicity="1" />
+          <End Role="SpecialityApplications" Type="Self.SpecialityApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupedSpecialities">
+              <PropertyRef Name="GroupedSpecialityID" />
+            </Principal>
+            <Dependent Role="SpecialityApplications">
+              <PropertyRef Name="GroupedSpecialityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GropFr_Group">
+          <End Role="Groups" Type="Self.Group" Multiplicity="1" />
+          <End Role="GroupFriendships" Type="Self.GroupFriendship" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="GroupFriendships">
+              <PropertyRef Name="RequestingGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GropFr_Group2">
+          <End Role="Groups" Type="Self.Group" Multiplicity="1" />
+          <End Role="GroupFriendships" Type="Self.GroupFriendship" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="GroupFriendships">
+              <PropertyRef Name="AccessibleGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SpSub_MinScore">
+          <End Role="MinScores" Type="Self.MinScore" Multiplicity="0..1" />
+          <End Role="SpecialitySubjects" Type="Self.SpecialitySubject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MinScores">
+              <PropertyRef Name="MinScoreID" />
+            </Principal>
+            <Dependent Role="SpecialitySubjects">
+              <PropertyRef Name="MinScoreID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OptSubG_specTestOpt">
+          <End Role="SpecialityTestOptions" Type="Self.SpecialityTestOption" Multiplicity="1" />
+          <End Role="OptionalSubjectsGroups" Type="Self.OptionalSubjectsGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpecialityTestOptions">
+              <PropertyRef Name="SpecialityTestOptionID" />
+            </Principal>
+            <Dependent Role="OptionalSubjectsGroups">
+              <PropertyRef Name="SpecialityTestOptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="oprt_sub_gr">
+          <End Role="SpecialitySubjects" Type="Self.SpecialitySubject" Multiplicity="1" />
+          <End Role="OptionalSubjectsGroups" Type="Self.OptionalSubjectsGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpecialitySubjects">
+              <PropertyRef Name="SpecialitySubjectID" />
+            </Principal>
+            <Dependent Role="OptionalSubjectsGroups">
+              <PropertyRef Name="SpecialitySubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProfSubG_specTestOpt">
+          <End Role="SpecialityTestOptions" Type="Self.SpecialityTestOption" Multiplicity="1" />
+          <End Role="ProfileSubjectsGroups" Type="Self.ProfileSubjectsGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpecialityTestOptions">
+              <PropertyRef Name="SpecialityTestOptionID" />
+            </Principal>
+            <Dependent Role="ProfileSubjectsGroups">
+              <PropertyRef Name="SpecialityTestOptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProfSubG_SpeSub">
+          <End Role="SpecialitySubjects" Type="Self.SpecialitySubject" Multiplicity="1" />
+          <End Role="ProfileSubjectsGroups" Type="Self.ProfileSubjectsGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpecialitySubjects">
+              <PropertyRef Name="SpecialitySubjectID" />
+            </Principal>
+            <Dependent Role="ProfileSubjectsGroups">
+              <PropertyRef Name="SpecialitySubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SpSub_Sub">
+          <End Role="Subjects" Type="Self.Subject" Multiplicity="1" />
+          <End Role="SpecialitySubjects" Type="Self.SpecialitySubject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="SubjectID" />
+            </Principal>
+            <Dependent Role="SpecialitySubjects">
+              <PropertyRef Name="SubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SpecialitiesDatabaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Applications" EntityType="Self.Application" />
+          <EntitySet Name="Colors" EntityType="Self.Color" />
+          <EntitySet Name="DurationTypes" EntityType="Self.DurationType" />
+          <EntitySet Name="GroupedSpecialities" EntityType="Self.GroupedSpeciality" />
+          <EntitySet Name="GroupFriendships" EntityType="Self.GroupFriendship" />
+          <EntitySet Name="Groups" EntityType="Self.Group" />
+          <EntitySet Name="MinScores" EntityType="Self.MinScore" />
+          <EntitySet Name="OptionalSubjectsGroups" EntityType="Self.OptionalSubjectsGroup" />
+          <EntitySet Name="PaymentTypes" EntityType="Self.PaymentType" />
+          <EntitySet Name="ProfileSubjectsGroups" EntityType="Self.ProfileSubjectsGroup" />
+          <EntitySet Name="Specialities" EntityType="Self.Speciality" />
+          <EntitySet Name="SpecialityApplications" EntityType="Self.SpecialityApplication" />
+          <EntitySet Name="SpecialityCapacities" EntityType="Self.SpecialityCapacity" />
+          <EntitySet Name="SpecialitySubjects" EntityType="Self.SpecialitySubject" />
+          <EntitySet Name="SpecialityTestOptions" EntityType="Self.SpecialityTestOption" />
+          <EntitySet Name="StudyFormTypes" EntityType="Self.StudyFormType" />
+          <EntitySet Name="Subjects" EntityType="Self.Subject" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_applications_users" Association="Self.FK_applications_users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Applications" EntitySet="Applications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appls_paytypes" Association="Self.FK_Appls_paytypes">
+            <End Role="PaymentTypes" EntitySet="PaymentTypes" />
+            <End Role="Applications" EntitySet="Applications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SpecApps_Apps" Association="Self.FK_SpecApps_Apps">
+            <End Role="Applications" EntitySet="Applications" />
+            <End Role="SpecialityApplications" EntitySet="SpecialityApplications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_grSpe_colors" Association="Self.FK_grSpe_colors">
+            <End Role="Colors" EntitySet="Colors" />
+            <End Role="GroupedSpecialities" EntitySet="GroupedSpecialities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_grSpe_durationTypes" Association="Self.FK_grSpe_durationTypes">
+            <End Role="DurationTypes" EntitySet="DurationTypes" />
+            <End Role="GroupedSpecialities" EntitySet="GroupedSpecialities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_grSpe_capacity" Association="Self.FK_grSpe_capacity">
+            <End Role="SpecialityCapacities" EntitySet="SpecialityCapacities" />
+            <End Role="GroupedSpecialities" EntitySet="GroupedSpecialities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_grSpe_Gruops" Association="Self.FK_grSpe_Gruops">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="GroupedSpecialities" EntitySet="GroupedSpecialities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_grSpe_Payments" Association="Self.FK_grSpe_Payments">
+            <End Role="PaymentTypes" EntitySet="PaymentTypes" />
+            <End Role="GroupedSpecialities" EntitySet="GroupedSpecialities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_grSpe_specialities" Association="Self.FK_grSpe_specialities">
+            <End Role="Specialities" EntitySet="Specialities" />
+            <End Role="GroupedSpecialities" EntitySet="GroupedSpecialities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_grSpe_specTestopt" Association="Self.FK_grSpe_specTestopt">
+            <End Role="SpecialityTestOptions" EntitySet="SpecialityTestOptions" />
+            <End Role="GroupedSpecialities" EntitySet="GroupedSpecialities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_grSpe_studyfors" Association="Self.FK_grSpe_studyfors">
+            <End Role="StudyFormTypes" EntitySet="StudyFormTypes" />
+            <End Role="GroupedSpecialities" EntitySet="GroupedSpecialities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SpecApp_GroupSpec" Association="Self.FK_SpecApp_GroupSpec">
+            <End Role="GroupedSpecialities" EntitySet="GroupedSpecialities" />
+            <End Role="SpecialityApplications" EntitySet="SpecialityApplications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GropFr_Group" Association="Self.FK_GropFr_Group">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="GroupFriendships" EntitySet="GroupFriendships" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GropFr_Group2" Association="Self.FK_GropFr_Group2">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="GroupFriendships" EntitySet="GroupFriendships" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SpSub_MinScore" Association="Self.FK_SpSub_MinScore">
+            <End Role="MinScores" EntitySet="MinScores" />
+            <End Role="SpecialitySubjects" EntitySet="SpecialitySubjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OptSubG_specTestOpt" Association="Self.FK_OptSubG_specTestOpt">
+            <End Role="SpecialityTestOptions" EntitySet="SpecialityTestOptions" />
+            <End Role="OptionalSubjectsGroups" EntitySet="OptionalSubjectsGroups" />
+          </AssociationSet>
+          <AssociationSet Name="oprt_sub_gr" Association="Self.oprt_sub_gr">
+            <End Role="SpecialitySubjects" EntitySet="SpecialitySubjects" />
+            <End Role="OptionalSubjectsGroups" EntitySet="OptionalSubjectsGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProfSubG_specTestOpt" Association="Self.FK_ProfSubG_specTestOpt">
+            <End Role="SpecialityTestOptions" EntitySet="SpecialityTestOptions" />
+            <End Role="ProfileSubjectsGroups" EntitySet="ProfileSubjectsGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProfSubG_SpeSub" Association="Self.FK_ProfSubG_SpeSub">
+            <End Role="SpecialitySubjects" EntitySet="SpecialitySubjects" />
+            <End Role="ProfileSubjectsGroups" EntitySet="ProfileSubjectsGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SpSub_Sub" Association="Self.FK_SpSub_Sub">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="SpecialitySubjects" EntitySet="SpecialitySubjects" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SpecialitiesDatabaseModelStoreContainer" CdmEntityContainer="SpecialitiesDatabaseEntities">
+          <EntitySetMapping Name="Applications">
+            <EntityTypeMapping TypeName="SpecialitiesDatabaseModel.Application">
+              <MappingFragment StoreEntitySet="Applications">
+                <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
+                <ScalarProperty Name="PaymentTypeID" ColumnName="PaymentTypeID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Submitted" ColumnName="Submitted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Colors">
+            <EntityTypeMapping TypeName="SpecialitiesDatabaseModel.Color">
+              <MappingFragment StoreEntitySet="Colors">
+                <ScalarProperty Name="ColorID" ColumnName="ColorID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RGB" ColumnName="RGB" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DurationTypes">
+            <EntityTypeMapping TypeName="SpecialitiesDatabaseModel.DurationType">
+              <MappingFragment StoreEntitySet="DurationTypes">
+                <ScalarProperty Name="DurationTypeID" ColumnName="DurationTypeID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GroupedSpecialities">
+            <EntityTypeMapping TypeName="SpecialitiesDatabaseModel.GroupedSpeciality">
+              <MappingFragment StoreEntitySet="GroupedSpecialities">
+                <ScalarProperty Name="GroupedSpecialityID" ColumnName="GroupedSpecialityID" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="SpecialityID" ColumnName="SpecialityID" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="ExpiringDate" ColumnName="ExpiringDate" />
+                <ScalarProperty Name="PaymentTypeID" ColumnName="PaymentTypeID" />
+                <ScalarProperty Name="DurationTypeID" ColumnName="DurationTypeID" />
+                <ScalarProperty Name="StudyFormTypeID" ColumnName="StudyFormTypeID" />
+                <ScalarProperty Name="SpecialityTestOptionID" ColumnName="SpecialityTestOptionID" />
+                <ScalarProperty Name="SpecialityCapacityID" ColumnName="SpecialityCapacityID" />
+                <ScalarProperty Name="ColorID" ColumnName="ColorID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GroupFriendships">
+            <EntityTypeMapping TypeName="SpecialitiesDatabaseModel.GroupFriendship">
+              <MappingFragment StoreEntitySet="GroupFriendships">
+                <ScalarProperty Name="GroupFriendshipID" ColumnName="GroupFriendshipID" />
+                <ScalarProperty Name="RequestingGroupID" ColumnName="RequestingGroupID" />
+                <ScalarProperty Name="AccessibleGroupID" ColumnName="AccessibleGroupID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="SpecialitiesDatabaseModel.Group">
+              <MappingFragment StoreEntitySet="Groups">
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MinScores">
+            <EntityTypeMapping TypeName="SpecialitiesDatabaseModel.MinScore">
+              <MappingFragment StoreEntitySet="MinScores">
+                <ScalarProperty Name="MinScoreID" ColumnName="MinScoreID" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OptionalSubjectsGroups">
+            <EntityTypeMapping TypeName="SpecialitiesDatabaseModel.OptionalSubjectsGroup">
+              <MappingFragment StoreEntitySet="OptionalSubjectsGroups">
+                <ScalarProperty Name="OptionalSubjectsGroupID" ColumnName="OptionalSubjectsGroupID" />
+                <ScalarProperty Name="SpecialitySubjectID" ColumnName="SpecialitySubjectID" />
+                <ScalarProperty Name="SpecialityTestOptionID" ColumnName="SpecialityTestOptionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentTypes">
+            <EntityTypeMapping TypeName="SpecialitiesDatabaseModel.PaymentType">
+              <MappingFragment StoreEntitySet="PaymentTypes">
+                <ScalarProperty Name="PaymentTypeID" ColumnName="PaymentTypeID" />
+                <ScalarProperty Name="PaymentGroup" ColumnName="PaymentGroup" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProfileSubjectsGroups">
+            <EntityTypeMapping TypeName="SpecialitiesDatabaseModel.ProfileSubjectsGroup">
+              <MappingFragment StoreEntitySet="ProfileSubjectsGroups">
+                <ScalarProperty Name="ProfileSubjectGroupID" ColumnName="ProfileSubjectGroupID" />
+                <ScalarProperty Name="SpecialitySubjectID" ColumnName="SpecialitySubjectID" />
+                <ScalarProperty Name="SpecialityTestOptionID" ColumnName="SpecialityTestOptionID" />
+                <ScalarProperty Name="Rang" ColumnName="Rang" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Specialities">
+            <EntityTypeMapping TypeName="SpecialitiesDatabaseModel.Speciality">
+              <MappingFragment StoreEntitySet="Specialities">
+                <ScalarProperty Name="SpecialityID" ColumnName="SpecialityID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Qualification" ColumnName="Qualification" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SpecialityApplications">
+            <EntityTypeMapping TypeName="SpecialitiesDatabaseModel.SpecialityApplication">
+              <MappingFragment StoreEntitySet="SpecialityApplications">
+                <ScalarProperty Name="SpecialityApplicationID" ColumnName="SpecialityApplicationID" />
+                <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
+                <ScalarProperty Name="GroupedSpecialityID" ColumnName="GroupedSpecialityID" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SpecialityCapacities">
+            <EntityTypeMapping TypeName="SpecialitiesDatabaseModel.SpecialityCapacity">
+              <MappingFragment StoreEntitySet="SpecialityCapacities">
+                <ScalarProperty Name="SpecialityCapacityID" ColumnName="SpecialityCapacityID" />
+                <ScalarProperty Name="TotalNumber" ColumnName="TotalNumber" />
+                <ScalarProperty Name="CurrentNumber" ColumnName="CurrentNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SpecialitySubjects">
+            <EntityTypeMapping TypeName="SpecialitiesDatabaseModel.SpecialitySubject">
+              <MappingFragment StoreEntitySet="SpecialitySubjects">
+                <ScalarProperty Name="SpecialitySubjectID" ColumnName="SpecialitySubjectID" />
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="MinScoreID" ColumnName="MinScoreID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SpecialityTestOptions">
+            <EntityTypeMapping TypeName="SpecialitiesDatabaseModel.SpecialityTestOption">
+              <MappingFragment StoreEntitySet="SpecialityTestOptions">
+                <ScalarProperty Name="SpecialityTestOptionID" ColumnName="SpecialityTestOptionID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StudyFormTypes">
+            <EntityTypeMapping TypeName="SpecialitiesDatabaseModel.StudyFormType">
+              <MappingFragment StoreEntitySet="StudyFormTypes">
+                <ScalarProperty Name="StudyFormTypeID" ColumnName="StudyFormTypeID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subjects">
+            <EntityTypeMapping TypeName="SpecialitiesDatabaseModel.Subject">
+              <MappingFragment StoreEntitySet="Subjects">
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="SpecialitiesDatabaseModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Patronumic" ColumnName="Patronumic" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

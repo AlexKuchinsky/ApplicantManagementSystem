@@ -12,21 +12,34 @@ namespace ApplicationsManagementSystem.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Application
+    public partial class GroupedSpeciality
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Application()
+        public GroupedSpeciality()
         {
             this.SpecialityApplications = new HashSet<SpecialityApplication>();
         }
     
-        public int ApplicationID { get; set; }
+        public int GroupedSpecialityID { get; set; }
+        public int GroupID { get; set; }
+        public int SpecialityID { get; set; }
+        public System.DateTime StartDate { get; set; }
+        public System.DateTime ExpiringDate { get; set; }
         public int PaymentTypeID { get; set; }
-        public int UserID { get; set; }
-        public int Submitted { get; set; }
+        public int DurationTypeID { get; set; }
+        public int StudyFormTypeID { get; set; }
+        public int SpecialityTestOptionID { get; set; }
+        public int SpecialityCapacityID { get; set; }
+        public int ColorID { get; set; }
     
-        public virtual User User { get; set; }
+        public virtual Color Color { get; set; }
+        public virtual DurationType DurationType { get; set; }
+        public virtual SpecialityCapacity SpecialityCapacity { get; set; }
+        public virtual Group Group { get; set; }
         public virtual PaymentType PaymentType { get; set; }
+        public virtual Speciality Speciality { get; set; }
+        public virtual SpecialityTestOption SpecialityTestOption { get; set; }
+        public virtual StudyFormType StudyFormType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SpecialityApplication> SpecialityApplications { get; set; }
     }

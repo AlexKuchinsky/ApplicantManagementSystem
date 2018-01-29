@@ -1,0 +1,31 @@
+﻿@model ApplicationsManagementSystem.Models.UserPageModel
+@using ApplicationsManagementSystem.Models;
+@{
+    ViewBag.Title = "UserMenu";
+}
+<h3>
+    <b>
+        Welcome! @(Model.User.Name+" "+Model.User.Surname+" "+Model.User.Patronumic)
+    </b>
+</h3>
+@if (Model.UserApplications.Any())
+{
+    int i = 1;
+    foreach(Application app in Model.UserApplications)
+    {
+        <b>Application </b> @(i+" ("+app.PaymentType.Description+")")
+    }
+}
+<br />
+<b> Вы можете подать заявление на следующие формы обучения: </b>
+@for (int i = 0; i < Model.AvailableApplicationTypes.Count; i++)
+{
+    <br />
+  
+    <b>
+        @(i + 1). @Html.ActionLink("Заявление ("+Model.AvailableApplicationTypes[i].Description+")","NewSpecialitiesList",new { PaymentTypeID = Model.AvailableApplicationTypes[i].PaymentTypeID,UserID = Model.User.UserID })
+    </b>
+}
+
+
+

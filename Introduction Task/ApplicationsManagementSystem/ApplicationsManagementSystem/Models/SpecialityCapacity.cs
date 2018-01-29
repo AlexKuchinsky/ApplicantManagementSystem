@@ -12,21 +12,19 @@ namespace ApplicationsManagementSystem.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class StudyFormOption
+    public partial class SpecialityCapacity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public StudyFormOption()
+        public SpecialityCapacity()
         {
-            this.IntermediateStudyFormOptions = new HashSet<IntermediateStudyFormOption>();
-            this.UniversitySpecialities = new HashSet<UniversitySpeciality>();
+            this.GroupedSpecialities = new HashSet<GroupedSpeciality>();
         }
     
-        public int StudyFormOptionID { get; set; }
-        public string Description { get; set; }
+        public int SpecialityCapacityID { get; set; }
+        public int TotalNumber { get; set; }
+        public int CurrentNumber { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<IntermediateStudyFormOption> IntermediateStudyFormOptions { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UniversitySpeciality> UniversitySpecialities { get; set; }
+        public virtual ICollection<GroupedSpeciality> GroupedSpecialities { get; set; }
     }
 }

@@ -17,19 +17,19 @@ namespace ApplicationsManagementSystem.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Group()
         {
+            this.GroupedSpecialities = new HashSet<GroupedSpeciality>();
             this.GroupFriendships = new HashSet<GroupFriendship>();
             this.GroupFriendships1 = new HashSet<GroupFriendship>();
-            this.UniversitySpecialities = new HashSet<UniversitySpeciality>();
         }
     
         public int GroupID { get; set; }
         public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GroupedSpeciality> GroupedSpecialities { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GroupFriendship> GroupFriendships { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GroupFriendship> GroupFriendships1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UniversitySpeciality> UniversitySpecialities { get; set; }
     }
 }

@@ -14,20 +14,12 @@ namespace ApplicationsManagementSystem.Models
     
     public partial class ProfileSubjectsGroup
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ProfileSubjectsGroup()
-        {
-            this.SpecialityApplications = new HashSet<SpecialityApplication>();
-        }
-    
-        public int ProfileSubjectsGroupID { get; set; }
-        public int SpecialityTestOptionID { get; set; }
+        public int ProfileSubjectGroupID { get; set; }
         public int SpecialitySubjectID { get; set; }
+        public int SpecialityTestOptionID { get; set; }
         public int Rang { get; set; }
     
-        public virtual SpecialitySubject SpecialitySubject { get; set; }
         public virtual SpecialityTestOption SpecialityTestOption { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SpecialityApplication> SpecialityApplications { get; set; }
+        public virtual SpecialitySubject SpecialitySubject { get; set; }
     }
 }

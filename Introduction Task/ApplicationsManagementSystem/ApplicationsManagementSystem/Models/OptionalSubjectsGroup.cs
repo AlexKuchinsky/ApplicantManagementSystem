@@ -18,7 +18,7 @@ namespace ApplicationsManagementSystem.Models
         public int SpecialitySubjectID { get; set; }
         public int SpecialityTestOptionID { get; set; }
     
-        public virtual SpecialitySubject SpecialitySubject { get; set; }
         public virtual SpecialityTestOption SpecialityTestOption { get; set; }
+        public virtual SpecialitySubject SpecialitySubject { get; set; }
     }
 }

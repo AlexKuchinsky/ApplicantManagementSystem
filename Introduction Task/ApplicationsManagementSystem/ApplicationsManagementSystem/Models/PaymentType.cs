@@ -17,7 +17,8 @@ namespace ApplicationsManagementSystem.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PaymentType()
         {
-            this.IntermediatePaymentOptions = new HashSet<IntermediatePaymentOption>();
+            this.Applications = new HashSet<Application>();
+            this.GroupedSpecialities = new HashSet<GroupedSpeciality>();
         }
     
         public int PaymentTypeID { get; set; }
@@ -25,6 +26,8 @@ namespace ApplicationsManagementSystem.Models
         public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<IntermediatePaymentOption> IntermediatePaymentOptions { get; set; }
+        public virtual ICollection<Application> Applications { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GroupedSpeciality> GroupedSpecialities { get; set; }
     }
 }

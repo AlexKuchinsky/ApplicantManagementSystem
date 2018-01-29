@@ -17,16 +17,13 @@ namespace ApplicationsManagementSystem.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public StudyFormType()
         {
-            this.IntermediateStudyFormOptions = new HashSet<IntermediateStudyFormOption>();
-            this.SpecialityApplications = new HashSet<SpecialityApplication>();
+            this.GroupedSpecialities = new HashSet<GroupedSpeciality>();
         }
     
         public int StudyFormTypeID { get; set; }
         public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<IntermediateStudyFormOption> IntermediateStudyFormOptions { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SpecialityApplication> SpecialityApplications { get; set; }
+        public virtual ICollection<GroupedSpeciality> GroupedSpecialities { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace ApplicationsManagementSystem.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Color()
         {
-            this.UniversitySpecialities = new HashSet<UniversitySpeciality>();
+            this.GroupedSpecialities = new HashSet<GroupedSpeciality>();
         }
     
         public int ColorID { get; set; }
@@ -25,6 +25,6 @@ namespace ApplicationsManagementSystem.Models
         public string RGB { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UniversitySpeciality> UniversitySpecialities { get; set; }
+        public virtual ICollection<GroupedSpeciality> GroupedSpecialities { get; set; }
     }
 }

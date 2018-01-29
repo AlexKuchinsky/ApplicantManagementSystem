@@ -13,10 +13,10 @@ namespace ApplicationsManagementSystem.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class UniversitySpecialtiesDatabaseEntities : DbContext
+    public partial class SpecialitiesDatabaseEntities : DbContext
     {
-        public UniversitySpecialtiesDatabaseEntities()
-            : base("name=UniversitySpecialtiesDatabaseEntities")
+        public SpecialitiesDatabaseEntities()
+            : base("name=SpecialitiesDatabaseEntities")
         {
         }
     
@@ -27,23 +27,21 @@ namespace ApplicationsManagementSystem.Models
     
         public virtual DbSet<Application> Applications { get; set; }
         public virtual DbSet<Color> Colors { get; set; }
+        public virtual DbSet<DurationType> DurationTypes { get; set; }
+        public virtual DbSet<GroupedSpeciality> GroupedSpecialities { get; set; }
         public virtual DbSet<GroupFriendship> GroupFriendships { get; set; }
         public virtual DbSet<Group> Groups { get; set; }
-        public virtual DbSet<IntermediatePaymentOption> IntermediatePaymentOptions { get; set; }
-        public virtual DbSet<IntermediateStudyFormOption> IntermediateStudyFormOptions { get; set; }
         public virtual DbSet<MinScore> MinScores { get; set; }
         public virtual DbSet<OptionalSubjectsGroup> OptionalSubjectsGroups { get; set; }
-        public virtual DbSet<PaymentOption> PaymentOptions { get; set; }
         public virtual DbSet<PaymentType> PaymentTypes { get; set; }
         public virtual DbSet<ProfileSubjectsGroup> ProfileSubjectsGroups { get; set; }
         public virtual DbSet<Speciality> Specialities { get; set; }
         public virtual DbSet<SpecialityApplication> SpecialityApplications { get; set; }
-        public virtual DbSet<SpecialityCapacityTable> SpecialityCapacityTables { get; set; }
+        public virtual DbSet<SpecialityCapacity> SpecialityCapacities { get; set; }
         public virtual DbSet<SpecialitySubject> SpecialitySubjects { get; set; }
         public virtual DbSet<SpecialityTestOption> SpecialityTestOptions { get; set; }
-        public virtual DbSet<StudyFormOption> StudyFormOptions { get; set; }
         public virtual DbSet<StudyFormType> StudyFormTypes { get; set; }
         public virtual DbSet<Subject> Subjects { get; set; }
-        public virtual DbSet<UniversitySpeciality> UniversitySpecialities { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }

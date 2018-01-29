@@ -1,18 +1,182 @@
-﻿@model ApplicationsManagementSystem.Models.UniversitySpeciality
+﻿@model ApplicationsManagementSystem.Models.AddSpecialityModel
 @{
     ViewBag.Title = "AddSpeciality";
 }
+<script>
 
-<p>
-    <br/>
-    <b>
-        @Model.Speciality.Title
-    </b>
-</p>
-@Html.DropDownList("Available exams",new SelectList(Model.SpecialityTestOption.ProfileSubjectsGroups.Select(s=>s.SpecialitySubject.Subject.Title+"("+s.SpecialitySubject.MinScore.Score+")")))
-@Html.DropDownList("Available exams", new SelectList(Model.SpecialityTestOption.OptionalSubjectsGroups.Select(g=> g.SpecialitySubject.Subject.Title + "(" + g.SpecialitySubject.MinScore.Score + ")")))
-@Html.DropDownList("FormOfStudy",new SelectList(Model.StudyFormOption.IntermediateStudyFormOptions.Select(isfo=>isfo.StudyFormType.Description)))
-@Html.DropDownList("FormOfPayment",new SelectList(Model.PaymentOption.IntermediatePaymentOptions.Select(ipo=>ipo.PaymentType.Description)))
+    function ReloadStudyFormTypes() {
+        $('#StudyFormDropdown').find('option').remove();
+        ReloadSubjects();
+        DisableSubmitButton(true);
+    }
+    function ReloadSubjects() {
+        var theDiv = document.getElementById("FirstSubject");
+        theDiv.innerHTML = "";
+        var theDiv = document.getElementById("SecondSubject");
+        theDiv.innerHTML = "";
+        var theDiv = document.getElementById("OptionalSubjects");
+        theDiv.innerHTML = "";
+    }
+    function DisableSubmitButton(Disable) {
+        if (!Disable)
+            document.getElementById("SubmitButton").removeAttribute("disabled");
+        else
+            document.getElementById("SubmitButton").setAttribute("disabled","");
+    }
+    function LoadDurationTypes(ApplicationID, SpecialityID) {      
+        $('#StudyFormDropdown').find('option').remove();
+        $.ajax({
+            url: "/Home/GetDurationTypes",
+            data: { "ApplicationID": ApplicationID, "SpecialityID": SpecialityID },
+            success: function (data) {
+                if (data.length > 1) {
+                    $(data).each(function (index, item) {
+                        $("#DurationDropdown").append($('<option></option>').attr('value', JSON.stringify(item.DurationTypeID)).text(item.Description));
+                    });
+                    $("#DurationDropdown").val("");
+                }
+                else {
+                    document.getElementById("DurationDropdown").style.visibility = 'hidden';
+                    document.getElementById("DurationText").appendChild(document.createTextNode(data[0].Description));
+                    LoadStudyFormTypes(ApplicationID, SpecialityID, data[0].DurationTypeID);
+                    $("#DurationDropdown").append($('<option selected="selected"></option>').attr('value', JSON.stringify(data[0].DurationTypeID)).text(data[0].Description));
+                }
+   
+            },
+            error: errorFunc
+        });
+    }
+    function LoadStudyFormTypes(ApplicationID, SpecialityID, DurationTypeID) {
+        ReloadStudyFormTypes();
+        document.getElementById("StudyFormDropdown").style.visibility = 'visible';
+        document.getElementById("StudyFormText").innerHTML = ""; 
+
+        $.ajax({
+            url: "/Home/GetStudyFormTypes",
+            data: { "ApplicationID": ApplicationID, "SpecialityID": SpecialityID, "DurationTypeID": JSON.parse(DurationTypeID) },
+            success: function (data) {
+                if (data.length > 1) {
+                    $(data).each(function (index, item) {
+                        $("#StudyFormDropdown").append($('<option></option>').attr('value', JSON.stringify(item.StudyFormTypeID)).text(item.Description));
+                    });
+                    $("#StudyFormDropdown").val("");
+                }
+                else {
+                    document.getElementById("StudyFormDropdown").style.visibility = 'hidden';
+                    document.getElementById("StudyFormText").appendChild(document.createTextNode(data[0].Description));
+                    LoadTestOptions(ApplicationID, SpecialityID, data[0].StudyFormTypeID);
+                }
+                
+            },
+            error: errorFunc
+        });
+    }
+    function LoadTestOptions(ApplicationID, SpecialityID, StudyFormTypeID) {
+        DurationTypeID = document.getElementById("DurationDropdown").value;
+        $.ajax({
+            url: "/Home/GetTestOptions",
+            data: { "ApplicationID": ApplicationID, "SpecialityID": SpecialityID, "DurationTypeID": JSON.parse(DurationTypeID), "StudyFormTypeID": StudyFormTypeID},
+            success: function (data) {
+                // Show first prof. subject
+                var theDiv = document.getElementById("FirstSubject");
+                theDiv.innerHTML = "";
+                var innerContent = "Первый профильный: " + data.FirstProfileSubject.Title
+                if (data.FirstProfileSubject.MinScore > 0) {
+                    innerContent += " (" + data.FirstProfileSubject.MinScore + ")";
+                }
+                var content = document.createTextNode(innerContent);
+                theDiv.appendChild(content);
+
+                // Show second prof. subject
+                var theDiv = document.getElementById("SecondSubject");
+                theDiv.innerHTML = "";
+                var innerContent = "Второй профильный: " + data.SecondProfileSubject.Title
+                if (data.SecondProfileSubject.MinScore > 0) {
+                    innerContent += " (" + data.SecondProfileSubject.MinScore + ")";
+                }
+                var content = document.createTextNode(innerContent);
+                theDiv.appendChild(content);
+
+                // Show optional subjects
+                var theDiv = document.getElementById("OptionalSubjects");
+                theDiv.innerHTML = "";
+                if (data.OptionalSubjects.length != 0) {
+                    var innerContent
+                    if (data.OptionalSubjects.length == 1) {
+                        innerContent = "Третий предмет: " + data.OptionalSubjects[0].Title + " (" + data.OptionalSubjects[0].MinScore + ")";
+                    }
+                    else {
+                        innerContent = "Один предмет на выбор: \n";
+                        for (var i = 0; i < data.OptionalSubjects.length; i++) {
+                            innerContent += data.OptionalSubjects[i].Title + "(" + data.OptionalSubjects[i].MinScore + ")";
+                            if (i + 1 != data.OptionalSubjects.length)
+                                innerContent +="/"
+                        }  
+                    }
+                    var content = document.createTextNode(innerContent);
+                    theDiv.appendChild(content);
+                }
+
+                // Enable SubmitButton
+                DisableSubmitButton(false);
+                // Set GroupedSpecialityID
+                document.getElementById("GroupedSpecialityID").value = data.GroupedSpecialityID;
+                
+            },
+            error: errorFunc
+        });
+    }
+    function errorFunc(errorData) {
+        alert('Ошибка' + errorData.responseText);
+
+    }
+</script>
+
+<script>
+    $(document).ready(LoadDurationTypes(@Model.Application.ApplicationID,@Model.Speciality.SpecialityID));
+</script>
+@using (Html.BeginForm())
+{
+    <input id="GroupedSpecialityID" name="GroupedSpecialityID" type="hidden" value="-1">
+    <input id="GroupID" name="GroupID" type="hidden" value=@Model.GroupID>
+    <div class="row" style="height:100px">
+        <div class="col-md-2">
+            <b>
+                Форма обучения: @Model.Application.PaymentType.Description
+            </b>
+        </div>
+        <div class="col-md-2">
+            <b>Срок обучения: </b>
+            <div id="DurationText">
+
+            </div>
+            <select id="DurationDropdown" onmousedown="this.text = '';" onchange="LoadStudyFormTypes(@Model.Application.ApplicationID,@Model.Speciality.SpecialityID,this.value)" class="form-control"></select>
+        </div>
+        <div class="col-md-2">
+            <b>Форма обучения</b>
+            <div id="StudyFormText">
+
+            </div>
+            <select id="StudyFormDropdown" onmousedown="this.text = '';" onchange=" LoadTestOptions(@Model.Application.ApplicationID,@Model.Speciality.SpecialityID,this.value)" class="form-control"></select>
+        </div>
+        <div class="col-md-5">
+            <div id="Subjects">
+                <b>
+                    Предметы для cдачи
+                </b>
+            </div>
+            <div id="FirstSubject"></div>
+            <div id="SecondSubject"></div>
+            <div id="OptionalSubjects"></div>
+        </div>
+    </div>
+    <div class="row" style="height:50px">
+        <button id="SubmitButton" class="btn btn-success" type="submit" disabled>
+            Добавить специальность
+        </button>
+
+    </div>
+}
 
 
 

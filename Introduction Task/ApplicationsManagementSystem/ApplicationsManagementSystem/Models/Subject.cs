@@ -21,7 +21,7 @@ namespace ApplicationsManagementSystem.Models
         }
     
         public int SubjectID { get; set; }
-        public string Title { get; set; }
+        public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SpecialitySubject> SpecialitySubjects { get; set; }
