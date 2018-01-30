@@ -4,25 +4,25 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c37cc8f3f1aa48a4b9c9ef7ad6090ba5" Name="Diagram1">
+      <Diagram DiagramId="b684d7af26d64900bc37625857e2c9e8" Name="Diagram1">
         <EntityTypeShape EntityType="SpecialitiesDatabaseModel.Application" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SpecialitiesDatabaseModel.ApplicationSetting" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SpecialitiesDatabaseModel.Color" Width="1.5" PointX="3.75" PointY="9.625" IsExpanded="true" />
         <EntityTypeShape EntityType="SpecialitiesDatabaseModel.DurationType" Width="1.5" PointX="3.75" PointY="12.125" IsExpanded="true" />
         <EntityTypeShape EntityType="SpecialitiesDatabaseModel.GroupedSpeciality" Width="1.5" PointX="6" PointY="4.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.GroupFriendship" Width="1.5" PointX="3" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.GroupFriendship" Width="1.5" PointX="3" PointY="14.875" IsExpanded="true" />
         <EntityTypeShape EntityType="SpecialitiesDatabaseModel.Group" Width="1.5" PointX="0.75" PointY="5.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.MinScore" Width="1.5" PointX="8.75" PointY="10.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.OptionalSubjectsGroup" Width="1.5" PointX="13.25" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.MinScore" Width="1.5" PointX="8.75" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.OptionalSubjectsGroup" Width="1.5" PointX="13.25" PointY="17.625" IsExpanded="true" />
         <EntityTypeShape EntityType="SpecialitiesDatabaseModel.PaymentType" Width="1.5" PointX="1.5" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.ProfileSubjectsGroup" Width="1.5" PointX="13.25" PointY="20" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.ProfileSubjectsGroup" Width="1.5" PointX="13.25" PointY="20.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SpecialitiesDatabaseModel.Speciality" Width="1.5" PointX="3.75" PointY="18.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SpecialitiesDatabaseModel.SpecialityApplication" Width="1.5" PointX="8.25" PointY="6" IsExpanded="true" />
         <EntityTypeShape EntityType="SpecialitiesDatabaseModel.SpecialityCapacity" Width="1.5" PointX="3.75" PointY="21.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.SpecialitySubject" Width="1.5" PointX="11" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.SpecialitySubject" Width="1.5" PointX="11" PointY="11.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SpecialitiesDatabaseModel.SpecialityTestOption" Width="1.5" PointX="3.75" PointY="23.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SpecialitiesDatabaseModel.StudyFormType" Width="1.5" PointX="3.75" PointY="26.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.Subject" Width="1.5" PointX="8.75" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecialitiesDatabaseModel.Subject" Width="1.5" PointX="8.75" PointY="14.875" IsExpanded="true" />
         <EntityTypeShape EntityType="SpecialitiesDatabaseModel.User" Width="1.5" PointX="1.5" PointY="18.5" IsExpanded="true" />
         <AssociationConnector Association="SpecialitiesDatabaseModel.FK_applications_users" ManuallyRouted="false" />
         <AssociationConnector Association="SpecialitiesDatabaseModel.FK_Appls_paytypes" ManuallyRouted="false" />

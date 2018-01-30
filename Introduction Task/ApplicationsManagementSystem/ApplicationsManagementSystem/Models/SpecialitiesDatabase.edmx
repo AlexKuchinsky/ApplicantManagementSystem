@@ -62,6 +62,7 @@
           <Property Name="GroupFriendshipID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RequestingGroupID" Type="int" Nullable="false" />
           <Property Name="AccessibleGroupID" Type="int" Nullable="false" />
+          <Property Name="Rang" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Groups">
           <Key>
@@ -397,7 +398,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SpecApps_Apps">
-          <End Role="Applications" Type="Self.Applications" Multiplicity="1" />
+          <End Role="Applications" Type="Self.Applications" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="SpecialityApplications" Type="Self.SpecialityApplications" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Applications">
@@ -637,6 +640,7 @@
           <Property Name="GroupFriendshipID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RequestingGroupID" Type="Int32" Nullable="false" />
           <Property Name="AccessibleGroupID" Type="Int32" Nullable="false" />
+          <Property Name="Rang" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Group" Relationship="Self.FK_GropFr_Group" FromRole="GroupFriendships" ToRole="Groups" />
           <NavigationProperty Name="Group1" Relationship="Self.FK_GropFr_Group2" FromRole="GroupFriendships" ToRole="Groups" />
         </EntityType>
@@ -808,7 +812,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SpecApps_Apps">
-          <End Role="Applications" Type="Self.Application" Multiplicity="1" />
+          <End Role="Applications" Type="Self.Application" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="SpecialityApplications" Type="Self.SpecialityApplication" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Applications">
@@ -1227,6 +1233,7 @@
                 <ScalarProperty Name="GroupFriendshipID" ColumnName="GroupFriendshipID" />
                 <ScalarProperty Name="RequestingGroupID" ColumnName="RequestingGroupID" />
                 <ScalarProperty Name="AccessibleGroupID" ColumnName="AccessibleGroupID" />
+                <ScalarProperty Name="Rang" ColumnName="Rang" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

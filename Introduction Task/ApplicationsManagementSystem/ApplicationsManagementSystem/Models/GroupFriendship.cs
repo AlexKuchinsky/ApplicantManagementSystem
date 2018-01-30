@@ -17,6 +17,7 @@ namespace ApplicationsManagementSystem.Models
         public int GroupFriendshipID { get; set; }
         public int RequestingGroupID { get; set; }
         public int AccessibleGroupID { get; set; }
+        public int Rang { get; set; }
     
         public virtual Group Group { get; set; }
         public virtual Group Group1 { get; set; }

@@ -11,7 +11,8 @@ namespace ApplicationsManagementSystem.Models
         public User User { get; set; }
         public PaymentType PaymentType { get; set; }
         public List<Speciality> Specialities { get; set; } = new List<Speciality>();
-        public List<GroupedSpeciality> ChosenSpecialities { get; set; } = new List<GroupedSpeciality>();
+        public List<SpecialityApplication> ChosenSpecialities { get; set; } = new List<SpecialityApplication>();
+        public List<IGrouping<int, SpecialityApplication>> GroupedChosenSpecialities { get; set; } = new List<IGrouping<int, SpecialityApplication>>();
         public Application Application { get; set; }
         
         public Group Group {get;set;}
@@ -20,7 +21,24 @@ namespace ApplicationsManagementSystem.Models
             Application = db.Applications.Find(ApplicationID);
             PaymentType = Application.PaymentType;
             User = Application.User;
-            ChosenSpecialities = Application.SpecialityApplications.OrderBy(sa => sa.Priority).Select(gs => gs.GroupedSpeciality).ToList();
+            ApplicationSetting ApplicationSetting = Application.ApplicationSettings.First();
+            if (ApplicationSetting.ApplicationGroupID != null)
+            {
+                Group Group = db.Groups.Find(ApplicationSetting.ApplicationGroupID);
+                List<int> GroupsPriority = new List<int>();
+                GroupsPriority.Add(Group.GroupID); 
+                List<int> interRes = Group.GroupFriendships.OrderBy(gf => gf.Rang).Select(gf => gf.AccessibleGroupID).ToList();
+                GroupsPriority.AddRange(interRes);
+
+                List<IGrouping<int, SpecialityApplication>> GroupedNotOrderedSpecialities = Application.SpecialityApplications.GroupBy(sa => sa.GroupedSpeciality.GroupID).ToList();
+                List<int> GroupedNotOrderdID = GroupedNotOrderedSpecialities.Select(gnos => gnos.Key).ToList();
+
+                foreach(int priorityIndex in GroupsPriority)
+                    if(GroupedNotOrderdID.Contains(priorityIndex))
+                        GroupedChosenSpecialities.Add(GroupedNotOrderedSpecialities.First(gnos => gnos.Key == priorityIndex));  
+            }
+          
+            ChosenSpecialities = Application.SpecialityApplications.OrderBy(sa => sa.Priority).ToList();
             if (ChosenSpecialities.Count <= 10)
             {
                 if (GroupID == null)

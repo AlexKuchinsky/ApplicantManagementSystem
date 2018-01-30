@@ -4,61 +4,72 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
     $(function () {
-        $("#sortable").sortable({
+        $(".sortable").sortable({
             start: function (event, ui) {
                 start = ui.item.prevAll().length;
             },
             update: function (event, ui) {
-                //alert("Start position: " + start + " EndPosition: " + ui.item.prevAll().length + " ID: " + ui.item[0].id);
+                //ui.item[0].id
+                //alert("Start position: " + start + " EndPosition: " + ui.item.prevAll().length + " GroupID: " + event.target.id);
                 var EndPosition = ui.item.prevAll().length;
                 $.ajax({
                     url: "/Home/ChangePriority",
-                    data: { "ApplicationID": @Model.Application.ApplicationID, "StartPosition": start, "EndPosition": EndPosition },
+                    data: { "ApplicationID": @Model.Application.ApplicationID, "StartPosition": start, "EndPosition": EndPosition, "GroupID": event.target.id },
                     error: errorFunc
                 });
             }
         });
-        $("#sortable").disableSelection();
+        $(".sortable").disableSelection();
     });
     function errorFunc(errorData) {
         alert('Ошибка' + errorData.responseText);
 
     }
 </script>
-<div class="col-lg-6">
+<style>
+    .main-group-item {
+        background-color: #DFF0D8;
+    }
+    .regular-group-item {
+        background-color: #D9EDF7;
+    }
+</style>
+<div class="col-lg-5">
     <p>
         <h4> Выбранные вами специльности </h4>
     </p>
-    <ul id="sortable" class="list-group">
-        <li id="12" class="list-group-item list-group-item-action">Item 1</li>
-        <li id="87" class="list-group-item list-group-item-action">Item 2</li>
-        <li id="42" class="list-group-item list-group-item-action">Item 3</li>
-        <li id="93" class="list-group-item list-group-item-action">Item 4</li>
-        <li id="56" class="list-group-item list-group-item-action">Item 5</li>
-        <li id="12" class="list-group-item list-group-item-action">Item 6</li>
-        <li id="345" class="list-group-item list-group-item-action">Item 7</li>
-    </ul>
-    @*<table class="table-bordered table-striped">
-        <tr>
-            <td></td>
-            <td>
-                <b>Наименование специльности</b>
-            </td>
-        </tr>
-        @foreach(GroupedSpeciality gs in Model.ChosenSpecialities)
-        {
-            <tr>
-                <td>
-                    
-                </td>
-                <td>
-                    @(gs.Speciality.Title+"("+gs.GroupID+"/"+gs.PaymentType.Description+"/"+gs.DurationType.Description+"/"+gs.StudyFormType.Description+")")
-                </td>
-            </tr>
-        }
-    </table>*@
+    @foreach (IGrouping<int, SpecialityApplication> groupedSpecialities in Model.GroupedChosenSpecialities)
+    {
+        <ul id=@groupedSpecialities.Key class="sortable list-group">
+            @foreach (SpecialityApplication gs in groupedSpecialities)
+            {
+                <li id=@gs.Priority class="@("list-group-item list-group-item-action "+((groupedSpecialities.Key==Model.Group.GroupID) ? "main-group-item" :"regular-group-item"))" style="margin: 10px">
+                    <div style="margin: 0px 0px 0px 20px">
+                        <div class="row">
+                            <h4>@gs.GroupedSpeciality.Speciality.Title</h4>
+                        </div>
+                        <div class="row">
+                            @(gs.GroupedSpeciality.PaymentType.Description + " " + gs.GroupedSpeciality.DurationType.Description + " " + gs.GroupedSpeciality.StudyFormType.Description + " (gr." + gs.GroupedSpeciality.GroupID + ")")
+                        </div>
+                    </div>
+         
+                </li>
+            }
+        </ul>
+        <br/>
+
+    }
+    
+    
 </div>
-<div class="col-lg-6">
+<div class="col-lg-5">
+    @using (Html.BeginForm())
+    {
+
+        <button class="btn btn-success">
+            Apply
+        </button>
+    }
     <p>
         <h4>
             Вы можете выбрать специльность из этого списка
