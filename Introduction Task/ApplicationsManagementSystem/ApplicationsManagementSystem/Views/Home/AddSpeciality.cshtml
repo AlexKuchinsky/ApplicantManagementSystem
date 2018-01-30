@@ -3,7 +3,6 @@
     ViewBag.Title = "AddSpeciality";
 }
 <script>
-
     function ReloadStudyFormTypes() {
         $('#StudyFormDropdown').find('option').remove();
         ReloadSubjects();
@@ -21,9 +20,9 @@
         if (!Disable)
             document.getElementById("SubmitButton").removeAttribute("disabled");
         else
-            document.getElementById("SubmitButton").setAttribute("disabled","");
+            document.getElementById("SubmitButton").setAttribute("disabled", "");
     }
-    function LoadDurationTypes(ApplicationID, SpecialityID) {      
+    function LoadDurationTypes(ApplicationID, SpecialityID) {
         $('#StudyFormDropdown').find('option').remove();
         $.ajax({
             url: "/Home/GetDurationTypes",
@@ -36,21 +35,16 @@
                     $("#DurationDropdown").val("");
                 }
                 else {
-                    document.getElementById("DurationDropdown").style.visibility = 'hidden';
-                    document.getElementById("DurationText").appendChild(document.createTextNode(data[0].Description));
                     LoadStudyFormTypes(ApplicationID, SpecialityID, data[0].DurationTypeID);
                     $("#DurationDropdown").append($('<option selected="selected"></option>').attr('value', JSON.stringify(data[0].DurationTypeID)).text(data[0].Description));
                 }
-   
+
             },
             error: errorFunc
         });
     }
     function LoadStudyFormTypes(ApplicationID, SpecialityID, DurationTypeID) {
         ReloadStudyFormTypes();
-        document.getElementById("StudyFormDropdown").style.visibility = 'visible';
-        document.getElementById("StudyFormText").innerHTML = ""; 
-
         $.ajax({
             url: "/Home/GetStudyFormTypes",
             data: { "ApplicationID": ApplicationID, "SpecialityID": SpecialityID, "DurationTypeID": JSON.parse(DurationTypeID) },
@@ -62,11 +56,10 @@
                     $("#StudyFormDropdown").val("");
                 }
                 else {
-                    document.getElementById("StudyFormDropdown").style.visibility = 'hidden';
-                    document.getElementById("StudyFormText").appendChild(document.createTextNode(data[0].Description));
                     LoadTestOptions(ApplicationID, SpecialityID, data[0].StudyFormTypeID);
+                    $("#StudyFormDropdown").append($('<option selected="selected"></option>').attr('value', JSON.stringify(data[0].StudyFormTypeID)).text(data[0].Description));
                 }
-                
+
             },
             error: errorFunc
         });
@@ -111,7 +104,7 @@
                             innerContent += data.OptionalSubjects[i].Title + "(" + data.OptionalSubjects[i].MinScore + ")";
                             if (i + 1 != data.OptionalSubjects.length)
                                 innerContent +="/"
-                        }  
+                        }
                     }
                     var content = document.createTextNode(innerContent);
                     theDiv.appendChild(content);
@@ -121,7 +114,7 @@
                 DisableSubmitButton(false);
                 // Set GroupedSpecialityID
                 document.getElementById("GroupedSpecialityID").value = data.GroupedSpecialityID;
-                
+
             },
             error: errorFunc
         });
@@ -147,16 +140,10 @@
         </div>
         <div class="col-md-2">
             <b>Срок обучения: </b>
-            <div id="DurationText">
-
-            </div>
             <select id="DurationDropdown" onmousedown="this.text = '';" onchange="LoadStudyFormTypes(@Model.Application.ApplicationID,@Model.Speciality.SpecialityID,this.value)" class="form-control"></select>
         </div>
         <div class="col-md-2">
             <b>Форма обучения</b>
-            <div id="StudyFormText">
-
-            </div>
             <select id="StudyFormDropdown" onmousedown="this.text = '';" onchange=" LoadTestOptions(@Model.Application.ApplicationID,@Model.Speciality.SpecialityID,this.value)" class="form-control"></select>
         </div>
         <div class="col-md-5">

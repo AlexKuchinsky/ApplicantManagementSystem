@@ -141,6 +141,9 @@
     <Compile Include="Models\Application.cs">
       <DependentUpon>SpecialitiesDatabase.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ApplicationSetting.cs">
+      <DependentUpon>SpecialitiesDatabase.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Color.cs">
       <DependentUpon>SpecialitiesDatabase.tt</DependentUpon>
     </Compile>

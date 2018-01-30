@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data;
+using System.Data.Entity; 
 using System.Web;
 using System.Web.Mvc;
 using ApplicationsManagementSystem.Models;
@@ -32,12 +34,19 @@ namespace ApplicationsManagementSystem.Controllers
         }
         public ActionResult NewSpecialitiesList(int UserID, int PaymentTypeID)
         {
+
             Application NewApplication = new Application()
             {
                 UserID = UserID,
                 PaymentTypeID = PaymentTypeID
             };
             db.Applications.Add(NewApplication);
+            db.SaveChanges();
+            ApplicationSetting appSetting = new ApplicationSetting()
+            {
+                ApplicationID = NewApplication.ApplicationID
+            };
+            db.ApplicationSettings.Add(appSetting);
             db.SaveChanges();
             return View("SpecialitiesList",new SpecialitiesListModel(NewApplication.ApplicationID)); 
         }
@@ -53,14 +62,24 @@ namespace ApplicationsManagementSystem.Controllers
         [HttpPost]
         public ActionResult AddSpeciality(AddedGruopedSpecilityID speciality)
         {
-
             SpecialityApplication SpecialityApplication = new SpecialityApplication();
             SpecialityApplication.ApplicationID = speciality.ApplicationID;
             SpecialityApplication.GroupedSpecialityID = speciality.GroupedSpecialityID;
             SpecialityApplication.Priority = 0;
             db.SpecialityApplications.Add(SpecialityApplication);
             db.SaveChanges();
-            return View("SpecialitiesList", new SpecialitiesListModel(speciality.ApplicationID,speciality.GroupID ?? db.GroupedSpecialities.Find(speciality.GroupedSpecialityID).GroupID));
+
+            Application Application = db.Applications.Find(speciality.ApplicationID);
+            ApplicationSetting ApplicationSetting = Application.ApplicationSettings.First();
+
+            if (speciality.GroupID == null)
+            {
+                ApplicationSetting.ApplicationGroupID = db.GroupedSpecialities.Find(speciality.GroupedSpecialityID).GroupID;
+                db.Entry(ApplicationSetting).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            int GroupID = ApplicationSetting.ApplicationGroupID?? throw new NotImplementedException();
+            return View("SpecialitiesList", new SpecialitiesListModel(speciality.ApplicationID,GroupID));
             
         }
         public ActionResult UserPage(int? id)
@@ -69,17 +88,17 @@ namespace ApplicationsManagementSystem.Controllers
         }
 
 
-        public JsonResult GetDurationTypes(int? ApplicationID, int SpecialityID)
+        public JsonResult GetDurationTypes(int? ApplicationID, int SpecialityID,int? GroupID=null)
         {
             List<DurationType> result = GetAvailableDurationTypesList(db.Applications.Find(ApplicationID), SpecialityID); 
             return Json(result.Select(r=>new { Description = r.Description, DurationTypeID = r.DurationTypeID }), JsonRequestBehavior.AllowGet);
         }
-        public JsonResult GetStudyFormTypes(int ApplicationID,int SpecialityID,int DurationTypeID)
+        public JsonResult GetStudyFormTypes(int ApplicationID,int SpecialityID,int DurationTypeID, int? GroupID = null)
         {
             List<StudyFormType> result = GetAvailableStudyFormTypes(db.Applications.Find(ApplicationID), SpecialityID, DurationTypeID); 
             return Json(result.Select(r=>new { Description = r.Description, StudyFormTypeID = r.StudyFormTypeID }), JsonRequestBehavior.AllowGet); 
         }
-        public JsonResult GetTestOptions(int ApplicationID, int SpecialityID, int DurationTypeID,int StudyFormTypeID)
+        public JsonResult GetTestOptions(int ApplicationID, int SpecialityID, int DurationTypeID,int StudyFormTypeID, int? GroupID = null)
         {
             GroupedSpeciality ChosenGroupedSpeciality = GetChosenGroupedSpeciality(db.Applications.Find(ApplicationID), SpecialityID, DurationTypeID, StudyFormTypeID);
             SpecialityTestOption result = ChosenGroupedSpeciality.SpecialityTestOption;
@@ -99,9 +118,24 @@ namespace ApplicationsManagementSystem.Controllers
 
         public List<GroupedSpeciality> GetAvailableGroupedSpecialities(Application Application,int SpecialityID)
         {
-            List<GroupedSpeciality> exsistinGrouped = db.GroupedSpecialities.Where(gs => gs.SpecialityID == SpecialityID && gs.PaymentTypeID == Application.PaymentTypeID).ToList();
             List<GroupedSpeciality> userGrouped = Application.SpecialityApplications.Select(sa => sa.GroupedSpeciality).Where(gs => gs.SpecialityID == SpecialityID).ToList();
-            return exsistinGrouped.Except(userGrouped).ToList();
+            if (Application.ApplicationSettings.First().ApplicationGroupID == null)
+            {
+                List<GroupedSpeciality> exsistinGrouped = db.GroupedSpecialities.Where(gs => gs.SpecialityID == SpecialityID && gs.PaymentTypeID == Application.PaymentTypeID).ToList();
+                
+                return exsistinGrouped.Except(userGrouped).ToList();
+            }
+            else
+            {
+                Group ApplicationGroup = db.Groups.Find(Application.ApplicationSettings.First().ApplicationGroupID);
+                List<GroupedSpeciality> GroupedSpecialities = ApplicationGroup.GroupedSpecialities.Where(gs => gs.SpecialityID == SpecialityID && gs.PaymentTypeID == Application.PaymentTypeID ).ToList();
+                foreach (Group g in ApplicationGroup.GroupFriendships.Select(gf => gf.Group1))
+                    GroupedSpecialities.AddRange(g.GroupedSpecialities.Where(gs => gs.SpecialityID == SpecialityID && gs.PaymentTypeID == Application.PaymentTypeID));
+                return GroupedSpecialities.Except(userGrouped).ToList();
+                
+
+            }
+
         }
         public List<GroupedSpeciality> GetAvailableGroupedSpecialities(Application Application,int SpecialityID,int DurationTypeID)
         {
@@ -126,5 +160,11 @@ namespace ApplicationsManagementSystem.Controllers
             List<GroupedSpeciality> IntermediateResult = GetAvailableGroupedSpecialities(Application, SpecialityID, DurationTypeID);
             return IntermediateResult.Where(ir => ir.StudyFormTypeID == StudyFormTypeID).First();
         }
+
+        public void ChangePriority(int? ApplicationID,int? StartPosition, int? EndPosition)
+        {
+
+        }
+
     }
 }

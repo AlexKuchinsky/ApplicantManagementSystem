@@ -11,37 +11,46 @@ namespace ApplicationsManagementSystem.Models
         public User User { get; set; }
         public PaymentType PaymentType { get; set; }
         public List<Speciality> Specialities { get; set; } = new List<Speciality>();
+        public List<GroupedSpeciality> ChosenSpecialities { get; set; } = new List<GroupedSpeciality>();
         public Application Application { get; set; }
+        
         public Group Group {get;set;}
         public SpecialitiesListModel(int ApplicationID,int? GroupID=null)
         {
             Application = db.Applications.Find(ApplicationID);
             PaymentType = Application.PaymentType;
             User = Application.User;
-
-            if (GroupID == null)
+            ChosenSpecialities = Application.SpecialityApplications.OrderBy(sa => sa.Priority).Select(gs => gs.GroupedSpeciality).ToList();
+            if (ChosenSpecialities.Count <= 10)
             {
-                IQueryable<IGrouping<int,GroupedSpeciality>> groups = db.GroupedSpecialities.Where(gs => gs.PaymentTypeID == PaymentType.PaymentTypeID /*&& Date*/).GroupBy(gs => gs.SpecialityID);
-                foreach(IGrouping<int,GroupedSpeciality> group in groups)
+                if (GroupID == null)
                 {
-                    Specialities.Add(db.Specialities.Find(group.Key));
+                    IQueryable<IGrouping<int, GroupedSpeciality>> groups = db.GroupedSpecialities.Where(gs => gs.PaymentTypeID == PaymentType.PaymentTypeID /*&& Date*/).GroupBy(gs => gs.SpecialityID);
+                    foreach (IGrouping<int, GroupedSpeciality> group in groups)
+                    {
+                        Specialities.Add(db.Specialities.Find(group.Key));
+                    }
+                }
+                else
+                {
+                    Group = db.Groups.Find(GroupID);
+                    List<GroupedSpeciality> AvailableSpecialities = Group.GroupedSpecialities.ToList();
+                    foreach (Group friend in Group.GroupFriendships.Select(gf => gf.Group1))
+                    {
+                        AvailableSpecialities.AddRange(friend.GroupedSpecialities);
+                    }
+
+
+
+                    IEnumerable<IGrouping<int, GroupedSpeciality>> groups = AvailableSpecialities.Where(gs => gs.PaymentTypeID == PaymentType.PaymentTypeID).Except(Application.SpecialityApplications.Select(sa => sa.GroupedSpeciality)).GroupBy(gs => gs.SpecialityID);
+                    foreach (IGrouping<int, GroupedSpeciality> group in groups)
+                    {
+                        Specialities.Add(db.Specialities.Find(group.Key));
+                    }
+
                 }
             }
-            else
-            {
-                Group = db.Groups.Find(GroupID);
-                List<GroupedSpeciality> AvailableSpecialities = Group.GroupedSpecialities.ToList();
-                foreach (Group friend in Group.GroupFriendships.Select(gf => gf.Group))
-                    AvailableSpecialities.AddRange(friend.GroupedSpecialities);
-
-
-                IEnumerable<IGrouping<int, GroupedSpeciality>> groups = AvailableSpecialities.Where(gs => gs.PaymentTypeID == PaymentType.PaymentTypeID).Except(Application.SpecialityApplications.Select(sa => sa.GroupedSpeciality)).GroupBy(gs => gs.SpecialityID); 
-                foreach (IGrouping<int, GroupedSpeciality> group in groups)
-                {
-                    Specialities.Add(db.Specialities.Find(group.Key));
-                }
-
-            }
+            
             
           
         }

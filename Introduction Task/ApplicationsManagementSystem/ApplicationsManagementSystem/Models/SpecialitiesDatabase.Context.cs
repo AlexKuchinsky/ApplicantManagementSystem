@@ -26,6 +26,7 @@ namespace ApplicationsManagementSystem.Models
         }
     
         public virtual DbSet<Application> Applications { get; set; }
+        public virtual DbSet<ApplicationSetting> ApplicationSettings { get; set; }
         public virtual DbSet<Color> Colors { get; set; }
         public virtual DbSet<DurationType> DurationTypes { get; set; }
         public virtual DbSet<GroupedSpeciality> GroupedSpecialities { get; set; }

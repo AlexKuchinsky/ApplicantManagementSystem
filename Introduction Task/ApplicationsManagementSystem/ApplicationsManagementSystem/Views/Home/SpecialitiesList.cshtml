@@ -1,8 +1,62 @@
 ﻿@model ApplicationsManagementSystem.Models.SpecialitiesListModel
+@using ApplicationsManagementSystem.Models;
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(function () {
+        $("#sortable").sortable({
+            start: function (event, ui) {
+                start = ui.item.prevAll().length;
+            },
+            update: function (event, ui) {
+                //alert("Start position: " + start + " EndPosition: " + ui.item.prevAll().length + " ID: " + ui.item[0].id);
+                var EndPosition = ui.item.prevAll().length;
+                $.ajax({
+                    url: "/Home/ChangePriority",
+                    data: { "ApplicationID": @Model.Application.ApplicationID, "StartPosition": start, "EndPosition": EndPosition },
+                    error: errorFunc
+                });
+            }
+        });
+        $("#sortable").disableSelection();
+    });
+    function errorFunc(errorData) {
+        alert('Ошибка' + errorData.responseText);
+
+    }
+</script>
 <div class="col-lg-6">
     <p>
         <h4> Выбранные вами специльности </h4>
     </p>
+    <ul id="sortable" class="list-group">
+        <li id="12" class="list-group-item list-group-item-action">Item 1</li>
+        <li id="87" class="list-group-item list-group-item-action">Item 2</li>
+        <li id="42" class="list-group-item list-group-item-action">Item 3</li>
+        <li id="93" class="list-group-item list-group-item-action">Item 4</li>
+        <li id="56" class="list-group-item list-group-item-action">Item 5</li>
+        <li id="12" class="list-group-item list-group-item-action">Item 6</li>
+        <li id="345" class="list-group-item list-group-item-action">Item 7</li>
+    </ul>
+    @*<table class="table-bordered table-striped">
+        <tr>
+            <td></td>
+            <td>
+                <b>Наименование специльности</b>
+            </td>
+        </tr>
+        @foreach(GroupedSpeciality gs in Model.ChosenSpecialities)
+        {
+            <tr>
+                <td>
+                    
+                </td>
+                <td>
+                    @(gs.Speciality.Title+"("+gs.GroupID+"/"+gs.PaymentType.Description+"/"+gs.DurationType.Description+"/"+gs.StudyFormType.Description+")")
+                </td>
+            </tr>
+        }
+    </table>*@
 </div>
 <div class="col-lg-6">
     <p>
@@ -32,4 +86,5 @@
         }
     </table>
 </div>
+
 

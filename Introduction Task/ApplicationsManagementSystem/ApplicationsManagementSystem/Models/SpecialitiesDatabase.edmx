@@ -14,6 +14,16 @@
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="Submitted" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="ApplicationSettings">
+          <Key>
+            <PropertyRef Name="ApplicationSettingsID" />
+          </Key>
+          <Property Name="ApplicationSettingsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ApplicationID" Type="int" Nullable="false" />
+          <Property Name="ApplicationGroupID" Type="int" />
+          <Property Name="NextGroupID" Type="int" />
+          <Property Name="NumberOfMainGroupSpecialities" Type="int" />
+        </EntityType>
         <EntityType Name="Colors">
           <Key>
             <PropertyRef Name="ColorID" />
@@ -177,6 +187,44 @@
             </Principal>
             <Dependent Role="Applications">
               <PropertyRef Name="PaymentTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AppSett_Apps">
+          <End Role="Applications" Type="Self.Applications" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ApplicationSettings" Type="Self.ApplicationSettings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applications">
+              <PropertyRef Name="ApplicationID" />
+            </Principal>
+            <Dependent Role="ApplicationSettings">
+              <PropertyRef Name="ApplicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AppSett_group">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="0..1" />
+          <End Role="ApplicationSettings" Type="Self.ApplicationSettings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="ApplicationSettings">
+              <PropertyRef Name="NextGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AppSett_groups">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="0..1" />
+          <End Role="ApplicationSettings" Type="Self.ApplicationSettings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="ApplicationSettings">
+              <PropertyRef Name="ApplicationGroupID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -398,6 +446,7 @@
         </Association>
         <EntityContainer Name="SpecialitiesDatabaseModelStoreContainer">
           <EntitySet Name="Applications" EntityType="Self.Applications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplicationSettings" EntityType="Self.ApplicationSettings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Colors" EntityType="Self.Colors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DurationTypes" EntityType="Self.DurationTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupedSpecialities" EntityType="Self.GroupedSpecialities" Schema="dbo" store:Type="Tables" />
@@ -422,6 +471,18 @@
           <AssociationSet Name="FK_Appls_paytypes" Association="Self.FK_Appls_paytypes">
             <End Role="PaymentTypes" EntitySet="PaymentTypes" />
             <End Role="Applications" EntitySet="Applications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AppSett_Apps" Association="Self.FK_AppSett_Apps">
+            <End Role="Applications" EntitySet="Applications" />
+            <End Role="ApplicationSettings" EntitySet="ApplicationSettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AppSett_group" Association="Self.FK_AppSett_group">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="ApplicationSettings" EntitySet="ApplicationSettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AppSett_groups" Association="Self.FK_AppSett_groups">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="ApplicationSettings" EntitySet="ApplicationSettings" />
           </AssociationSet>
           <AssociationSet Name="FK_GropFr_Group" Association="Self.FK_GropFr_Group">
             <End Role="Groups" EntitySet="Groups" />
@@ -511,7 +572,21 @@
           <Property Name="Submitted" Type="Int32" Nullable="false" />
           <NavigationProperty Name="User" Relationship="Self.FK_applications_users" FromRole="Applications" ToRole="Users" />
           <NavigationProperty Name="PaymentType" Relationship="Self.FK_Appls_paytypes" FromRole="Applications" ToRole="PaymentTypes" />
+          <NavigationProperty Name="ApplicationSettings" Relationship="Self.FK_AppSett_Apps" FromRole="Applications" ToRole="ApplicationSettings" />
           <NavigationProperty Name="SpecialityApplications" Relationship="Self.FK_SpecApps_Apps" FromRole="Applications" ToRole="SpecialityApplications" />
+        </EntityType>
+        <EntityType Name="ApplicationSetting">
+          <Key>
+            <PropertyRef Name="ApplicationSettingsID" />
+          </Key>
+          <Property Name="ApplicationSettingsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApplicationID" Type="Int32" Nullable="false" />
+          <Property Name="ApplicationGroupID" Type="Int32" />
+          <Property Name="NextGroupID" Type="Int32" />
+          <Property Name="NumberOfMainGroupSpecialities" Type="Int32" />
+          <NavigationProperty Name="Application" Relationship="Self.FK_AppSett_Apps" FromRole="ApplicationSettings" ToRole="Applications" />
+          <NavigationProperty Name="Group" Relationship="Self.FK_AppSett_group" FromRole="ApplicationSettings" ToRole="Groups" />
+          <NavigationProperty Name="Group1" Relationship="Self.FK_AppSett_groups" FromRole="ApplicationSettings" ToRole="Groups" />
         </EntityType>
         <EntityType Name="Color">
           <Key>
@@ -571,6 +646,8 @@
           </Key>
           <Property Name="GroupID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ApplicationSettings" Relationship="Self.FK_AppSett_group" FromRole="Groups" ToRole="ApplicationSettings" />
+          <NavigationProperty Name="ApplicationSettings1" Relationship="Self.FK_AppSett_groups" FromRole="Groups" ToRole="ApplicationSettings" />
           <NavigationProperty Name="GroupedSpecialities" Relationship="Self.FK_grSpe_Gruops" FromRole="Groups" ToRole="GroupedSpecialities" />
           <NavigationProperty Name="GroupFriendships" Relationship="Self.FK_GropFr_Group" FromRole="Groups" ToRole="GroupFriendships" />
           <NavigationProperty Name="GroupFriendships1" Relationship="Self.FK_GropFr_Group2" FromRole="Groups" ToRole="GroupFriendships" />
@@ -716,6 +793,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_AppSett_Apps">
+          <End Role="Applications" Type="Self.Application" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ApplicationSettings" Type="Self.ApplicationSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applications">
+              <PropertyRef Name="ApplicationID" />
+            </Principal>
+            <Dependent Role="ApplicationSettings">
+              <PropertyRef Name="ApplicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SpecApps_Apps">
           <End Role="Applications" Type="Self.Application" Multiplicity="1" />
           <End Role="SpecialityApplications" Type="Self.SpecialityApplication" Multiplicity="*" />
@@ -725,6 +816,30 @@
             </Principal>
             <Dependent Role="SpecialityApplications">
               <PropertyRef Name="ApplicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AppSett_group">
+          <End Role="Groups" Type="Self.Group" Multiplicity="0..1" />
+          <End Role="ApplicationSettings" Type="Self.ApplicationSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="ApplicationSettings">
+              <PropertyRef Name="NextGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AppSett_groups">
+          <End Role="Groups" Type="Self.Group" Multiplicity="0..1" />
+          <End Role="ApplicationSettings" Type="Self.ApplicationSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="ApplicationSettings">
+              <PropertyRef Name="ApplicationGroupID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -934,6 +1049,7 @@
         </Association>
         <EntityContainer Name="SpecialitiesDatabaseEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Applications" EntityType="Self.Application" />
+          <EntitySet Name="ApplicationSettings" EntityType="Self.ApplicationSetting" />
           <EntitySet Name="Colors" EntityType="Self.Color" />
           <EntitySet Name="DurationTypes" EntityType="Self.DurationType" />
           <EntitySet Name="GroupedSpecialities" EntityType="Self.GroupedSpeciality" />
@@ -959,9 +1075,21 @@
             <End Role="PaymentTypes" EntitySet="PaymentTypes" />
             <End Role="Applications" EntitySet="Applications" />
           </AssociationSet>
+          <AssociationSet Name="FK_AppSett_Apps" Association="Self.FK_AppSett_Apps">
+            <End Role="Applications" EntitySet="Applications" />
+            <End Role="ApplicationSettings" EntitySet="ApplicationSettings" />
+          </AssociationSet>
           <AssociationSet Name="FK_SpecApps_Apps" Association="Self.FK_SpecApps_Apps">
             <End Role="Applications" EntitySet="Applications" />
             <End Role="SpecialityApplications" EntitySet="SpecialityApplications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AppSett_group" Association="Self.FK_AppSett_group">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="ApplicationSettings" EntitySet="ApplicationSettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AppSett_groups" Association="Self.FK_AppSett_groups">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="ApplicationSettings" EntitySet="ApplicationSettings" />
           </AssociationSet>
           <AssociationSet Name="FK_grSpe_colors" Association="Self.FK_grSpe_colors">
             <End Role="Colors" EntitySet="Colors" />
@@ -1045,6 +1173,17 @@
                 <ScalarProperty Name="PaymentTypeID" ColumnName="PaymentTypeID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="Submitted" ColumnName="Submitted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApplicationSettings">
+            <EntityTypeMapping TypeName="SpecialitiesDatabaseModel.ApplicationSetting">
+              <MappingFragment StoreEntitySet="ApplicationSettings">
+                <ScalarProperty Name="ApplicationSettingsID" ColumnName="ApplicationSettingsID" />
+                <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
+                <ScalarProperty Name="ApplicationGroupID" ColumnName="ApplicationGroupID" />
+                <ScalarProperty Name="NextGroupID" ColumnName="NextGroupID" />
+                <ScalarProperty Name="NumberOfMainGroupSpecialities" ColumnName="NumberOfMainGroupSpecialities" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
