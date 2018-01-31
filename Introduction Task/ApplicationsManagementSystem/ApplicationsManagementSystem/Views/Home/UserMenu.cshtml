@@ -10,22 +10,43 @@
 </h3>
 @if (Model.UserApplications.Any())
 {
+    <b> Поданные вами заявления: </b>
+    <br />
     int i = 1;
-    foreach(Application app in Model.UserApplications)
+    foreach (Application app in Model.UserApplications)
     {
-        <b>Application </b> @(i+" ("+app.PaymentType.Description+")")
+        if (app.Submitted == 1)
+        {
+            <b>@i. @Html.ActionLink("Заявление  (" + app.PaymentType.Description + ")", "Application", new { ApplicationID = app.ApplicationID }) </b>
+        }
+        else
+        {
+            <b>@i. @Html.ActionLink("Заявление  (" + app.PaymentType.Description + ") - продолжить редактирование", "SpecialitiesList", new { ApplicationID = app.ApplicationID,GroupID = app.ApplicationSettings.First().ApplicationGroupID }) </b>
+        }
+        <br />
+
     }
 }
 <br />
-<b> Вы можете подать заявление на следующие формы обучения: </b>
-@for (int i = 0; i < Model.AvailableApplicationTypes.Count; i++)
+@if (Model.AvailableApplicationTypes.Count > 0)
 {
-    <br />
-  
+    <b> Вы можете подать заявление на следующие формы обучения: </b>
+    for (int i = 0; i < Model.AvailableApplicationTypes.Count; i++)
+    {
+        <br />
+
+        <b>
+            @(i + 1). @Html.ActionLink("Заявление (" + Model.AvailableApplicationTypes[i].Description + ")", "NewSpecialitiesList", new { PaymentTypeID = Model.AvailableApplicationTypes[i].PaymentTypeID, UserID = Model.User.UserID })
+        </b>
+    }
+}
+else
+{
     <b>
-        @(i + 1). @Html.ActionLink("Заявление ("+Model.AvailableApplicationTypes[i].Description+")","NewSpecialitiesList",new { PaymentTypeID = Model.AvailableApplicationTypes[i].PaymentTypeID,UserID = Model.User.UserID })
+        Вы подали все возможные типы заявлений
     </b>
 }
+
 
 
 

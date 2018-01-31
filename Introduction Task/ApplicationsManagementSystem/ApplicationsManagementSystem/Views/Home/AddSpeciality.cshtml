@@ -128,21 +128,30 @@
 <script>
     $(document).ready(LoadDurationTypes(@Model.Application.ApplicationID,@Model.Speciality.SpecialityID));
 </script>
+<div class="row">
+    <h4>
+        <b>
+            @Model.Speciality.Title
+        </b>
+    </h4>
+    @("Код специальности: "+Model.Speciality.Code)
+</div>
+<br/>
 @using (Html.BeginForm())
 {
     <input id="GroupedSpecialityID" name="GroupedSpecialityID" type="hidden" value="-1">
     <input id="GroupID" name="GroupID" type="hidden" value=@Model.GroupID>
     <div class="row" style="height:100px">
-        <div class="col-md-2">
+        <div class="col-md-1">
             <b>
                 Форма обучения: @Model.Application.PaymentType.Description
             </b>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
             <b>Срок обучения: </b>
             <select id="DurationDropdown" onmousedown="this.text = '';" onchange="LoadStudyFormTypes(@Model.Application.ApplicationID,@Model.Speciality.SpecialityID,this.value)" class="form-control"></select>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
             <b>Форма обучения</b>
             <select id="StudyFormDropdown" onmousedown="this.text = '';" onchange=" LoadTestOptions(@Model.Application.ApplicationID,@Model.Speciality.SpecialityID,this.value)" class="form-control"></select>
         </div>
@@ -161,9 +170,14 @@
         <button id="SubmitButton" class="btn btn-success" type="submit" disabled>
             Добавить специальность
         </button>
-
     </div>
 }
+<div class="row" style="align-items:center">
+    <button class="btn btn-default" style="width: 190px;" onclick="location.href='@Url.Action("SpecialitiesList", "Home",new { ApplicationID = Model.Application.ApplicationID, GroupID = Model.Application.ApplicationSettings.First().ApplicationGroupID })'">
+        Назад
+    </button>
+</div>
+
 
 
 

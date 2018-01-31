@@ -1,0 +1,50 @@
+﻿@model ApplicationsManagementSystem.Models.Application
+@using ApplicationsManagementSystem.Models
+@{
+    ViewBag.Title = "Application";
+}
+
+<h4>
+    <b>
+        Заявление на тип финансирования: @Model.PaymentType.Description
+    </b>
+</h4>
+
+Ваши специальности, @(Model.User.Name + " "+ Model.User.Surname)
+<br />
+<table class="table table-bordered table-striped">
+    <tr>
+        <td>
+            Приоритет
+        </td>
+        <td>
+            Специальность
+        </td>
+    </tr>
+    @foreach (SpecialityApplication sa in Model.SpecialityApplications.OrderBy(sa => sa.Priority))
+    {
+        <tr>
+            <td>
+                @(sa.Priority+1)
+            </td>
+            <td>
+                <div style="margin: 0px 0px 0px 20px">
+                    <div class="row">
+                        <h4>@sa.GroupedSpeciality.Speciality.Title</h4>
+                    </div>
+                    <div class="row">
+                        @(sa.GroupedSpeciality.PaymentType.Description + " " + sa.GroupedSpeciality.DurationType.Description + " " + sa.GroupedSpeciality.StudyFormType.Description)
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+</table>
+<button type="button" class="btn btn-success" onclick="location.href='@Url.Action("UserMenu", "Home")'">
+    Личный кабинет
+</button>
+<button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("DeleteApplication", "Home",new { ApplicationID = Model.ApplicationID})'">
+    Удалить это заявление
+</button>
+
+

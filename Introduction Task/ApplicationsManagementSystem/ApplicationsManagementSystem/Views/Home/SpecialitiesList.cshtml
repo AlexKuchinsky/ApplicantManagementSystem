@@ -35,67 +35,105 @@
     }
 </style>
 <div class="col-lg-5">
-    <p>
-        <h4> Выбранные вами специльности </h4>
-    </p>
-    @foreach (IGrouping<int, SpecialityApplication> groupedSpecialities in Model.GroupedChosenSpecialities)
+    @if (Model.ChosenSpecialities.Any())
     {
-        <ul id=@groupedSpecialities.Key class="sortable list-group">
-            @foreach (SpecialityApplication gs in groupedSpecialities)
-            {
-                <li id=@gs.Priority class="@("list-group-item list-group-item-action "+((groupedSpecialities.Key==Model.Group.GroupID) ? "main-group-item" :"regular-group-item"))" style="margin: 10px">
-                    <div style="margin: 0px 0px 0px 20px">
-                        <div class="row">
-                            <h4>@gs.GroupedSpeciality.Speciality.Title</h4>
-                        </div>
-                        <div class="row">
-                            @(gs.GroupedSpeciality.PaymentType.Description + " " + gs.GroupedSpeciality.DurationType.Description + " " + gs.GroupedSpeciality.StudyFormType.Description + " (gr." + gs.GroupedSpeciality.GroupID + ")")
-                        </div>
-                    </div>
-         
-                </li>
-            }
-        </ul>
-        <br/>
+        <p>
+            <h4> Выбранные вами специльности </h4>
+        </p>
+        foreach (IGrouping<int, SpecialityApplication> groupedSpecialities in Model.GroupedChosenSpecialities)
+        {
+            <ul id=@groupedSpecialities.Key class="sortable list-group">
+                @foreach (SpecialityApplication gs in groupedSpecialities.OrderBy(gs => gs.Priority))
+                {
+                    <li id=@gs.Priority class="@("list-group-item list-group-item-action "+((groupedSpecialities.Key==Model.Group.GroupID) ? "main-group-item" :"regular-group-item"))" style="margin: 10px">
+                        <div style="margin: 0px 0px 0px 20px">
+                            <div class="row">
+                                <h4>@gs.GroupedSpeciality.Speciality.Title</h4>                                
+                            </div>
+                            <div class="row">
+                                @(gs.GroupedSpeciality.PaymentType.Description + " " + gs.GroupedSpeciality.DurationType.Description + " " + gs.GroupedSpeciality.StudyFormType.Description)
+                                <div>
+                                    @if (!(groupedSpecialities.Key == Model.Group.GroupID) || groupedSpecialities.Count()>1 )
+                                    {
+                                        <b>
+                                            @Html.ActionLink("Delete", "DeleteSpeciality", new {ApplicationID = Model.Application.ApplicationID, GroupID = groupedSpecialities.Key, SpecialityApplicationID = gs.SpecialityApplicationID })
+                                        </b>
 
+                                    }
+
+                                </div>
+
+                            </div>
+                            
+                        </div>
+
+                    </li>
+                }
+            </ul>
+            <br />
+
+        }
     }
-    
-    
+    else
+    {
+        <p>
+            <h4> Пожалуйста, выберите спецальность справа </h4>
+        </p>
+    }
+
+
+
 </div>
 <div class="col-lg-5">
-    @using (Html.BeginForm())
-    {
-
-        <button class="btn btn-success">
-            Apply
-        </button>
-    }
-    <p>
-        <h4>
-            Вы можете выбрать специльность из этого списка
-        </h4>
-    </p>
-    <table class="table table-striped table-bordered">
-        <tr>
-            <td>
-                
-            </td>
-            <td>
-                <b>Наименование специльности</b>
-            </td>
-        </tr>
-        @for(int i = 0; i<Model.Specialities.Count; i++)
+    <div style="margin: 0px 0px 0px 55px">
+        @using (Html.BeginForm())
         {
+
+            <button class="btn btn-success" style="width: 337px; margin: 8px" disabled=@(!Model.ChosenSpecialities.Any())>
+                Подать заявление
+            </button>
+        }
+        <button class="btn btn-danger" style="margin: 8px;" onclick="location.href='@Url.Action("DeleteApplication", "Home", new { ApplicationID = Model.Application.ApplicationID })'">
+            Вернуться в личный кабинет, удалив заявление
+        </button>
+    </div>
+    
+    @if (Model.Specialities.Any())
+    {
+        <p>
+            <h4>
+                Вы можете выбрать специльность из этого списка
+            </h4>
+        </p>
+        <table class="table table-striped table-bordered">
             <tr>
+                <td></td>
                 <td>
-                    <input type="button" class="btn btn-success" value="+" onclick="location.href='@Url.Action("AddSpeciality", "Home",new { ApplicationID = Model.Application.ApplicationID, SpecialityID = Model.Specialities[i].SpecialityID, GroupID = Model.Group?.GroupID })'" />
-                </td>
-                <td>
-                    @Model.Specialities[i].Title
+                    <b>Наименование специльности</b>
                 </td>
             </tr>
-        }
-    </table>
+            @for (int i = 0; i < Model.Specialities.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <input type="button" class="btn btn-success" value="+" onclick="location.href='@Url.Action("AddSpeciality", "Home",new { ApplicationID = Model.Application.ApplicationID, SpecialityID = Model.Specialities[i].SpecialityID, GroupID = Model.Group?.GroupID })'" />
+                    </td>
+                    <td>
+                        @Model.Specialities[i].Title
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <p>
+            <h4>
+                Специальностей для выбора больше нет
+            </h4>
+        </p>
+    }
+
 </div>
 
 

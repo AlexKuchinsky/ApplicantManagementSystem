@@ -24,9 +24,9 @@ namespace ApplicationsManagementSystem.Controllers
         }
         // GET: Home
         SpecialitiesDatabaseEntities db = new SpecialitiesDatabaseEntities();
-        public ActionResult UserMenu(int id = 2)
+        public ActionResult UserMenu(int UserID = 2)
         {
-            return View(new UserPageModel(id));
+            return View(new UserPageModel(UserID));
         }
         public ActionResult Index()
         {
@@ -217,7 +217,66 @@ namespace ApplicationsManagementSystem.Controllers
         [HttpPost]
         public ActionResult SpecialitiesList(int ApplicationID)
         {
-            return null; 
+            Application Application = db.Applications.Find(ApplicationID);
+            ApplicationSetting ApplicationSetting = Application.ApplicationSettings.First();
+            List<IGrouping<int, SpecialityApplication>> GroupedChosenSpecialities = new List<IGrouping<int, SpecialityApplication>>();
+            Group Group = db.Groups.Find(ApplicationSetting.ApplicationGroupID);
+            List<int> GroupsPriority = new List<int>();
+            GroupsPriority.Add(Group.GroupID);
+            List<int> interRes = Group.GroupFriendships.OrderBy(gf => gf.Rang).Select(gf => gf.AccessibleGroupID).ToList();
+            GroupsPriority.AddRange(interRes);
+
+            List<IGrouping<int, SpecialityApplication>> GroupedNotOrderedSpecialities = Application.SpecialityApplications.GroupBy(sa => sa.GroupedSpeciality.GroupID).ToList();
+            List<int> GroupedNotOrderdID = GroupedNotOrderedSpecialities.Select(gnos => gnos.Key).ToList();
+
+            foreach (int priorityIndex in GroupsPriority)
+                if (GroupedNotOrderdID.Contains(priorityIndex))
+                    GroupedChosenSpecialities.Add(GroupedNotOrderedSpecialities.First(gnos => gnos.Key == priorityIndex));
+            SpecialitiesListModel ListModel = new SpecialitiesListModel(ApplicationID);
+            int priorityIndexx = 0; 
+            foreach(IGrouping<int,SpecialityApplication> groupedSA in GroupedChosenSpecialities)
+            {
+                foreach (SpecialityApplication sa in groupedSA.OrderBy(gsa=>gsa.Priority))
+                {
+                    sa.Priority = priorityIndexx++;
+                    db.Entry(sa).State = EntityState.Modified; 
+                }
+            }
+            Application.Submitted = 1;
+            db.Entry(Application).State = EntityState.Modified; 
+            db.SaveChanges();
+            return RedirectToAction("Application", new { ApplicationID }); 
+        }
+        public ActionResult Application(int ApplicationID)
+        {
+            return View(db.Applications.Find(ApplicationID)); 
+        }
+        public ActionResult DeleteApplication(int ApplicationID)
+        {
+            Application Application = db.Applications.Find(ApplicationID); 
+            int UserID = Application.User.UserID;
+            db.Applications.Remove(Application);
+            db.SaveChanges();
+            return RedirectToAction("UserMenu", new { UserID });
+        }
+        public ActionResult DeleteSpeciality(int ApplicationID, int GroupID, int SpecialityApplicationID)
+        {
+            Application Application = db.Applications.Find(ApplicationID);
+            SpecialityApplication specialityApplication = db.SpecialityApplications.Find(SpecialityApplicationID);
+            List<SpecialityApplication> Specialities = Application.SpecialityApplications.Where(sa => sa.GroupedSpeciality.GroupID == GroupID).OrderBy(sa => sa.Priority).ToList();
+            int indexToDelete = Specialities.IndexOf(specialityApplication);
+
+            for (int i = 0; i < Specialities.Count(); i++)
+                if (i > indexToDelete)
+                {
+                    Specialities[i].Priority--;
+                    db.Entry(Specialities[i]).State = EntityState.Modified;
+                }
+            db.SpecialityApplications.Remove(specialityApplication);
+            db.SaveChanges();                    
+
+              
+            return RedirectToAction("SpecialitiesList", new { ApplicationID , GroupID = Application.ApplicationSettings.First().ApplicationGroupID});
         }
     }
 }
