@@ -1,0 +1,1 @@
+CREATE TABLE Countries (ID int not null, Title nvarchar(50) not null, Value int) 
