@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.Entity; 
 using System.Web;
 using System.Web.Mvc;
+using System.Net.Mail; 
 using ApplicationsManagementSystem.Models;
 namespace ApplicationsManagementSystem.Controllers
 {
@@ -26,11 +27,14 @@ namespace ApplicationsManagementSystem.Controllers
         SpecialitiesDatabaseEntities db = new SpecialitiesDatabaseEntities();
         public ActionResult UserMenu(int UserID = 2)
         {
+            SendMessage();
             return View(new UserPageModel(UserID));
         }
         public ActionResult Index()
         {
+            SendMessage();
             return RedirectToAction("UserMenu");
+
         }
         public ActionResult NewSpecialitiesList(int UserID, int PaymentTypeID)
         {
@@ -277,6 +281,22 @@ namespace ApplicationsManagementSystem.Controllers
 
               
             return RedirectToAction("SpecialitiesList", new { ApplicationID , GroupID = Application.ApplicationSettings.First().ApplicationGroupID});
+        }
+
+        public void SendMessage()
+        {
+            MailMessage mail = new MailMessage();
+            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+
+            mail.From = new MailAddress("@gmail.com");
+            mail.To.Add("@gmail.com");
+            mail.Subject = "LOL!";
+            mail.Body = "this is body";
+
+            SmtpServer.Port = 587;
+            SmtpServer.Credentials = new System.Net.NetworkCredential("@gmail.com", "No, please god no! NOOOOOOO!");
+            SmtpServer.EnableSsl = true; 
+            SmtpServer.Send(mail); 
         }
     }
 }
