@@ -289,12 +289,15 @@ namespace ApplicationsManagementSystem.Controllers
             SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
 
             mail.From = new MailAddress("@gmail.com");
-            mail.To.Add("@gmail.com");
-            mail.Subject = "LOL!";
-            mail.Body = "this is body";
+            mail.To.Add("");
+            mail.Subject = "";
+            mail.Body = "<body>" +           
+            "</body>";
+            mail.IsBodyHtml = true;
 
             SmtpServer.Port = 587;
-            SmtpServer.Credentials = new System.Net.NetworkCredential("@gmail.com", "No, please god no! NOOOOOOO!");
+            SmtpServer.Credentials = new System.Net.NetworkCredential("@gmail.com", "");
+           
             SmtpServer.EnableSsl = true; 
             SmtpServer.Send(mail); 
         }
