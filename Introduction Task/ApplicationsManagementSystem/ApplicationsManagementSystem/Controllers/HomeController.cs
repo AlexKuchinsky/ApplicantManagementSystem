@@ -27,12 +27,10 @@ namespace ApplicationsManagementSystem.Controllers
         SpecialitiesDatabaseEntities db = new SpecialitiesDatabaseEntities();
         public ActionResult UserMenu(int UserID = 2)
         {
-            SendMessage();
             return View(new UserPageModel(UserID));
         }
         public ActionResult Index()
         {
-            SendMessage();
             return RedirectToAction("UserMenu");
 
         }
@@ -282,7 +280,12 @@ namespace ApplicationsManagementSystem.Controllers
               
             return RedirectToAction("SpecialitiesList", new { ApplicationID , GroupID = Application.ApplicationSettings.First().ApplicationGroupID});
         }
-
+        public ActionResult OpenApplicationPDF(int ApplicationID)
+        {
+            Application Application = db.Applications.Find(ApplicationID);
+            new PDFApplicationGenerator(Application).OpenInBrowser();
+            return RedirectToAction("UserMenu",new { UserID = Application.UserID} );
+        }
         public void SendMessage()
         {
             MailMessage mail = new MailMessage();

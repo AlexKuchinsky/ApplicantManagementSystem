@@ -40,9 +40,13 @@
         </tr>
     }
 </table>
-<button type="button" class="btn btn-success" onclick="location.href='@Url.Action("UserMenu", "Home")'">
+<button type="button" class="btn btn-success" onclick="location.href='@Url.Action("UserMenu", "Home",new { UserID = Model.UserID})'">
     Личный кабинет
 </button>
+<button type="button" class="btn btn-success" onclick="location.href='@Url.Action("OpenApplicationPDF", "Home", new { ApplicationID = Model.ApplicationID })'">
+    Открыть в PDF
+</button>
+
 <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("DeleteApplication", "Home",new { ApplicationID = Model.ApplicationID})'">
     Удалить это заявление
 </button>
