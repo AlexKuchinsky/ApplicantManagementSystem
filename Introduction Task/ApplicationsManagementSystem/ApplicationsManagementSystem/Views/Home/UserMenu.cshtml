@@ -50,3 +50,19 @@ else
 
 
 
+<input type="text" size="4" onKeyPress="KeyPressed(event,this)">
+<script>
+    function KeyPressed(event, input) {
+        input_size = input.value.length;
+        console.log(input_size)
+        if (input_size <= 1) {
+            return false;
+
+        }
+       
+        console.log("Event key code: " + event.keyCode + ", " + String.fromCharCode(event.keyCode));
+        return false; 
+        //alert(event.keyCode);
+
+    }
+</script>
