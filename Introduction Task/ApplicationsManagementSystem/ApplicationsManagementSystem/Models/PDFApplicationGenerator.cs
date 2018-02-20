@@ -9,7 +9,8 @@ namespace ApplicationsManagementSystem.Models
 {
     public class PDFApplicationGenerator
     {
-        protected Application Application; 
+        protected Application Application { get; set; }
+        protected User User => Application.User; 
         public PDFApplicationGenerator(Application Application)
         {
             this.Application = Application; 
@@ -19,48 +20,43 @@ namespace ApplicationsManagementSystem.Models
         {
             string ttf = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "ARIAL.TTF");
             var baseFont = BaseFont.CreateFont(ttf, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
-            var font = new Font(baseFont, 14, iTextSharp.text.Font.NORMAL);
-
+            var font14 = new Font(baseFont, 14, iTextSharp.text.Font.NORMAL);
+            var font18 = new Font(baseFont, 18, Font.NORMAL);
             using (MemoryStream memoryStream = new MemoryStream())
             {
                 
 
                 // Creating document, specifying margin left/right/bottom/top
-                Document document = new Document(PageSize.A4, 10, 10, 10, 10);
+                Document document = new Document(PageSize.A4, 15, 15, 15, 15);
 
                 PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
                 document.Open();
 
-                string textBlock = @"
-                        Ректору БГУИР
-                        профессору Батуре
-                        ФИО  
-                    ".Trim();
-                // get the longest line to calcuate the container width  
-                var widest = textBlock.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Aggregate("", (x, y) => x.Length > y.Length ? x : y);
-                // throw-away Chunk; used to set the width of the PdfPCell containing
-                // the aligned text block
-                float w = new Chunk(widest).GetWidthPoint();
-                PdfPTable t = new PdfPTable(2);
-                
-                float pageWidth = document.PageSize.Width - document.LeftMargin - document.RightMargin;
+                // Add title
+                Paragraph title = new Paragraph("Заявление", font18);
+                title.Alignment = Element.ALIGN_CENTER; 
+                document.Add(title);
 
-                t.SetTotalWidth(new float[] { pageWidth - w, w });
-                t.LockedWidth = true;
-                t.DefaultCell.Padding = 0;
-                // you can add text in the left PdfPCell if needed
-                t.AddCell("");
-                t.AddCell(new PdfPCell(new Phrase(textBlock,font)));
-          
-                document.Add(t);
+                // Add body
+                Paragraph body = new Paragraph("    Я, " + User.Name + " " + User.Surname + " " + User.Patronumic + "...... \n  ....в порядке приоритета", font14);
+                body.SpacingBefore = 40;
+                body.SpacingAfter = 20;
+                document.Add(body);
 
-                //PdfPTable table = new PdfPTable(3); 
-                //Paragraph paragraph = new Paragraph();
+                // Specialities table
+                PdfPTable table = new PdfPTable(2);
+                table.SetWidths(new float[] {40,900}); 
+                table.AddCell(new PdfPCell(new Phrase("№", font14)));
+                table.AddCell(new PdfPCell(new Phrase("Наименование специальности", font14)));
+                foreach(SpecialityApplication Speciality in Application.SpecialityApplications.OrderBy(sa=>sa.Priority))
+                {
+                    GroupedSpeciality gSpeciality = Speciality.GroupedSpeciality;
+                    table.AddCell((Speciality.Priority + 1).ToString());
+                    table.AddCell(new Paragraph(
+                        gSpeciality.Speciality.Title + " (" +gSpeciality.PaymentType.Description.ToLower()+", "+gSpeciality.DurationType.Description.ToLower()+", "+gSpeciality.StudyFormType.Description.ToLower()+")",font14));
+                }
 
-                //paragraph.Font = font;
-                //paragraph.Add("Ректору БГУИР \n профессору\n Батуре Михаилу Павловичу \n " + Application.User.Name + " " + Application.User.Surname + " " + Application.User.Patronumic);
-                //document.Add(paragraph);
-
+                document.Add(table); 
 
 
 
