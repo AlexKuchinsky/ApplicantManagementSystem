@@ -50,19 +50,45 @@ else
 
 
 
-<input type="text" size="4" onKeyPress="KeyPressed(event,this)">
-<script>
-    function KeyPressed(event, input) {
-        input_size = input.value.length;
-        console.log(input_size)
-        if (input_size <= 1) {
-            return false;
+<input type="text" size="8"
+       oninput="onInput(event, this)">
 
+<script>
+    // Key: russian letter - Value: english letter
+    var correlation_dictionary = { 'У': 'E', 'Е': 'T', 'Щ': 'O', 'З': 'P', 'Ф': 'A', 'Р': 'H', 'Л': 'K', 'Ч': 'X', 'С': 'C', 'И': 'B', 'Ь': 'M' }
+
+    // Letters available to enter
+    var available_letters = 'ETOPAHKXCBM'
+
+    // Digits available to enter
+    var available_digits = '0123456789'
+
+    function onInput(event, input) {
+
+
+        if (event.data == null)
+            return;
+
+        input.value = input.value.substring(0, input.value.length - 1);
+        input_char = event.data.toUpperCase();
+       
+
+        if (input_char in correlation_dictionary) {
+            input_char = correlation_dictionary[input_char];
+        } 
+
+        if ((input.value.length >= 2 && available_digits.indexOf(input_char) == -1) ||
+            (input.value.length < 2 && available_letters.indexOf(input_char) == -1) ||
+            input.value.length == 9) {
+            return;
+        }
+        
+        if (input.value.length < 2) {
+            input.value += input_char;
+        }
+        else {
+            input.value += input_char; 
         }
        
-        console.log("Event key code: " + event.keyCode + ", " + String.fromCharCode(event.keyCode));
-        return false; 
-        //alert(event.keyCode);
-
     }
 </script>
